@@ -17,7 +17,7 @@ extension NavBarStatusX on NavBarStatus {
 @immutable
 class NavBarState extends Equatable {
   final Color color;
-  final List<Screen>? screens;
+  final List<Widget>? screens;
   final IconData? icon;
   final bool isVisible;
   final NavBarStatus status;
@@ -37,7 +37,7 @@ class NavBarState extends Equatable {
       [screens, color, icon, isVisible, status, idSelected];
 
   NavBarState copyWith({
-    List<Screen>? screens,
+    List<Widget>? screens,
     Color? color,
     IconData? icon,
     bool? isVisible,

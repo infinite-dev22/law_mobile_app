@@ -3,8 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../widget/screen.dart';
-
 part 'nav_bar_event.dart';
 part 'nav_bar_state.dart';
 
