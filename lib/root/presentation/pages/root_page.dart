@@ -18,8 +18,6 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   PageController controller = PageController();
 
-  late int currentPageIndex;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -28,21 +26,19 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      resizeToAvoidBottomInset: false,
-      bottomNavigationBar: NavigationBar(
-        destinations: _destinations(),
-        selectedIndex: currentPageIndex,
-        onDestinationSelected: (value) =>
-            context.read<NavBarBloc>().add(SwitchScreenEvent(value)),
-      ),
-      body: BlocBuilder<NavBarBloc, NavBarState>(
-        builder: (context, state) {
-          return _buildRootViewStack();
-        },
-      ),
-    );
+    return BlocBuilder<NavBarBloc, NavBarState>(builder: (context, state) {
+      return Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        resizeToAvoidBottomInset: false,
+        bottomNavigationBar: NavigationBar(
+          destinations: _destinations(),
+          selectedIndex: context.read<NavBarBloc>().state.idSelected,
+          onDestinationSelected: (value) =>
+              context.read<NavBarBloc>().add(SwitchScreenEvent(value)),
+        ),
+        body: _buildRootViewStack(),
+      );
+    });
   }
 
   List<NavigationDestination> _destinations() {
