@@ -277,6 +277,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.0"
+  toggle_icon:
+    dependency: "direct main"
+    description:
+      name: toggle_icon
+      sha256: "82e946a1c9ee7cf2c990d80f9aa260fb7425ab26599e0044c0c0470e1634f466"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   vector_math:
     dependency: transitive
     description:
