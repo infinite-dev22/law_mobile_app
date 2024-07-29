@@ -43,6 +43,7 @@ dependencies:
   equatable: ^2.0.5
   flutter_feather_icons: ^2.0.0+1
   toggle_icon: ^0.0.1
+  flutter_switch: ^0.3.2
 
 dev_dependencies:
   flutter_test:
