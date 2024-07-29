@@ -8,6 +8,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
 import '../../../Global/Theming/bloc/theme_manager_bloc.dart';
+import '../../../Global/Variables/app_runtime_values.dart';
 import '../../../Global/Variables/colors.dart';
 import '../../../dashboard/presentation/pages/dashboard_page.dart';
 import '../bloc/nav_bar_bloc.dart';
@@ -25,6 +26,7 @@ class _RootPageState extends State<RootPage> {
   @override
   void initState() {
     // TODO: implement initState
+    currentUserToken = 'your_token_after_successful_login';
     super.initState();
   }
 

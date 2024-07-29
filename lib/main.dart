@@ -1,5 +1,6 @@
 import 'package:dirm_attorneys_mobile/Global/Theming/bloc/theme_manager_bloc.dart';
 import 'package:dirm_attorneys_mobile/Global/Theming/theme.dart';
+import 'package:dirm_attorneys_mobile/legal_issues/presentation/bloc/legal_issues_page/legal_issues_pages_bloc.dart';
 import 'package:dirm_attorneys_mobile/root/presentation/bloc/nav_bar_bloc.dart';
 import 'package:dirm_attorneys_mobile/root/presentation/pages/root_page.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ void main() {
     providers: [
       BlocProvider(create: (context) => ThemeManagerBloc()),
       BlocProvider(create: (context) => NavBarBloc()),
+      BlocProvider(create: (context) => LegalIssuesPagesBloc()),
     ],
     child: const MyApp(),
   ));
