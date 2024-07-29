@@ -33,7 +33,6 @@ class _RootPageState extends State<RootPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         resizeToAvoidBottomInset: false,
         bottomNavigationBar: NavigationBar(
-          backgroundColor: AppColors.secondaryLight,
           destinations: _destinations(),
           selectedIndex: context.read<NavBarBloc>().state.idSelected,
           indicatorColor: AppColors.primary,

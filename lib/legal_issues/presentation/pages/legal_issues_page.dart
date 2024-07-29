@@ -8,7 +8,6 @@ class LegalIssuesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.appBgLightColor,
       appBar: AppBar(
         title: const Text("Legal Issues"),
         backgroundColor: AppColors.primary,
