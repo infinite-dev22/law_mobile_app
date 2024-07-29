@@ -5,7 +5,9 @@ import 'package:dirm_attorneys_mobile/legal_issues/presentation/pages/legal_issu
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 
+import '../../../Global/Theming/bloc/theme_manager_bloc.dart';
 import '../../../Global/Variables/colors.dart';
 import '../../../dashboard/presentation/pages/dashboard_page.dart';
 import '../bloc/nav_bar_bloc.dart';
@@ -30,12 +32,57 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<NavBarBloc, NavBarState>(builder: (context, state) {
       return Scaffold(
+        appBar: AppBar(
+          title: const Text("Dirm Attorneys"),
+          backgroundColor: AppColors.primary,
+          actions: [
+            FlutterSwitch(
+                width: 60,
+                activeIcon: const Icon(
+                  FeatherIcons.moon,
+                  color: AppColors.gray,
+                  size: 100,
+                ),
+                activeColor: Color(0xFF271052),
+                activeToggleColor: AppColors.purple,
+                inactiveIcon: const Icon(
+                  FeatherIcons.sun,
+                  color: AppColors.orange,
+                  size: 100,
+                ),
+                inactiveColor: AppColors.lighterColor,
+                inactiveToggleColor: AppColors.darkerColor,
+                value: context.read<ThemeManagerBloc>().themeMode ==
+                    ThemeMode.dark,
+                onToggle: (value) => context
+                    .read<ThemeManagerBloc>()
+                    .add(SwitchThemeEvent(value))),
+            PopupMenuButton(
+              icon: const Icon(
+                Icons.person_rounded,
+                size: 35,
+                color: Colors.white,
+              ), //use this icon
+              onSelected: (String item) {},
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                const PopupMenuItem<String>(
+                  value: 'Log Out',
+                  child: ListTile(
+                    leading: Icon(Icons.exit_to_app_rounded),
+                    title: Text('Log Out'),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        backgroundColor: Theme.of(context).colorScheme.surface,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         resizeToAvoidBottomInset: false,
         bottomNavigationBar: NavigationBar(
           destinations: _destinations(),
           selectedIndex: context.read<NavBarBloc>().state.idSelected,
-          indicatorColor: AppColors.primary,
+          indicatorColor: AppColors.primaryLight,
           onDestinationSelected: (value) =>
               context.read<NavBarBloc>().add(SwitchScreenEvent(value)),
         ),
