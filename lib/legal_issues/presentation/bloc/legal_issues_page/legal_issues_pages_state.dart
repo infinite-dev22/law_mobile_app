@@ -1,10 +1,59 @@
 part of 'legal_issues_pages_bloc.dart';
 
-sealed class LegalIssuesPagesState extends Equatable {
-  const LegalIssuesPagesState();
+enum LegalIssuesPageStatus {
+  initial,
+  success,
+  loading,
+  error,
+  notFound,
+  empty,
 }
 
-final class LegalIssuesPagesInitial extends LegalIssuesPagesState {
+extension LegalIssuesPageStatusX on LegalIssuesPageStatus {
+  bool get isInitial => this == LegalIssuesPageStatus.initial;
+
+  bool get isSuccess => this == LegalIssuesPageStatus.success;
+
+  bool get isLoading => this == LegalIssuesPageStatus.loading;
+
+  bool get isError => this == LegalIssuesPageStatus.error;
+
+  bool get isNotFound => this == LegalIssuesPageStatus.notFound;
+
+  bool get isEmpty => this == LegalIssuesPageStatus.empty;
+}
+
+@immutable
+class LegalIssuesPageState extends Equatable {
+  final List<LegalIssue>? issues;
+  final LegalIssuesPageStatus status;
+  final LegalIssue? issue;
+
+  const LegalIssuesPageState({
+    this.issues,
+    this.status = LegalIssuesPageStatus.initial,
+    this.issue,
+  });
+
   @override
-  List<Object> get props => [];
+  // TODO: implement props
+  List<Object?> get props => [
+        issues,
+        status,
+        issue,
+      ];
+
+  LegalIssuesPageState copyWith({
+    List<LegalIssue>? issues,
+    LegalIssuesPageStatus? status,
+    LegalIssue? issue,
+    bool? isLegalIssueLoading,
+    String? message,
+  }) {
+    return LegalIssuesPageState(
+      issues: issues ?? this.issues,
+      status: status ?? this.status,
+      issue: issue ?? this.issue,
+    );
+  }
 }
