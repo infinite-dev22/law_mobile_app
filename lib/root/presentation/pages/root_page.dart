@@ -4,7 +4,9 @@ import 'package:dirm_attorneys_mobile/legal_documents/presentation/pages/legal_d
 import 'package:dirm_attorneys_mobile/legal_issues/presentation/pages/legal_issues_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
+import '../../../Global/Variables/colors.dart';
 import '../../../dashboard/presentation/pages/dashboard_page.dart';
 import '../bloc/nav_bar_bloc.dart';
 
@@ -31,12 +33,14 @@ class _RootPageState extends State<RootPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         resizeToAvoidBottomInset: false,
         bottomNavigationBar: NavigationBar(
+          backgroundColor: AppColors.secondaryLight,
           destinations: _destinations(),
           selectedIndex: context.read<NavBarBloc>().state.idSelected,
+          indicatorColor: AppColors.primary,
           onDestinationSelected: (value) =>
               context.read<NavBarBloc>().add(SwitchScreenEvent(value)),
         ),
-        body: _buildRootViewStack(),
+        body: _pages()[context.read<NavBarBloc>().state.idSelected],
       );
     });
   }
@@ -45,23 +49,23 @@ class _RootPageState extends State<RootPage> {
     return [
       const NavigationDestination(
         label: "Dashboard",
-        icon: Icon(Icons.home),
+        icon: Icon(FeatherIcons.home),
       ),
       const NavigationDestination(
         label: "Issues",
-        icon: Icon(Icons.people),
+        icon: Icon(FeatherIcons.fileText),
       ),
       const NavigationDestination(
         label: "Documents",
-        icon: Icon(Icons.people_outline_rounded),
+        icon: Icon(FeatherIcons.file),
       ),
       const NavigationDestination(
         label: "Certificates",
-        icon: Icon(Icons.people_outline_rounded),
+        icon: Icon(FeatherIcons.layout),
       ),
       const NavigationDestination(
         label: "Cases",
-        icon: Icon(Icons.settings),
+        icon: Icon(FeatherIcons.briefcase),
       ),
     ];
   }
@@ -74,15 +78,5 @@ class _RootPageState extends State<RootPage> {
       const LegalCertificatesPage(),
       const LegalCasesPage(),
     ];
-  }
-
-  Widget _buildRootViewStack() {
-    return IndexedStack(
-      index: context.read<NavBarBloc>().state.idSelected,
-      children: List.generate(
-        _pages().length,
-        (index) => _pages()[index],
-      ),
-    );
   }
 }
