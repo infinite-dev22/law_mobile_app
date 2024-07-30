@@ -15,7 +15,9 @@ import '../../../dashboard/presentation/pages/dashboard_page.dart';
 import '../bloc/nav_bar_bloc.dart';
 
 class RootPage extends StatefulWidget {
-  const RootPage({super.key});
+  const RootPage({super.key, required this.child});
+
+  final Widget child;
 
   @override
   State<RootPage> createState() => _RootPageState();
@@ -99,12 +101,11 @@ class _RootPageState extends State<RootPage> {
         bottomNavigationBar: NavigationBar(
           backgroundColor: Theme.of(context).colorScheme.secondary,
           destinations: _destinations(),
-          selectedIndex: context.read<NavBarBloc>().state.idSelected,
+          selectedIndex: _calculateSelectedIndex(context),
           indicatorColor: AppColors.primaryLight,
-          onDestinationSelected: (value) =>
-              context.read<NavBarBloc>().add(SwitchScreenEvent(value)),
+          onDestinationSelected: (value) => _onItemTapped(value, context),
         ),
-        body: _pages()[context.read<NavBarBloc>().state.idSelected],
+        body: widget.child,
       );
     });
   }
@@ -142,5 +143,40 @@ class _RootPageState extends State<RootPage> {
       const LegalCertificatesPage(),
       const LegalCasesPage(),
     ];
+  }
+
+  static int _calculateSelectedIndex(BuildContext context) {
+    final String location = GoRouterState.of(context).uri.path;
+    if (location.startsWith('/dashboard')) {
+      return 0;
+    }
+    if (location.startsWith('/issues')) {
+      return 1;
+    }
+    if (location.startsWith('/documents')) {
+      return 2;
+    }
+    if (location.startsWith('/certificates')) {
+      return 3;
+    }
+    if (location.startsWith('/cases')) {
+      return 4;
+    }
+    return 0;
+  }
+
+  void _onItemTapped(int index, BuildContext context) {
+    switch (index) {
+      case 0:
+        GoRouter.of(context).go('/dashboard');
+      case 1:
+        GoRouter.of(context).go('/issues');
+      case 2:
+        GoRouter.of(context).go('/documents');
+      case 3:
+        GoRouter.of(context).go('/certificates');
+      case 4:
+        GoRouter.of(context).go('/cases');
+    }
   }
 }

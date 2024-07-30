@@ -2,7 +2,12 @@ import 'package:dirm_attorneys_mobile/Global/Theming/bloc/theme_manager_bloc.dar
 import 'package:dirm_attorneys_mobile/Global/Theming/theme.dart';
 import 'package:dirm_attorneys_mobile/appointments/presentation/bloc/appointment_page/appointments_page_bloc.dart';
 import 'package:dirm_attorneys_mobile/attorneys/presentation/bloc/attorney_page/attorneys_page_bloc.dart';
+import 'package:dirm_attorneys_mobile/dashboard/presentation/pages/dashboard_page.dart';
+import 'package:dirm_attorneys_mobile/legal_cases/presentation/pages/legal_cases_page.dart';
+import 'package:dirm_attorneys_mobile/legal_certificates/presentation/pages/legal_certificates_page.dart';
+import 'package:dirm_attorneys_mobile/legal_documents/presentation/pages/legal_documents_page.dart';
 import 'package:dirm_attorneys_mobile/legal_issues/presentation/bloc/legal_issues_page/legal_issues_pages_bloc.dart';
+import 'package:dirm_attorneys_mobile/legal_issues/presentation/pages/legal_issues_page.dart';
 import 'package:dirm_attorneys_mobile/publications/presentation/bloc/publication_page/publications_page_bloc.dart';
 import 'package:dirm_attorneys_mobile/queries/presentation/bloc/query_page/queries_page_bloc.dart';
 import 'package:dirm_attorneys_mobile/root/presentation/bloc/nav_bar_bloc.dart';
@@ -36,45 +41,64 @@ void main() {
 
 // private navigators
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 GoRouter _router = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: "/",
+  initialLocation: "/dashboard",
   routes: [
-    GoRoute(
-      name: 'login',
-      path: "/login",
-      builder: (context, state) => const RootPage(),
-    ),
-    GoRoute(
-      name: '/',
-      path: "/",
-      builder: (context, state) => const RootPage(),
-    ),
-    GoRoute(
-      name: 'root',
-      path: "/root",
-      builder: (context, state) => const RootPage(),
-    ),
-    GoRoute(
-      name: 'appointments',
-      path: "/appointments",
-      builder: (context, state) => const AppointmentsPage(),
-    ),
-    GoRoute(
-      name: 'publications',
-      path: "/publications",
-      builder: (context, state) => const AppointmentsPage(),
-    ),
-    GoRoute(
-      name: 'attorneys',
-      path: "/attorneys",
-      builder: (context, state) => const AppointmentsPage(),
-    ),
-    GoRoute(
-      name: 'queries',
-      path: "/queries",
-      builder: (context, state) => const AppointmentsPage(),
+    ShellRoute(
+      navigatorKey: _shellNavigatorKey,
+      builder: (context, state, child) => RootPage(
+        child: child,
+      ),
+      routes: [
+        GoRoute(
+          name: 'dashboard',
+          path: "/dashboard",
+          builder: (context, state) => const DashboardPage(),
+        ),
+        GoRoute(
+          name: 'issues',
+          path: "/issues",
+          builder: (context, state) => const LegalIssuesPage(),
+        ),
+        GoRoute(
+          name: 'documents',
+          path: "/documents",
+          builder: (context, state) => const LegalDocumentsPage(),
+        ),
+        GoRoute(
+          name: 'certificates',
+          path: "/certificates",
+          builder: (context, state) => const LegalCertificatesPage(),
+        ),
+        GoRoute(
+          name: 'cases',
+          path: "/cases",
+          builder: (context, state) => const LegalCasesPage(),
+        ),
+        GoRoute(
+          name: 'appointments',
+          path: "/appointments",
+          builder: (context, state) => const AppointmentsPage(),
+        ),
+        GoRoute(
+          name: 'publications',
+          path: "/publications",
+          builder: (context, state) => const AppointmentsPage(),
+        ),
+        GoRoute(
+          name: 'attorneys',
+          path: "/attorneys",
+          builder: (context, state) => const AppointmentsPage(),
+        ),
+        GoRoute(
+          name: 'queries',
+          path: "/queries",
+          builder: (context, state) => const AppointmentsPage(),
+        ),
+      ],
     ),
   ],
 );
