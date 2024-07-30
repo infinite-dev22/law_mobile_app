@@ -9,7 +9,9 @@ import 'package:dirm_attorneys_mobile/legal_documents/presentation/pages/legal_d
 import 'package:dirm_attorneys_mobile/legal_issues/presentation/bloc/legal_issues_page/legal_issues_pages_bloc.dart';
 import 'package:dirm_attorneys_mobile/legal_issues/presentation/pages/legal_issues_page.dart';
 import 'package:dirm_attorneys_mobile/publications/presentation/bloc/publication_page/publications_page_bloc.dart';
+import 'package:dirm_attorneys_mobile/publications/presentation/pages/publications_page.dart';
 import 'package:dirm_attorneys_mobile/queries/presentation/bloc/query_page/queries_page_bloc.dart';
+import 'package:dirm_attorneys_mobile/queries/presentation/pages/queries_page.dart';
 import 'package:dirm_attorneys_mobile/root/presentation/bloc/nav_bar_bloc.dart';
 import 'package:dirm_attorneys_mobile/root/presentation/pages/root_page.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'appointments/presentation/pages/appointments_page.dart';
+import 'attorneys/presentation/pages/attorneys_page.dart';
 import 'legal_cases/presentation/bloc/legal_cases_page/legal_cases_page_bloc.dart';
 import 'legal_certificates/presentation/bloc/legal_certificates_page/legal_certificates_page_bloc.dart';
 import 'legal_documents/presentation/bloc/legal_documents_page/legal_documents_page_bloc.dart';
@@ -86,17 +89,17 @@ GoRouter _router = GoRouter(
         GoRoute(
           name: 'publications',
           path: "/publications",
-          builder: (context, state) => const AppointmentsPage(),
+          builder: (context, state) => const PublicationsPage(),
         ),
         GoRoute(
           name: 'attorneys',
           path: "/attorneys",
-          builder: (context, state) => const AppointmentsPage(),
+          builder: (context, state) => const AttorneysPage(),
         ),
         GoRoute(
           name: 'queries',
           path: "/queries",
-          builder: (context, state) => const AppointmentsPage(),
+          builder: (context, state) => const QueriesPage(),
         ),
       ],
     ),

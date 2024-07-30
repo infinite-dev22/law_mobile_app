@@ -36,65 +36,6 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<NavBarBloc, NavBarState>(builder: (context, state) {
       return Scaffold(
-        appBar: AppBar(
-          title: const Text("Dirm Attorneys"),
-          backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.lighterColor,
-        ),
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              const UserAccountsDrawerHeader(
-                accountName: Text("John Doe"),
-                accountEmail: Text("johndoe@gmail.com"),
-                currentAccountPicture: CircleAvatar(
-                  foregroundImage: AssetImage("assets/images/user.jpg"),
-                ),
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/images/app_backgroud.jpg"))),
-              ),
-              ListTile(
-                leading: const Icon(FontAwesome.calendar_check),
-                title: const Text("Appointments"),
-                onTap: () => GoRouter.of(context).goNamed('appointments'),
-              ),
-              ListTile(
-                leading: const Icon(FontAwesome.newspaper),
-                title: const Text("Publications"),
-                onTap: () => GoRouter.of(context).goNamed('publications'),
-              ),
-              ListTile(
-                leading: const Icon(HeroIcons.briefcase),
-                title: const Text("Attorneys"),
-                onTap: () => GoRouter.of(context).goNamed('attorneys'),
-              ),
-              ListTile(
-                leading: const Icon(HeroIcons.clipboard_document_list),
-                title: const Text("Queries"),
-                onTap: () => GoRouter.of(context).goNamed('queries'),
-              ),
-              const Divider(),
-              ListTile(
-                leading: (Theme.of(context).brightness == Brightness.dark)
-                    ? const Icon(FontAwesome.sun)
-                    : const Icon(FontAwesome.moon),
-                title: Text((Theme.of(context).brightness == Brightness.dark)
-                    ? "Light mode"
-                    : "Dark mode"),
-                onTap: () => context.read<ThemeManagerBloc>().add(
-                    SwitchThemeEvent(
-                        !(Theme.of(context).brightness == Brightness.dark))),
-              ),
-              ListTile(
-                leading: const Icon(Icons.logout_rounded),
-                title: const Text("Log out"),
-                onTap: () => GoRouter.of(context).goNamed('login'),
-              ),
-            ],
-          ),
-        ),
         backgroundColor: Theme.of(context).colorScheme.surface,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         resizeToAvoidBottomInset: false,

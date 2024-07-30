@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:toast/toast.dart';
 
+import '../../../Global/Variables/colors.dart';
+import '../../../Global/Widgets/app_drawer.dart';
 import '../../../Global/Widgets/error_widget.dart';
 import '../../../Global/Widgets/loading_widget.dart';
-import '../bloc/legal_cases_page/legal_cases_page_bloc.dart';
 import '../bloc/legal_cases_page/legal_cases_page_bloc.dart';
 import '../widget/legal_case_success_widget.dart';
 
@@ -17,6 +18,12 @@ class LegalCasesPage extends StatelessWidget {
     ToastContext().init(context);
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Cases"),
+        backgroundColor: AppColors.primary,
+        foregroundColor: AppColors.lighterColor,
+      ),
+      drawer: const AppDrawer(),
       floatingActionButton: FloatingActionButton(
         child: const Icon(FeatherIcons.plus),
         onPressed: () {
