@@ -7,7 +7,7 @@ ThemeData lightTheme = ThemeData(
     colorScheme: const ColorScheme.light(
       surface: AppColors.appBgLightColor,
       primary: AppColors.primary,
-      secondary: AppColors.secondary,
+      secondary: AppColors.secondaryLight,
     ));
 
 ThemeData darkTheme = ThemeData(
@@ -15,5 +15,5 @@ ThemeData darkTheme = ThemeData(
     colorScheme: const ColorScheme.dark(
       surface: AppColors.appBgDarkColor,
       primary: AppColors.primary,
-      secondary: AppColors.secondary,
+      secondary: AppColors.secondaryDark,
     ));
