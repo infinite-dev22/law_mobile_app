@@ -30,7 +30,7 @@ class LegalDocumentsPage extends StatelessWidget {
         if (state.status.isError) {
           return const GlobalErrorWidget();
         }
-        return const GlobalInitialWidget();
+        return const GlobalLoadingWidget();
       },
       listener: (context, state) {
         if (state.status.isInitial) {
