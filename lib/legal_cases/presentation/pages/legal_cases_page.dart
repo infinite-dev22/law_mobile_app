@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toast/toast.dart';
 
-import '../../../Global/Variables/colors.dart';
 import '../../../Global/Widgets/error_widget.dart';
-import '../../../Global/Widgets/initial_widget.dart';
 import '../../../Global/Widgets/loading_widget.dart';
 import '../bloc/legal_access_page/legal_cases_page_bloc.dart';
 import '../widget/legal_case_success_widget.dart';

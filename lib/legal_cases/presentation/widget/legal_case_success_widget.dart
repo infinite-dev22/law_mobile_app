@@ -15,8 +15,10 @@ class LegalCaseSuccessWidget extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             itemCount: state.legalCases!.length,
             itemBuilder: (context, index) => Card(
+                  color: Colors.white10.withOpacity(.2),
                   child: ListTile(
-                    title: LegalCaseItem(data: state.legalCases!.elementAt(index)),
+                    title:
+                        LegalCaseItem(data: state.legalCases!.elementAt(index)),
                   ),
                 ));
       },
