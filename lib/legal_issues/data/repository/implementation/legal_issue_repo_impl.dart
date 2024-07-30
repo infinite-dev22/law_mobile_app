@@ -6,6 +6,22 @@ class LegalIssueRepoImpl extends LegalIssueRepo {
   @override
   Future<List<LegalIssue>> getAllLegalIssues(String authToken) async {
     // TODO: implement getAllLegalIssues
-    throw UnimplementedError();
+    // throw UnimplementedError();
+    List<LegalIssue> getLegalIssues() {
+      return [
+        LegalIssue('DA-001', 'Admin', 'Demo Issue 2',
+            'Dirm Attorneys Requirements.pdf', 'Pending'),
+        LegalIssue('DA-002', 'Admin', 'Demo Legal Issue',
+            'Dirm Attorneys Requirements.pdf', 'Pending'),
+        LegalIssue('DA-003', 'Admin', 'Demo Legal Issue',
+            'Dirm Attorneys Requirements.pdf', 'Pending'),
+        LegalIssue('DA-004', 'Admin', 'Demo Legal Issue',
+            'Dirm Attorneys Requirements.pdf', 'Pending'),
+        LegalIssue('DA-005', 'Admin', 'Demo Legal Issue',
+            'Dirm Attorneys Requirements.pdf', 'Pending'),
+      ];
+    }
+
+    return getLegalIssues();
   }
 }
