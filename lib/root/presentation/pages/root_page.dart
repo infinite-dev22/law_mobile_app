@@ -54,8 +54,7 @@ class _RootPageState extends State<RootPage> {
                 ),
                 inactiveColor: AppColors.lighterColor,
                 inactiveToggleColor: AppColors.darkerColor,
-                value: context.read<ThemeManagerBloc>().themeMode ==
-                    ThemeMode.dark,
+                value: Theme.of(context).brightness == Brightness.dark,
                 onToggle: (value) => context
                     .read<ThemeManagerBloc>()
                     .add(SwitchThemeEvent(value))),
