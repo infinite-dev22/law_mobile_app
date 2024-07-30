@@ -6,12 +6,15 @@ import 'package:dirm_attorneys_mobile/root/presentation/pages/root_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'legal_documents/presentation/bloc/legal_documents_page/legal_documents_page_bloc.dart';
+
 void main() {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (context) => ThemeManagerBloc()),
       BlocProvider(create: (context) => NavBarBloc()),
       BlocProvider(create: (context) => LegalIssuesPagesBloc()),
+      BlocProvider(create: (context) => LegalDocumentsPageBloc()),
     ],
     child: const MyApp(),
   ));
