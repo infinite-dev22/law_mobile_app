@@ -5,7 +5,8 @@ import 'package:toast/toast.dart';
 
 import '../../../Global/Widgets/error_widget.dart';
 import '../../../Global/Widgets/loading_widget.dart';
-import '../bloc/legal_access_page/legal_cases_page_bloc.dart';
+import '../bloc/legal_cases_page/legal_cases_page_bloc.dart';
+import '../bloc/legal_cases_page/legal_cases_page_bloc.dart';
 import '../widget/legal_case_success_widget.dart';
 
 class LegalCasesPage extends StatelessWidget {

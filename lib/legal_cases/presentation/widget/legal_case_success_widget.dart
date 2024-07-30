@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/legal_access_page/legal_cases_page_bloc.dart';
+import '../bloc/legal_cases_page/legal_cases_page_bloc.dart';
 import 'legal_case_item_widget.dart';
 
 class LegalCaseSuccessWidget extends StatelessWidget {

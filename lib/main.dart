@@ -7,7 +7,7 @@ import 'package:dirm_attorneys_mobile/root/presentation/pages/root_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'legal_cases/presentation/bloc/legal_access_page/legal_cases_page_bloc.dart';
+import 'legal_cases/presentation/bloc/legal_cases_page/legal_cases_page_bloc.dart';
 import 'legal_certificates/presentation/bloc/legal_certificates_page/legal_certificates_page_bloc.dart';
 import 'legal_documents/presentation/bloc/legal_documents_page/legal_documents_page_bloc.dart';
 
