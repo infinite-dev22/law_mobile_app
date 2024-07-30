@@ -9,7 +9,9 @@ import 'package:dirm_attorneys_mobile/root/presentation/bloc/nav_bar_bloc.dart';
 import 'package:dirm_attorneys_mobile/root/presentation/pages/root_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
+import 'appointments/presentation/pages/appointments_page.dart';
 import 'legal_cases/presentation/bloc/legal_cases_page/legal_cases_page_bloc.dart';
 import 'legal_certificates/presentation/bloc/legal_certificates_page/legal_certificates_page_bloc.dart';
 import 'legal_documents/presentation/bloc/legal_documents_page/legal_documents_page_bloc.dart';
@@ -32,6 +34,51 @@ void main() {
   ));
 }
 
+// private navigators
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+
+GoRouter _router = GoRouter(
+  navigatorKey: _rootNavigatorKey,
+  initialLocation: "/",
+  routes: [
+    GoRoute(
+      name: 'login',
+      path: "/login",
+      builder: (context, state) => const RootPage(),
+    ),
+    GoRoute(
+      name: '/',
+      path: "/",
+      builder: (context, state) => const RootPage(),
+    ),
+    GoRoute(
+      name: 'root',
+      path: "/root",
+      builder: (context, state) => const RootPage(),
+    ),
+    GoRoute(
+      name: 'appointments',
+      path: "/appointments",
+      builder: (context, state) => const AppointmentsPage(),
+    ),
+    GoRoute(
+      name: 'publications',
+      path: "/publications",
+      builder: (context, state) => const AppointmentsPage(),
+    ),
+    GoRoute(
+      name: 'attorneys',
+      path: "/attorneys",
+      builder: (context, state) => const AppointmentsPage(),
+    ),
+    GoRoute(
+      name: 'queries',
+      path: "/queries",
+      builder: (context, state) => const AppointmentsPage(),
+    ),
+  ],
+);
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -39,13 +86,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
-      return MaterialApp(
+      return MaterialApp.router(
+        routerConfig: _router,
         debugShowCheckedModeBanner: false,
         title: 'Dirm Attorneys',
         theme: lightTheme,
         darkTheme: darkTheme,
         themeMode: context.read<ThemeManagerBloc>().themeMode,
-        home: const RootPage(),
       );
     });
   }

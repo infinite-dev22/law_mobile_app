@@ -5,6 +5,7 @@ import 'package:dirm_attorneys_mobile/legal_issues/presentation/pages/legal_issu
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 import '../../../Global/Theming/bloc/theme_manager_bloc.dart';
@@ -25,7 +26,6 @@ class _RootPageState extends State<RootPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     currentUserToken = 'your_token_after_successful_login';
     super.initState();
   }
@@ -46,24 +46,32 @@ class _RootPageState extends State<RootPage> {
               const UserAccountsDrawerHeader(
                 accountName: Text("John Doe"),
                 accountEmail: Text("johndoe@gmail.com"),
-                currentAccountPicture: CircleAvatar(foregroundImage: AssetImage("assets/images/user.jpg"),),
-                decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/app_backgroud.jpg"))),
+                currentAccountPicture: CircleAvatar(
+                  foregroundImage: AssetImage("assets/images/user.jpg"),
+                ),
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/app_backgroud.jpg"))),
               ),
-              const ListTile(
-                leading: Icon(FontAwesome.calendar_check),
-                title: Text("Appointments"),
+              ListTile(
+                leading: const Icon(FontAwesome.calendar_check),
+                title: const Text("Appointments"),
+                onTap: () => GoRouter.of(context).goNamed('appointments'),
               ),
-              const ListTile(
-                leading: Icon(FontAwesome.newspaper),
-                title: Text("Publications"),
+              ListTile(
+                leading: const Icon(FontAwesome.newspaper),
+                title: const Text("Publications"),
+                onTap: () => GoRouter.of(context).goNamed('publications'),
               ),
-              const ListTile(
-                leading: Icon(HeroIcons.briefcase),
-                title: Text("Attorneys"),
+              ListTile(
+                leading: const Icon(HeroIcons.briefcase),
+                title: const Text("Attorneys"),
+                onTap: () => GoRouter.of(context).goNamed('attorneys'),
               ),
-              const ListTile(
-                leading: Icon(HeroIcons.clipboard_document_list),
-                title: Text("Queries"),
+              ListTile(
+                leading: const Icon(HeroIcons.clipboard_document_list),
+                title: const Text("Queries"),
+                onTap: () => GoRouter.of(context).goNamed('queries'),
               ),
               const Divider(),
               ListTile(
@@ -77,9 +85,10 @@ class _RootPageState extends State<RootPage> {
                     SwitchThemeEvent(
                         !(Theme.of(context).brightness == Brightness.dark))),
               ),
-              const ListTile(
-                leading: Icon(Icons.logout_rounded),
-                title: Text("Log out"),
+              ListTile(
+                leading: const Icon(Icons.logout_rounded),
+                title: const Text("Log out"),
+                onTap: () => GoRouter.of(context).goNamed('login'),
               ),
             ],
           ),
