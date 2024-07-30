@@ -5,7 +5,7 @@ import 'package:dirm_attorneys_mobile/legal_issues/presentation/pages/legal_issu
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_switch/flutter_switch.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 import '../../../Global/Theming/bloc/theme_manager_bloc.dart';
 import '../../../Global/Variables/app_runtime_values.dart';
@@ -37,45 +37,52 @@ class _RootPageState extends State<RootPage> {
         appBar: AppBar(
           title: const Text("Dirm Attorneys"),
           backgroundColor: AppColors.primary,
-          actions: [
-            FlutterSwitch(
-                width: 60,
-                activeIcon: const Icon(
-                  FeatherIcons.moon,
-                  color: AppColors.gray,
-                  size: 100,
-                ),
-                activeColor: Color(0xFF271052),
-                activeToggleColor: AppColors.purple,
-                inactiveIcon: const Icon(
-                  FeatherIcons.sun,
-                  color: AppColors.orange,
-                  size: 100,
-                ),
-                inactiveColor: AppColors.lighterColor,
-                inactiveToggleColor: AppColors.darkerColor,
-                value: Theme.of(context).brightness == Brightness.dark,
-                onToggle: (value) => context
-                    .read<ThemeManagerBloc>()
-                    .add(SwitchThemeEvent(value))),
-            PopupMenuButton(
-              icon: const Icon(
-                Icons.person_rounded,
-                size: 35,
-                color: Colors.white,
-              ), //use this icon
-              onSelected: (String item) {},
-              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                const PopupMenuItem<String>(
-                  value: 'Log Out',
-                  child: ListTile(
-                    leading: Icon(Icons.exit_to_app_rounded),
-                    title: Text('Log Out'),
-                  ),
-                ),
-              ],
-            ),
-          ],
+          foregroundColor: AppColors.lighterColor,
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const UserAccountsDrawerHeader(
+                accountName: Text("John Doe"),
+                accountEmail: Text("johndoe@gmail.com"),
+                currentAccountPicture: CircleAvatar(foregroundImage: AssetImage("assets/images/user.jpg"),),
+                decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/app_backgroud.jpg"))),
+              ),
+              const ListTile(
+                leading: Icon(FontAwesome.calendar_check),
+                title: Text("Appointments"),
+              ),
+              const ListTile(
+                leading: Icon(FontAwesome.newspaper),
+                title: Text("Publications"),
+              ),
+              const ListTile(
+                leading: Icon(HeroIcons.briefcase),
+                title: Text("Attorneys"),
+              ),
+              const ListTile(
+                leading: Icon(HeroIcons.clipboard_document_list),
+                title: Text("Queries"),
+              ),
+              const Divider(),
+              ListTile(
+                leading: (Theme.of(context).brightness == Brightness.dark)
+                    ? const Icon(FontAwesome.sun)
+                    : const Icon(FontAwesome.moon),
+                title: Text((Theme.of(context).brightness == Brightness.dark)
+                    ? "Light mode"
+                    : "Dark mode"),
+                onTap: () => context.read<ThemeManagerBloc>().add(
+                    SwitchThemeEvent(
+                        !(Theme.of(context).brightness == Brightness.dark))),
+              ),
+              const ListTile(
+                leading: Icon(Icons.logout_rounded),
+                title: Text("Log out"),
+              ),
+            ],
+          ),
         ),
         backgroundColor: Theme.of(context).colorScheme.surface,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
