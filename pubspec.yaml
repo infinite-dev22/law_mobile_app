@@ -45,6 +45,7 @@ dependencies:
   toggle_icon: ^0.0.1
   flutter_switch: ^0.3.2
   toast: ^0.3.0
+  icons_plus: ^5.0.0
 
 dev_dependencies:
   flutter_test:
