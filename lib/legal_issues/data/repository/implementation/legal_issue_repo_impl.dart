@@ -10,15 +10,15 @@ class LegalIssueRepoImpl extends LegalIssueRepo {
     List<LegalIssue> getLegalIssues() {
       return [
         LegalIssue('DA-001', 'Admin', 'Demo Issue 2',
-            'Dirm Attorneys Requirements.pdf', 'Pending'),
+            'Dirm Attorneys Issue.pdf', 'Pending'),
         LegalIssue('DA-002', 'Admin', 'Demo Legal Issue',
-            'Dirm Attorneys Requirements.pdf', 'Pending'),
+            'Dirm Attorneys Issue.pdf', 'Pending'),
         LegalIssue('DA-003', 'Admin', 'Demo Legal Issue',
-            'Dirm Attorneys Requirements.pdf', 'Pending'),
+            'Dirm Attorneys Issue.pdf', 'Pending'),
         LegalIssue('DA-004', 'Admin', 'Demo Legal Issue',
-            'Dirm Attorneys Requirements.pdf', 'Pending'),
+            'Dirm Attorneys Issue.pdf', 'Pending'),
         LegalIssue('DA-005', 'Admin', 'Demo Legal Issue',
-            'Dirm Attorneys Requirements.pdf', 'Pending'),
+            'Dirm Attorneys Issue.pdf', 'Pending'),
       ];
     }
 
