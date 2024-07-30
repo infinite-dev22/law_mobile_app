@@ -1,5 +1,6 @@
 import 'package:dirm_attorneys_mobile/Global/Theming/bloc/theme_manager_bloc.dart';
 import 'package:dirm_attorneys_mobile/Global/Theming/theme.dart';
+import 'package:dirm_attorneys_mobile/appointments/presentation/bloc/appointment_page/appointments_page_bloc.dart';
 import 'package:dirm_attorneys_mobile/legal_issues/presentation/bloc/legal_issues_page/legal_issues_pages_bloc.dart';
 import 'package:dirm_attorneys_mobile/root/presentation/bloc/nav_bar_bloc.dart';
 import 'package:dirm_attorneys_mobile/root/presentation/pages/root_page.dart';
@@ -19,6 +20,7 @@ void main() {
       BlocProvider(create: (context) => LegalDocumentsPageBloc()),
       BlocProvider(create: (context) => LegalCertificatesPageBloc()),
       BlocProvider(create: (context) => LegalCasesPageBloc()),
+      BlocProvider(create: (context) => AppointmentsPageBloc()),
     ],
     child: const MyApp(),
   ));
