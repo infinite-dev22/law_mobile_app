@@ -1,4 +1,4 @@
-part of 'legal_access_page_bloc.dart';
+part of 'legal_case_page_bloc.dart';
 
 sealed class LegalAccessPageState extends Equatable {
   const LegalAccessPageState();
