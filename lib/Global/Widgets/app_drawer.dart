@@ -21,8 +21,11 @@ class AppDrawer extends StatelessWidget {
               foregroundImage: AssetImage("assets/images/user.jpg"),
             ),
             decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/images/app_backgroud.jpg"))),
+              image: DecorationImage(
+                image: AssetImage("assets/images/app_backgroud.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
           ListTile(
             leading: const Icon(FontAwesome.calendar_check),
