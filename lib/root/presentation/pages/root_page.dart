@@ -88,19 +88,19 @@ class _RootPageState extends State<RootPage> {
 
   static int _calculateSelectedIndex(BuildContext context) {
     final String location = GoRouterState.of(context).uri.path;
-    if (location.startsWith('/dashboard')) {
+    if (location.contains('dashboard')) {
       return 0;
     }
-    if (location.startsWith('/issues')) {
+    if (location.contains('issues')) {
       return 1;
     }
-    if (location.startsWith('/documents')) {
+    if (location.contains('documents')) {
       return 2;
     }
-    if (location.startsWith('/certificates')) {
+    if (location.contains('certificates')) {
       return 3;
     }
-    if (location.startsWith('/cases')) {
+    if (location.contains('cases')) {
       return 4;
     }
     return 0;
@@ -109,15 +109,15 @@ class _RootPageState extends State<RootPage> {
   void _onItemTapped(int index, BuildContext context) {
     switch (index) {
       case 0:
-        GoRouter.of(context).go('/dashboard');
+        GoRouter.of(context).goNamed('dashboard');
       case 1:
-        GoRouter.of(context).go('/issues');
+        GoRouter.of(context).goNamed('issues');
       case 2:
-        GoRouter.of(context).go('/documents');
+        GoRouter.of(context).goNamed('documents');
       case 3:
-        GoRouter.of(context).go('/certificates');
+        GoRouter.of(context).goNamed('certificates');
       case 4:
-        GoRouter.of(context).go('/cases');
+        GoRouter.of(context).goNamed('cases');
     }
   }
 }
