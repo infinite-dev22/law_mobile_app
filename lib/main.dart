@@ -38,7 +38,9 @@ void main() {
       BlocProvider(create: (context) => AttorneysPageBloc()),
       BlocProvider(create: (context) => QueriesPageBloc()),
     ],
-    child: const MyApp(),
+    child: BlocProvider<ThemeManagerBloc>(
+        create: (context) => ThemeManagerBloc()..add(InitialThemeEvent()),
+        child: const MyApp()),
   ));
 }
 

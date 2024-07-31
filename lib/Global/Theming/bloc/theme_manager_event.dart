@@ -15,3 +15,5 @@ class SwitchThemeEvent extends ThemeManagerEvent {
 
   const SwitchThemeEvent(this.isDark);
 }
+
+class InitialThemeEvent extends ThemeManagerEvent {}
