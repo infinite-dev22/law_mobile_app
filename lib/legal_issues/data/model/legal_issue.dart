@@ -26,6 +26,29 @@ class LegalIssue extends Equatable {
     required this.clients,
   });
 
+  const LegalIssue.post({
+    required this.title,
+    required this.description,
+    required this.adviceFilePath,
+    this.uploadedFilePath,
+    this.uploadedFileName,
+    this.id,
+    this.clientId,
+    this.slug,
+    this.adviceFileName,
+    this.advice,
+    this.comment,
+    this.assignedTo,
+    this.deadline,
+    this.priority,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.issueStatus,
+    this.clients,
+  });
+
   final int? id;
   final String? clientId;
   final String? title;
