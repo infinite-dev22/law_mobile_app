@@ -7,8 +7,10 @@ import '../../../Global/Variables/colors.dart';
 import '../../../Global/Widgets/app_drawer.dart';
 import '../../../Global/Widgets/error_widget.dart';
 import '../../../Global/Widgets/loading_widget.dart';
+import '../../../Global/Widgets/not_found_widget.dart';
 import '../bloc/legal_issues_page/legal_issues_pages_bloc.dart';
 import '../widget/legal_issue_success_widget.dart';
+import '../widget/no_issues_widget.dart';
 
 class LegalIssuesPage extends StatelessWidget {
   const LegalIssuesPage({super.key});
@@ -47,6 +49,12 @@ class LegalIssuesPage extends StatelessWidget {
           }
           if (state.status.isLoading) {
             return const GlobalLoadingWidget();
+          }
+          if (state.status.isEmpty) {
+            return const NoIssuesWidget();
+          }
+          if (state.status.isNotFound) {
+            return const NotFoundWidget();
           }
           if (state.status.isError) {
             return const GlobalErrorWidget();
