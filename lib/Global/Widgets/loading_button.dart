@@ -31,15 +31,12 @@ class LoadingButton extends StatelessWidget {
               width: width,
             ),
           )
-        : GestureDetector(
-            onTap: onTap,
-            child: MwigoButton(
-              text: text,
-              disabled: disabled,
-              busy: busy,
-              outlined: outlined,
-              width: width,
-            ),
-          );
+        : MwigoButton(
+          text: text,
+          disabled: disabled,
+          busy: busy,
+          outlined: outlined,
+          width: width,
+        );
   }
 }
