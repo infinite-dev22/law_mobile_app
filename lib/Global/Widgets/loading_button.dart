@@ -8,6 +8,7 @@ class LoadingButton extends StatelessWidget {
   final bool busy;
   final bool outlined;
   final double width;
+  final Function() onTap;
 
   const LoadingButton({
     super.key,
@@ -16,25 +17,29 @@ class LoadingButton extends StatelessWidget {
     this.busy = false,
     this.outlined = false,
     this.width = double.infinity,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return (!disabled && !busy)
         ? Bounceable(
-            onTap: () {},
+            onTap: onTap,
             child: MwigoButton(
               text: text,
               outlined: outlined,
               width: width,
             ),
           )
-        : MwigoButton(
-            text: text,
-            disabled: disabled,
-            busy: busy,
-            outlined: outlined,
-            width: width,
+        : GestureDetector(
+            onTap: onTap,
+            child: MwigoButton(
+              text: text,
+              disabled: disabled,
+              busy: busy,
+              outlined: outlined,
+              width: width,
+            ),
           );
   }
 }
