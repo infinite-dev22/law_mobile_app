@@ -41,6 +41,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  bounce_tap:
+    dependency: "direct main"
+    description:
+      name: bounce_tap
+      sha256: fb78e8a3dfd666118d3a7b71da0fe8417c20c8bcb0c7b9368f3b809eecba98d1
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   characters:
     dependency: transitive
     description:
