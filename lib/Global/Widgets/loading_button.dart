@@ -6,12 +6,16 @@ class LoadingButton extends StatelessWidget {
   final String text;
   final bool disabled;
   final bool busy;
+  final bool outlined;
+  final double width;
 
   const LoadingButton({
     super.key,
     this.text = "Button",
     this.disabled = false,
     this.busy = false,
+    this.outlined = false,
+    this.width = double.infinity,
   });
 
   @override
@@ -21,12 +25,16 @@ class LoadingButton extends StatelessWidget {
             onTap: () {},
             child: MwigoButton(
               text: text,
+              outlined: outlined,
+              width: width,
             ),
           )
         : MwigoButton(
             text: text,
             disabled: disabled,
             busy: busy,
+            outlined: outlined,
+            width: width,
           );
   }
 }

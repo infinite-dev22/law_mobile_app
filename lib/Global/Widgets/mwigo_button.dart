@@ -6,12 +6,16 @@ class MwigoButton extends StatelessWidget {
   final String text;
   final bool disabled;
   final bool busy;
+  final bool outlined;
+  final double width;
 
   const MwigoButton({
     super.key,
     this.text = "Button",
     this.disabled = false,
     this.busy = false,
+    this.outlined = false,
+    this.width = double.infinity,
   });
 
   @override
@@ -19,23 +23,44 @@ class MwigoButton extends StatelessWidget {
     return AnimatedContainer(
       margin: const EdgeInsets.symmetric(horizontal: 8),
       duration: const Duration(milliseconds: 350),
-      width: double.infinity,
+      width: width,
       height: 48,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: disabled
-              ? AppColors.disabled
-              : Theme.of(context).colorScheme.primary),
+        borderRadius: BorderRadius.circular(8),
+        color: outlined
+            ? Colors.transparent
+            : disabled
+                ? AppColors.disabled
+                : Theme.of(context).colorScheme.primary,
+        border: outlined
+            ? Border.all(
+                color: disabled
+                    ? AppColors.disabled
+                    : Theme.of(context).colorScheme.primary,
+                width: 1,
+              )
+            : null,
+      ),
       child: busy
-          ? const CircularProgressIndicator.adaptive(
-              valueColor: AlwaysStoppedAnimation(Colors.white),
+          ? CircularProgressIndicator.adaptive(
+              valueColor: AlwaysStoppedAnimation(
+                outlined
+                    ? disabled
+                        ? AppColors.disabled
+                        : Theme.of(context).colorScheme.primary
+                    : Colors.white,
+              ),
               strokeWidth: 4,
             )
           : Text(
               text,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: outlined
+                    ? disabled
+                        ? AppColors.disabled
+                        : Theme.of(context).colorScheme.primary
+                    : Colors.white,
               ),
             ),
     );
