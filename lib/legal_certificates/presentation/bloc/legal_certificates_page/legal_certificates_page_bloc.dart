@@ -17,6 +17,7 @@ class LegalCertificatesPageBloc
   LegalCertificatesPageBloc() : super(const LegalCertificatesPageState()) {
     on<RefreshLegalCertificatesEvent>(_mapRefreshLegalCertificatesToState);
     on<LoadLegalCertificatesEvent>(_mapFetchLegalCertificatesToState);
+    on<LegalCertificatePostEvent>(_mapPostLegalCertificateToState);
   }
 
   _mapRefreshLegalCertificatesToState(
@@ -54,6 +55,23 @@ class LegalCertificatesPageBloc
       }
     }).onError((error, stackTrace) {
       emit(state.copyWith(status: LegalCertificatesPageStatus.error));
+      if (kDebugMode) {
+        log("Error: $error");
+        log("Stacktrace: $stackTrace");
+      }
+    });
+  }
+
+  _mapPostLegalCertificateToState(
+      LegalCertificatePostEvent event, Emitter<LegalCertificatesPageState> emit) async {
+    emit(state.copyWith(status: LegalCertificatesPageStatus.posting));
+    await LegalCertificateRepoImpl()
+        .postLegalCertificate(currentUserToken, event.legalCertificate)
+        .then((certificates) {
+      emit(
+          state.copyWith(status: LegalCertificatesPageStatus.posted, certificates: certificates));
+    }).onError((error, stackTrace) {
+      emit(state.copyWith(status: LegalCertificatesPageStatus.postError));
       if (kDebugMode) {
         log("Error: $error");
         log("Stacktrace: $stackTrace");

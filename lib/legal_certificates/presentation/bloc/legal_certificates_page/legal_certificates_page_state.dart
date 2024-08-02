@@ -7,6 +7,9 @@ enum LegalCertificatesPageStatus {
   error,
   notFound,
   empty,
+  posting,
+  posted,
+  postError,
 }
 
 extension LegalCertificatesPageStatusX on LegalCertificatesPageStatus {
@@ -21,6 +24,12 @@ extension LegalCertificatesPageStatusX on LegalCertificatesPageStatus {
   bool get isNotFound => this == LegalCertificatesPageStatus.notFound;
 
   bool get isEmpty => this == LegalCertificatesPageStatus.empty;
+
+  bool get isPosting => this == LegalCertificatesPageStatus.posting;
+
+  bool get isPosted => this == LegalCertificatesPageStatus.posted;
+
+  bool get isPostError => this == LegalCertificatesPageStatus.postError;
 }
 
 @immutable

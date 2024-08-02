@@ -16,6 +16,7 @@ class LegalCasesPageBloc
   LegalCasesPageBloc() : super(const LegalCasesPageState()) {
     on<RefreshLegalCasesEvent>(_mapRefreshLegalCasesToState);
     on<LoadLegalCasesEvent>(_mapFetchLegalCasesToState);
+    on<LegalCasePostEvent>(_mapPostLegalCaseToState);
   }
 
   _mapRefreshLegalCasesToState(
@@ -53,6 +54,23 @@ class LegalCasesPageBloc
       }
     }).onError((error, stackTrace) {
       emit(state.copyWith(status: LegalCasesPageStatus.error));
+      if (kDebugMode) {
+        log("Error: $error");
+        log("Stacktrace: $stackTrace");
+      }
+    });
+  }
+
+  _mapPostLegalCaseToState(
+      LegalCasePostEvent event, Emitter<LegalCasesPageState> emit) async {
+    emit(state.copyWith(status: LegalCasesPageStatus.posting));
+    await LegalCaseRepoImpl()
+        .postLegalCase(currentUserToken, event.legalCase)
+        .then((legalCases) {
+      emit(state.copyWith(
+          status: LegalCasesPageStatus.posted, legalCases: legalCases));
+    }).onError((error, stackTrace) {
+      emit(state.copyWith(status: LegalCasesPageStatus.postError));
       if (kDebugMode) {
         log("Error: $error");
         log("Stacktrace: $stackTrace");

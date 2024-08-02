@@ -6,10 +6,11 @@ import 'package:toast/toast.dart';
 import '../../../Global/Variables/colors.dart';
 import '../../../Global/Widgets/app_drawer.dart';
 import '../../../Global/Widgets/error_widget.dart';
-import '../../../Global/Widgets/initial_widget.dart';
 import '../../../Global/Widgets/loading_widget.dart';
+import '../../../Global/Widgets/not_found_widget.dart';
 import '../bloc/legal_documents_page/legal_documents_page_bloc.dart';
 import '../widget/legal_document_success_widget.dart';
+import '../widget/no_documents_widget.dart';
 
 class LegalDocumentsPage extends StatelessWidget {
   const LegalDocumentsPage({super.key});
@@ -41,13 +42,21 @@ class LegalDocumentsPage extends StatelessWidget {
       body: BlocConsumer<LegalDocumentsPageBloc, LegalDocumentsPageState>(
         builder: (context, state) {
           if (state.status.isInitial) {
-            context.read<LegalDocumentsPageBloc>().add(LoadLegalDocumentsEvent());
+            context
+                .read<LegalDocumentsPageBloc>()
+                .add(LoadLegalDocumentsEvent());
           }
           if (state.status.isSuccess) {
             return const LegalDocumentSuccessWidget();
           }
           if (state.status.isLoading) {
             return const GlobalLoadingWidget();
+          }
+          if (state.status.isEmpty) {
+            return const NoDocumentsWidget();
+          }
+          if (state.status.isNotFound) {
+            return const NotFoundWidget();
           }
           if (state.status.isError) {
             return const GlobalErrorWidget();

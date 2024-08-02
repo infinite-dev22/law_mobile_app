@@ -7,6 +7,9 @@ enum LegalCasesPageStatus {
   error,
   notFound,
   empty,
+  posting,
+  posted,
+  postError,
 }
 
 extension LegalCasesPageStatusX on LegalCasesPageStatus {
@@ -21,6 +24,12 @@ extension LegalCasesPageStatusX on LegalCasesPageStatus {
   bool get isNotFound => this == LegalCasesPageStatus.notFound;
 
   bool get isEmpty => this == LegalCasesPageStatus.empty;
+
+  bool get isPosting => this == LegalCasesPageStatus.posting;
+
+  bool get isPosted => this == LegalCasesPageStatus.posted;
+
+  bool get isPostError => this == LegalCasesPageStatus.postError;
 }
 
 @immutable

@@ -1,26 +1,22 @@
 import '../../model/legal_certificate.dart';
+import '../../request/legal_certificate_requests.dart';
 import '../definition/legal_certificate_repo.dart';
 
 class LegalCertificateRepoImpl extends LegalCertificateRepo {
   @override
-  Future<List<LegalCertificate>> getAllLegalCertificates(String authToken) async {
-    // TODO: implement getAllLegalCertificates
-    // throw UnimplementedError();
-    List<LegalCertificate> getLegalCertificates() {
-      return [
-        LegalCertificate('DA-001', 'Admin', 'Demo Certificate 2',
-            'Dirm Attorneys Certificate.pdf', 'Pending'),
-        LegalCertificate('DA-002', 'Admin', 'Demo Legal Certificate',
-            'Dirm Attorneys Certificate.pdf', 'Pending'),
-        LegalCertificate('DA-003', 'Admin', 'Demo Legal Certificate',
-            'Dirm Attorneys Certificate.pdf', 'Pending'),
-        LegalCertificate('DA-004', 'Admin', 'Demo Legal Certificate',
-            'Dirm Attorneys Certificate.pdf', 'Pending'),
-        LegalCertificate('DA-005', 'Admin', 'Demo Legal Certificate',
-            'Dirm Attorneys Certificate.pdf', 'Pending'),
-      ];
-    }
+  Future<List<LegalCertificate>> getAllLegalCertificates(
+      String authToken) async {
+    List<LegalCertificate> legalCertificates = List.empty(growable: true);
+    LegalCertificateRequests.getLegalCertificates(authToken)
+        .then((value) => legalCertificates = value);
+    return legalCertificates;
+  }
 
-    return getLegalCertificates();
+  @override
+  dynamic postLegalCertificate(String authToken, LegalCertificate data) async {
+    var legalCertificates = List.empty(growable: true);
+    LegalCertificateRequests.postLegalCertificate(authToken, data.postJson())
+        .then((value) => legalCertificates = value);
+    return legalCertificates;
   }
 }

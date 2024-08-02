@@ -1,26 +1,21 @@
 import '../../model/legal_document.dart';
+import '../../request/legal_document_requests.dart';
 import '../definition/legal_document_repo.dart';
 
 class LegalDocumentRepoImpl extends LegalDocumentRepo {
   @override
   Future<List<LegalDocument>> getAllLegalDocuments(String authToken) async {
-    // TODO: implement getAllLegalDocuments
-    // throw UnimplementedError();
-    List<LegalDocument> getLegalDocuments() {
-      return [
-        LegalDocument('DA-001', 'Admin', 'Demo Document 2',
-            'Dirm Attorneys Document.pdf', 'Pending'),
-        LegalDocument('DA-002', 'Admin', 'Demo Legal Document',
-            'Dirm Attorneys Document.pdf', 'Pending'),
-        LegalDocument('DA-003', 'Admin', 'Demo Legal Document',
-            'Dirm Attorneys Document.pdf', 'Pending'),
-        LegalDocument('DA-004', 'Admin', 'Demo Legal Document',
-            'Dirm Attorneys Document.pdf', 'Pending'),
-        LegalDocument('DA-005', 'Admin', 'Demo Legal Document',
-            'Dirm Attorneys Document.pdf', 'Pending'),
-      ];
-    }
+    List<LegalDocument> legalDocuments = List.empty(growable: true);
+    LegalDocumentRequests.getLegalDocuments(authToken)
+        .then((value) => legalDocuments = value);
+    return legalDocuments;
+  }
 
-    return getLegalDocuments();
+  @override
+  dynamic postLegalDocument(String authToken, LegalDocument data) async {
+    var legalDocuments = List.empty(growable: true);
+    LegalDocumentRequests.postLegalDocument(authToken, data.postJson())
+        .then((value) => legalDocuments = value);
+    return legalDocuments;
   }
 }

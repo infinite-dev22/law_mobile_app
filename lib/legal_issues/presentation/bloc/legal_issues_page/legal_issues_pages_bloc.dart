@@ -16,6 +16,7 @@ class LegalIssuesPagesBloc
   LegalIssuesPagesBloc() : super(const LegalIssuesPageState()) {
     on<RefreshLegalIssuesEvent>(_mapRefreshLegalIssuesToState);
     on<LoadLegalIssuesEvent>(_mapFetchLegalIssuesToState);
+    on<LegalIssuePostEvent>(_mapPostLegalIssueToState);
   }
 
   _mapRefreshLegalIssuesToState(
@@ -53,6 +54,23 @@ class LegalIssuesPagesBloc
       }
     }).onError((error, stackTrace) {
       emit(state.copyWith(status: LegalIssuesPageStatus.error));
+      if (kDebugMode) {
+        log("Error: $error");
+        log("Stacktrace: $stackTrace");
+      }
+    });
+  }
+
+  _mapPostLegalIssueToState(
+      LegalIssuePostEvent event, Emitter<LegalIssuesPageState> emit) async {
+    emit(state.copyWith(status: LegalIssuesPageStatus.posting));
+    await LegalIssueRepoImpl()
+        .postLegalIssue(currentUserToken, event.legalIssue)
+        .then((issues) {
+      emit(
+          state.copyWith(status: LegalIssuesPageStatus.posted, issues: issues));
+    }).onError((error, stackTrace) {
+      emit(state.copyWith(status: LegalIssuesPageStatus.postError));
       if (kDebugMode) {
         log("Error: $error");
         log("Stacktrace: $stackTrace");

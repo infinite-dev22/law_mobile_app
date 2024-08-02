@@ -20,4 +20,13 @@ class LoadSingleLegalCertificateEvent extends LegalCertificatesPageEvent {
   List<Object?> get props => [id];
 }
 
+class LegalCertificatePostEvent extends LegalCertificatesPageEvent {
+  final LegalCertificate legalCertificate;
+
+  const LegalCertificatePostEvent(this.legalCertificate);
+
+  @override
+  List<Object?> get props => [legalCertificate];
+}
+
 class LegalCertificateAddedEvent extends LegalCertificatesPageEvent {}

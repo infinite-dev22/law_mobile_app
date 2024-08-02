@@ -16,6 +16,7 @@ class LegalDocumentsPageBloc
   LegalDocumentsPageBloc() : super(const LegalDocumentsPageState()) {
     on<RefreshLegalDocumentsEvent>(_mapRefreshLegalDocumentsToState);
     on<LoadLegalDocumentsEvent>(_mapFetchLegalDocumentsToState);
+    on<LegalDocumentPostEvent>(_mapPostLegalDocumentToState);
   }
 
   _mapRefreshLegalDocumentsToState(
@@ -53,6 +54,23 @@ class LegalDocumentsPageBloc
       }
     }).onError((error, stackTrace) {
       emit(state.copyWith(status: LegalDocumentsPageStatus.error));
+      if (kDebugMode) {
+        log("Error: $error");
+        log("Stacktrace: $stackTrace");
+      }
+    });
+  }
+
+  _mapPostLegalDocumentToState(
+      LegalDocumentPostEvent event, Emitter<LegalDocumentsPageState> emit) async {
+    emit(state.copyWith(status: LegalDocumentsPageStatus.posting));
+    await LegalDocumentRepoImpl()
+        .postLegalDocument(currentUserToken, event.legalDocument)
+        .then((documents) {
+      emit(
+          state.copyWith(status: LegalDocumentsPageStatus.posted, documents: documents));
+    }).onError((error, stackTrace) {
+      emit(state.copyWith(status: LegalDocumentsPageStatus.postError));
       if (kDebugMode) {
         log("Error: $error");
         log("Stacktrace: $stackTrace");

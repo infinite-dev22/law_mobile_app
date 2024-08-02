@@ -20,4 +20,13 @@ class LoadSingleLegalIssueEvent extends LegalIssuesPageEvent {
   List<Object?> get props => [id];
 }
 
+class LegalIssuePostEvent extends LegalIssuesPageEvent {
+  final LegalIssue legalIssue;
+
+  const LegalIssuePostEvent(this.legalIssue);
+
+  @override
+  List<Object?> get props => [legalIssue];
+}
+
 class LegalIssueAddedEvent extends LegalIssuesPageEvent {}

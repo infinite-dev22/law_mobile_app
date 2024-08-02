@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 import '../../../Global/Variables/colors.dart';
 import '../../data/model/legal_issue.dart';
@@ -24,7 +25,7 @@ class LegalIssueItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          data.issueId,
+          data.title ?? "N/A",
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
@@ -35,16 +36,9 @@ class LegalIssueItem extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(
-              Icons.place_outlined,
-              size: 13,
-            ),
-            const SizedBox(
-              width: 3,
-            ),
             Expanded(
               child: Text(
-                data.documentTitle,
+                data.uploadedFileName ?? "N/A",
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -58,13 +52,24 @@ class LegalIssueItem extends StatelessWidget {
           height: 5,
         ),
         Text(
-          data.status,
+          data.issueStatus ?? "N/A",
           style: const TextStyle(
             fontSize: 13,
             color: AppColors.primary,
             fontWeight: FontWeight.w500,
           ),
-        )
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        Text(
+          data.createdAt.toString(),
+          style: const TextStyle(
+            fontSize: 13,
+            color: AppColors.primary,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ],
     );
   }
