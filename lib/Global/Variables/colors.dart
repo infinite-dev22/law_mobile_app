@@ -12,7 +12,8 @@ class AppColors {
   static const secondaryLight = Color(0xFFFFFFFF);
   static const secondaryDark = Color(0xFF343A40);
   static const orange = Color(0xFFFFDF5D);
-  static const gray = Color(0xFFF8E3A1);
+  static const gray = Color(0xFF595656);
+  static const disabled = Color(0xFF848586);
   static const purple = Colors.purple;
 
 }
