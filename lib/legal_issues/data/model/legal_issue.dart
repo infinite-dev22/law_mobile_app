@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 
 import '../../../Global/data/model/client_model.dart';
@@ -24,12 +26,14 @@ class LegalIssue extends Equatable {
     required this.deletedAt,
     required this.issueStatus,
     required this.clients,
+    this.file,
   });
 
   const LegalIssue.post({
     required this.title,
     required this.description,
-    required this.adviceFilePath,
+    required this.file,
+    this.adviceFilePath,
     this.uploadedFilePath,
     this.uploadedFileName,
     this.id,
@@ -69,6 +73,7 @@ class LegalIssue extends Equatable {
   final dynamic deletedAt;
   final String? issueStatus;
   final Client? clients;
+  final File? file;
 
   LegalIssue copyWith({
     int? id,
@@ -168,7 +173,7 @@ class LegalIssue extends Equatable {
   Map<String, dynamic> postJson() => {
         "title": title,
         "description": description,
-        "file": adviceFilePath,
+        "file": file,
       };
 
   @override
@@ -193,5 +198,6 @@ class LegalIssue extends Equatable {
         deletedAt,
         issueStatus,
         clients,
+        file,
       ];
 }

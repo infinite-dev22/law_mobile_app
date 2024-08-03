@@ -10,6 +10,7 @@ import '../../../Global/Widgets/error_widget.dart';
 import '../../../Global/Widgets/loading_widget.dart';
 import '../../../Global/Widgets/not_found_widget.dart';
 import '../bloc/legal_certificates_page/legal_certificates_page_bloc.dart';
+import '../forms/certificates_form.dart';
 import '../widget/legal_certificate_success_widget.dart';
 
 class LegalCertificatesPage extends StatelessWidget {
@@ -31,11 +32,14 @@ class LegalCertificatesPage extends StatelessWidget {
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            builder: (context) {
-              return const Center(
-                child: Text("Certificates Form here"),
-              );
-            },
+            enableDrag: true,
+            showDragHandle: true,
+            isScrollControlled: true,
+            builder: (context) => Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: const CertificatesForm(),
+            ),
           );
         },
       ),

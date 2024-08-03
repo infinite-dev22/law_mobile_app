@@ -29,7 +29,7 @@ class LegalIssueRequests {
   }
 
   static Future<dynamic> postLegalIssue(
-      String authToken, Map<String, dynamic> body) async {
+      String authToken, http.FormData body) async {
     final client = http.Dio();
     client.httpClientAdapter = nda.NativeAdapter();
     client.options.headers = {

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:dirm_attorneys_mobile/legal_issues/data/model/legal_issue.dart';
 
 import '../../request/legal_issue_requests.dart';
@@ -13,9 +14,17 @@ class LegalIssueRepoImpl extends LegalIssueRepo {
   }
 
   @override
-  dynamic postLegalIssue(String authToken, LegalIssue data) async {
+  Future<dynamic> postLegalIssue(String authToken, LegalIssue data) async {
     var legalIssues = List.empty(growable: true);
-    LegalIssueRequests.postLegalIssue(authToken, data.postJson())
+
+    FormData formData = FormData.fromMap({
+      "title": data.title,
+      "description": data.description,
+      "file": await MultipartFile.fromFile(data.file!.path,
+          filename: data.file!.path.split('/').last),
+    });
+
+    LegalIssueRequests.postLegalIssue(authToken, formData)
         .then((value) => legalIssues = value);
     return legalIssues;
   }

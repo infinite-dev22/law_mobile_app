@@ -11,15 +11,17 @@ import 'package:toast/toast.dart';
 
 import '../../../Global/Widgets/mwigo_text_area.dart';
 import '../../../Global/Widgets/mwigo_text_field.dart';
+import '../../data/model/legal_certificate.dart';
+import '../bloc/legal_certificates_page/legal_certificates_page_bloc.dart';
 
-class IssuesForm extends StatefulWidget {
-  const IssuesForm({super.key});
+class CertificatesForm extends StatefulWidget {
+  const CertificatesForm({super.key});
 
   @override
-  State<IssuesForm> createState() => _IssuesFormState();
+  State<CertificatesForm> createState() => _CertificatesFormState();
 }
 
-class _IssuesFormState extends State<IssuesForm> {
+class _CertificatesFormState extends State<CertificatesForm> {
   PlatformFile? file;
 
   Future<void> _pickFile() async {
@@ -55,13 +57,13 @@ class _IssuesFormState extends State<IssuesForm> {
   Widget build(BuildContext context) {
     ToastContext().init(context);
 
-    return BlocConsumer<LegalIssuesPagesBloc, LegalIssuesPageState>(
+    return BlocConsumer<LegalCertificatesPageBloc, LegalCertificatesPageState>(
       builder: (blocContext, state) {
         return LayoutBuilder(builder: (context, constraints) {
           return _buildBody(constraints, blocContext, state);
         });
       },
-      listener: (BuildContext context, LegalIssuesPageState state) {
+      listener: (BuildContext context, LegalCertificatesPageState state) {
         if (state.status.isPosted) {
           GoRouter.of(context).pop();
         }
@@ -77,12 +79,13 @@ class _IssuesFormState extends State<IssuesForm> {
   }
 
   Widget _buildBody(BoxConstraints constraints, BuildContext blocContext,
-      LegalIssuesPageState state) {
+      LegalCertificatesPageState state) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Form(
       key: formKey,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.min,
         children: [
           MwigoTextField(
@@ -141,13 +144,13 @@ class _IssuesFormState extends State<IssuesForm> {
   }
 
   Future<void> _submitForm(
-      BuildContext blocContext, LegalIssuesPageState state) async {
-    var legalIssue = LegalIssue.post(
+      BuildContext blocContext, LegalCertificatesPageState state) async {
+    var legalCertificate = LegalCertificate.post(
       title: _titleController.text.trim(),
       description: _descriptionController.text.trim(),
       file: File(file!.path!),
     );
 
-    context.read<LegalIssuesPagesBloc>().add(LegalIssuePostEvent(legalIssue));
+    context.read<LegalCertificatesPageBloc>().add(LegalCertificatePostEvent(legalCertificate));
   }
 }

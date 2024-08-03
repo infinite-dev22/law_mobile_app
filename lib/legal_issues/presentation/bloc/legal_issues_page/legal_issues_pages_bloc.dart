@@ -66,9 +66,8 @@ class LegalIssuesPagesBloc
     emit(state.copyWith(status: LegalIssuesPageStatus.posting));
     await LegalIssueRepoImpl()
         .postLegalIssue(currentUserToken, event.legalIssue)
-        .then((issues) {
-      emit(
-          state.copyWith(status: LegalIssuesPageStatus.posted, issues: issues));
+        .then((response) {
+      emit(state.copyWith(status: LegalIssuesPageStatus.posted));
     }).onError((error, stackTrace) {
       emit(state.copyWith(status: LegalIssuesPageStatus.postError));
       if (kDebugMode) {

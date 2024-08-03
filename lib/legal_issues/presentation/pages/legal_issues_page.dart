@@ -34,9 +34,12 @@ class LegalIssuesPage extends StatelessWidget {
             context: context,
             enableDrag: true,
             showDragHandle: true,
-            builder: (context) {
-              return const IssuesForm();
-            },
+            isScrollControlled: true,
+            builder: (context) => Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: const IssuesForm(),
+            ),
           );
         },
       ),
