@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../../../Global/Variables/app_runtime_values.dart';
 import '../../../data/model/login_model.dart';
 import '../../../data/repository/implementation/login_repo_impl.dart';
 
@@ -19,9 +18,7 @@ class LoginPageBloc extends Bloc<LoginPageEvent, LoginPageState> {
   _mapPostLoginToState(
       LoginPostEvent event, Emitter<LoginPageState> emit) async {
     emit(state.copyWith(status: LoginPageStatus.loading));
-    await LoginRepoImpl()
-        .postLogin(event.loginModel)
-        .then((response) {
+    await LoginRepoImpl().postLogin(event.loginModel).whenComplete(() {
       emit(state.copyWith(status: LoginPageStatus.success));
     }).onError((error, stackTrace) {
       emit(state.copyWith(status: LoginPageStatus.error));

@@ -5,6 +5,7 @@ import 'package:dirm_attorneys_mobile/authentication/data/model/login_model.dart
 import 'package:dirm_attorneys_mobile/authentication/presentation/bloc/login_page/login_page_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:toast/toast.dart';
 
 import '../widget/mwigo_auth_text_field.dart';
@@ -121,6 +122,7 @@ class LoginPage extends StatelessWidget {
         if (state.status.isSuccess) {
           Toast.show("Login Success",
               duration: Toast.lengthShort, gravity: Toast.bottom);
+          GoRouter.of(context).goNamed("dashboard");
         }
         if (state.status.isError) {
           Toast.show("Login error",
