@@ -20,7 +20,7 @@ class LoginPageBloc extends Bloc<LoginPageEvent, LoginPageState> {
       LoginPostEvent event, Emitter<LoginPageState> emit) async {
     emit(state.copyWith(status: LoginPageStatus.loading));
     await LoginRepoImpl()
-        .postLogin(currentUserToken, event.loginModel)
+        .postLogin(event.loginModel)
         .then((response) {
       emit(state.copyWith(status: LoginPageStatus.success));
     }).onError((error, stackTrace) {

@@ -7,8 +7,7 @@ import 'package:native_dio_adapter/native_dio_adapter.dart' as nda;
 import '../../../Global/Variables/strings.dart';
 
 class LoginRequests {
-  static Future<dynamic> postLogin(
-      String authToken, Map<String, dynamic> body) async {
+  static Future<dynamic> postLogin(Map<String, dynamic> body) async {
     final client = http.Dio();
     client.httpClientAdapter = nda.NativeAdapter();
     client.options.headers = {

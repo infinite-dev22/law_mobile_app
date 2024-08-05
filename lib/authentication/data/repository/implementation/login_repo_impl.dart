@@ -4,10 +4,10 @@ import '../definition/login_repo.dart';
 
 class LoginRepoImpl extends LoginRepo {
   @override
-  Future<dynamic> postLogin(String authToken, LoginModel data) async {
+  Future<dynamic> postLogin(LoginModel data) async {
     var logins = List.empty(growable: true);
 
-    LoginRequests.postLogin(authToken, data.toJson())
+    LoginRequests.postLogin(data.toJson())
         .then((value) => logins = value);
     return logins;
   }
