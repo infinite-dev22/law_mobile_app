@@ -24,32 +24,29 @@ class MwigoTextField extends StatelessWidget {
             label,
             style: const TextStyle(fontSize: 16),
           ),
-          SizedBox(
-            // height: 40,
-            child: TextFormField(
-              enabled: !disabled,
-              maxLength: 45,
-              controller: controller,
-              validator: (text) {
-                if (text!.isEmpty) {
-                  return "$label can not be empty";
-                }
-                if (!(text.length > 5)) {
-                  return "Enter a $label of more than 5 characters";
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
-                  horizontal: 10.0,
-                ),
-                isDense: true,
-                counter: null,
-                counterText: "",
-                enabled: !disabled,
-                border: const OutlineInputBorder(),
+          TextFormField(
+            enabled: !disabled,
+            maxLength: 45,
+            controller: controller,
+            validator: (text) {
+              if (text!.isEmpty) {
+                return "$label can not be empty";
+              }
+              if (!(text.length > 5)) {
+                return "Enter a $label of more than 5 characters";
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 10.0,
               ),
+              isDense: true,
+              counter: null,
+              counterText: "",
+              enabled: !disabled,
+              border: const OutlineInputBorder(),
             ),
           ),
         ],
