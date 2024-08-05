@@ -5,6 +5,7 @@ class MwigoAuthTextField extends StatelessWidget {
   final String hintText;
   final String validationText;
   final bool obscureText;
+  final bool enabled;
 
   const MwigoAuthTextField({
     super.key,
@@ -12,6 +13,7 @@ class MwigoAuthTextField extends StatelessWidget {
     required this.hintText,
     required this.validationText,
     this.obscureText = false,
+    this.enabled = true,
   });
 
   @override
@@ -21,7 +23,9 @@ class MwigoAuthTextField extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       maxLength: 45,
+      enabled: enabled,
       decoration: InputDecoration(
+        enabled: enabled,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.white),
           borderRadius: BorderRadius.circular(8),
