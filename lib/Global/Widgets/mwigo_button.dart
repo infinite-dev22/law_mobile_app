@@ -24,8 +24,9 @@ class MwigoButton extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 8),
       duration: const Duration(milliseconds: 350),
       width: width,
-      height: 40,
+      height: 48,
       alignment: Alignment.center,
+      padding: const EdgeInsets.only(top: 5, bottom: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: outlined
