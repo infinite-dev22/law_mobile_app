@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 
 import '../../../Global/data/model/client_model.dart';
@@ -21,6 +23,28 @@ class LegalDocument extends Equatable {
     required this.issueStatus,
     required this.adviceFilePath,
     required this.clients,
+    this.file,
+  });
+
+  const LegalDocument.post({
+    this.id,
+    this.clientId,
+    required this.title,
+    required this.file,
+    this.slug,
+    this.uploadedFilePath,
+    this.uploadedFileName,
+    this.certifiedFilePath,
+    this.certifiedFileName,
+    this.comment,
+    this.assignedTo,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.issueStatus,
+    this.adviceFilePath,
+    this.clients,
   });
 
   final int? id;
@@ -40,6 +64,7 @@ class LegalDocument extends Equatable {
   final String? issueStatus;
   final dynamic adviceFilePath;
   final Client? clients;
+  final File? file;
 
   LegalDocument copyWith({
     int? id,
@@ -81,7 +106,7 @@ class LegalDocument extends Equatable {
     );
   }
 
-  factory LegalDocument.fromJson(Map<String, dynamic> json){
+  factory LegalDocument.fromJson(Map<String, dynamic> json) {
     return LegalDocument(
       id: json["id"],
       clientId: json["client_id"],
@@ -99,37 +124,55 @@ class LegalDocument extends Equatable {
       deletedAt: json["deleted_at"],
       issueStatus: json["issue_status"],
       adviceFilePath: json["advice_file_path"],
-      clients: json["clients"] == null ? null : Client.fromJson(json["clients"]),
+      clients:
+          json["clients"] == null ? null : Client.fromJson(json["clients"]),
     );
   }
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "client_id": clientId,
-    "title": title,
-    "slug": slug,
-    "uploaded_file_path": uploadedFilePath,
-    "uploaded_file_name": uploadedFileName,
-    "certified_file_path": certifiedFilePath,
-    "certified_file_name": certifiedFileName,
-    "comment": comment,
-    "assigned_to": assignedTo,
-    "status": status,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
-    "deleted_at": deletedAt,
-    "issue_status": issueStatus,
-    "advice_file_path": adviceFilePath,
-    "clients": clients?.toJson(),
-  };
+        "id": id,
+        "client_id": clientId,
+        "title": title,
+        "slug": slug,
+        "uploaded_file_path": uploadedFilePath,
+        "uploaded_file_name": uploadedFileName,
+        "certified_file_path": certifiedFilePath,
+        "certified_file_name": certifiedFileName,
+        "comment": comment,
+        "assigned_to": assignedTo,
+        "status": status,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "deleted_at": deletedAt,
+        "issue_status": issueStatus,
+        "advice_file_path": adviceFilePath,
+        "clients": clients?.toJson(),
+      };
 
   Map<String, dynamic> postJson() => {
-    "title": title,
-    "file": adviceFilePath,
-  };
+        "title": title,
+        "file": file,
+      };
 
   @override
   List<Object?> get props => [
-    id, clientId, title, slug, uploadedFilePath, uploadedFileName, certifiedFilePath, certifiedFileName, comment, assignedTo, status, createdAt, updatedAt, deletedAt, issueStatus, adviceFilePath, clients, ];
-
+        id,
+        clientId,
+        title,
+        slug,
+        uploadedFilePath,
+        uploadedFileName,
+        certifiedFilePath,
+        certifiedFileName,
+        comment,
+        assignedTo,
+        status,
+        createdAt,
+        updatedAt,
+        deletedAt,
+        issueStatus,
+        adviceFilePath,
+        clients,
+        file,
+      ];
 }

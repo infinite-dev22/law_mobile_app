@@ -120,7 +120,7 @@ class _CertificatesFormState extends State<CertificatesForm> {
               ),
               LoadingButton(
                 width: constraints.maxWidth * .6,
-                text: "Create issue",
+                text: "Upload certificate",
                 busy: state.status.isPosting || state.status.isPostError,
                 onTap: () {
                   setState(() {});

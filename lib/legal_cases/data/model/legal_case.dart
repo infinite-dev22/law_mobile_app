@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 
 import '../../../Global/data/model/client_model.dart';
 
 class LegalCase extends Equatable {
-  LegalCase({
+  const LegalCase({
     required this.id,
     required this.clientId,
     required this.title,
@@ -22,6 +24,29 @@ class LegalCase extends Equatable {
     required this.issueStatus,
     required this.adviceFilePath,
     required this.clients,
+    this.file,
+  });
+
+  const LegalCase.post({
+    this.id,
+    this.clientId,
+    required this.title,
+    required this.description,
+    required this.file,
+    this.slug,
+    this.uploadedFilePath,
+    this.uploadedFileName,
+    this.certifiedFilePath,
+    this.certifiedFileName,
+    this.comment,
+    this.assignedTo,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.issueStatus,
+    this.adviceFilePath,
+    this.clients,
   });
 
   final int? id;
@@ -42,6 +67,7 @@ class LegalCase extends Equatable {
   final String? issueStatus;
   final dynamic adviceFilePath;
   final Client? clients;
+  final File? file;
 
   LegalCase copyWith({
     int? id,
@@ -131,10 +157,10 @@ class LegalCase extends Equatable {
       };
 
   Map<String, dynamic> postJson() => {
-    "title": title,
-    "description": description,
-    "file": adviceFilePath,
-  };
+        "title": title,
+        "description": description,
+        "file": file,
+      };
 
   @override
   List<Object?> get props => [
@@ -156,5 +182,6 @@ class LegalCase extends Equatable {
         issueStatus,
         adviceFilePath,
         clients,
+        file,
       ];
 }

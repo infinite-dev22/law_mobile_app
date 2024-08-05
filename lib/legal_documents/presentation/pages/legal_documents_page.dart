@@ -9,6 +9,7 @@ import '../../../Global/Widgets/error_widget.dart';
 import '../../../Global/Widgets/loading_widget.dart';
 import '../../../Global/Widgets/not_found_widget.dart';
 import '../bloc/legal_documents_page/legal_documents_page_bloc.dart';
+import '../forms/documents_form.dart';
 import '../widget/legal_document_success_widget.dart';
 import '../widget/no_documents_widget.dart';
 
@@ -31,11 +32,14 @@ class LegalDocumentsPage extends StatelessWidget {
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            builder: (context) {
-              return const Center(
-                child: Text("Documents Form here"),
-              );
-            },
+            enableDrag: true,
+            showDragHandle: true,
+            isScrollControlled: true,
+            builder: (context) => Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: const DocumentsForm(),
+            ),
           );
         },
       ),
