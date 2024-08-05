@@ -27,11 +27,15 @@ class MwigoAuthTextField extends StatelessWidget {
       decoration: InputDecoration(
         enabled: enabled,
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.white),
+          borderSide: const BorderSide(),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        border: OutlineInputBorder(
+          borderSide: const BorderSide(),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey.shade400),
+          borderSide: const BorderSide(),
           borderRadius: BorderRadius.circular(8),
         ),
         contentPadding: const EdgeInsets.symmetric(
