@@ -2,6 +2,7 @@ import 'package:dirm_attorneys_mobile/Global/Theming/bloc/theme_manager_bloc.dar
 import 'package:dirm_attorneys_mobile/Global/Theming/theme.dart';
 import 'package:dirm_attorneys_mobile/appointments/presentation/bloc/appointment_page/appointments_page_bloc.dart';
 import 'package:dirm_attorneys_mobile/attorneys/presentation/bloc/attorney_page/attorneys_page_bloc.dart';
+import 'package:dirm_attorneys_mobile/authentication/presentation/pages/login_page.dart';
 import 'package:dirm_attorneys_mobile/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:dirm_attorneys_mobile/legal_cases/presentation/pages/legal_cases_page.dart';
 import 'package:dirm_attorneys_mobile/legal_certificates/presentation/pages/legal_certificates_page.dart';
@@ -50,8 +51,13 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 GoRouter _router = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: "/dashboard",
+  initialLocation: "/login",
   routes: [
+    GoRoute(
+      name: 'login',
+      path: "/login",
+      builder: (context, state) => const LoginPage(),
+    ),
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
       builder: (context, state, child) => RootPage(
