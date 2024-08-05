@@ -21,6 +21,7 @@ import 'package:go_router/go_router.dart';
 
 import 'appointments/presentation/pages/appointments_page.dart';
 import 'attorneys/presentation/pages/attorneys_page.dart';
+import 'authentication/presentation/bloc/login_page/login_page_bloc.dart';
 import 'legal_cases/presentation/bloc/legal_cases_page/legal_cases_page_bloc.dart';
 import 'legal_certificates/presentation/bloc/legal_certificates_page/legal_certificates_page_bloc.dart';
 import 'legal_documents/presentation/bloc/legal_documents_page/legal_documents_page_bloc.dart';
@@ -29,6 +30,7 @@ void main() {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (context) => ThemeManagerBloc()),
+      BlocProvider(create: (context) => LoginPageBloc()),
       BlocProvider(create: (context) => NavBarBloc()),
       BlocProvider(create: (context) => LegalIssuesPagesBloc()),
       BlocProvider(create: (context) => LegalDocumentsPageBloc()),
