@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-
 import '../../model/login_model.dart';
 import '../../request/login_requests.dart';
 import '../definition/login_repo.dart';

@@ -19,7 +19,7 @@ class LoginModel extends Equatable {
     );
   }
 
-  factory LoginModel.fromJson(Map<String, dynamic> json){
+  factory LoginModel.fromJson(Map<String, dynamic> json) {
     return LoginModel(
       username: json["username"],
       password: json["password"],
@@ -27,14 +27,15 @@ class LoginModel extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    "username": username,
-    "password": password,
-  };
+        "username": username,
+        "password": password,
+      };
 
   @override
   List<Object?> get props => [
-    username, password, ];
-
+        username,
+        password,
+      ];
 }
 
 /*

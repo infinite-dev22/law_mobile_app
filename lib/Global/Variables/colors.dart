@@ -15,5 +15,4 @@ class AppColors {
   static const gray = Color(0xFF595656);
   static const disabled = Color(0xFF848586);
   static const purple = Colors.purple;
-
 }

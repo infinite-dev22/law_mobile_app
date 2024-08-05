@@ -32,11 +32,11 @@ class LoadingButton extends StatelessWidget {
             ),
           )
         : MwigoButton(
-          text: text,
-          disabled: disabled,
-          busy: busy,
-          outlined: outlined,
-          width: width,
-        );
+            text: text,
+            disabled: disabled,
+            busy: busy,
+            outlined: outlined,
+            width: width,
+          );
   }
 }

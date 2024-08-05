@@ -17,8 +17,7 @@ class QuerySuccessWidget extends StatelessWidget {
             itemBuilder: (context, index) => Card(
                   color: Colors.white10.withOpacity(.2),
                   child: ListTile(
-                    title: QueryItem(
-                        data: state.queries!.elementAt(index)),
+                    title: QueryItem(data: state.queries!.elementAt(index)),
                   ),
                 ));
       },

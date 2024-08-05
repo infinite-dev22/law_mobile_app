@@ -18,15 +18,16 @@ class AppointmentsPageBloc
     on<LoadAppointmentsEvent>(_mapFetchAppointmentsToState);
   }
 
-  _mapRefreshAppointmentsToState(
-      RefreshAppointmentsEvent event, Emitter<AppointmentsPageState> emit) async {
+  _mapRefreshAppointmentsToState(RefreshAppointmentsEvent event,
+      Emitter<AppointmentsPageState> emit) async {
     emit(state.copyWith(status: AppointmentsPageStatus.loading));
     await AppointmentRepoImpl()
         .getAllAppointments(currentUserToken)
         .then((appointments) {
       if (appointments.isNotEmpty) {
         emit(state.copyWith(
-            status: AppointmentsPageStatus.success, appointments: appointments));
+            status: AppointmentsPageStatus.success,
+            appointments: appointments));
       } else {
         emit(state.copyWith(status: AppointmentsPageStatus.empty));
       }
@@ -47,7 +48,8 @@ class AppointmentsPageBloc
         .then((appointments) {
       if (appointments.isNotEmpty) {
         emit(state.copyWith(
-            status: AppointmentsPageStatus.success, appointments: appointments));
+            status: AppointmentsPageStatus.success,
+            appointments: appointments));
       } else {
         emit(state.copyWith(status: AppointmentsPageStatus.empty));
       }

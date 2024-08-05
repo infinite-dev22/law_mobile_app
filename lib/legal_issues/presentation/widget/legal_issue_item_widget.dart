@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 
 import '../../../Global/Variables/colors.dart';
 import '../../data/model/legal_issue.dart';

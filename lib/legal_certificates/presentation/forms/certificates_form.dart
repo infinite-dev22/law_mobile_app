@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:dirm_attorneys_mobile/Global/Widgets/loading_button.dart';
-import 'package:dirm_attorneys_mobile/legal_issues/data/model/legal_issue.dart';
-import 'package:dirm_attorneys_mobile/legal_issues/presentation/bloc/legal_issues_page/legal_issues_pages_bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -151,6 +149,8 @@ class _CertificatesFormState extends State<CertificatesForm> {
       file: File(file!.path!),
     );
 
-    context.read<LegalCertificatesPageBloc>().add(LegalCertificatePostEvent(legalCertificate));
+    context
+        .read<LegalCertificatesPageBloc>()
+        .add(LegalCertificatePostEvent(legalCertificate));
   }
 }

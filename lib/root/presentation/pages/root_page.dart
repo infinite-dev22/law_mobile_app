@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:go_router/go_router.dart';
-import 'package:icons_plus/icons_plus.dart';
 
-import '../../../Global/Theming/bloc/theme_manager_bloc.dart';
 import '../../../Global/Variables/app_runtime_values.dart';
 import '../../../Global/Variables/colors.dart';
 import '../../../dashboard/presentation/pages/dashboard_page.dart';

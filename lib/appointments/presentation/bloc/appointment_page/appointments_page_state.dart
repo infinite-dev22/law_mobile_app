@@ -38,10 +38,10 @@ class AppointmentsPageState extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-    appointments,
-    status,
-    appointment,
-  ];
+        appointments,
+        status,
+        appointment,
+      ];
 
   AppointmentsPageState copyWith({
     List<Appointment>? appointments,

@@ -19,8 +19,8 @@ class LegalDocumentsPageBloc
     on<LegalDocumentPostEvent>(_mapPostLegalDocumentToState);
   }
 
-  _mapRefreshLegalDocumentsToState(
-      RefreshLegalDocumentsEvent event, Emitter<LegalDocumentsPageState> emit) async {
+  _mapRefreshLegalDocumentsToState(RefreshLegalDocumentsEvent event,
+      Emitter<LegalDocumentsPageState> emit) async {
     emit(state.copyWith(status: LegalDocumentsPageStatus.loading));
     await LegalDocumentRepoImpl()
         .getAllLegalDocuments(currentUserToken)
@@ -40,8 +40,8 @@ class LegalDocumentsPageBloc
     });
   }
 
-  _mapFetchLegalDocumentsToState(
-      LoadLegalDocumentsEvent event, Emitter<LegalDocumentsPageState> emit) async {
+  _mapFetchLegalDocumentsToState(LoadLegalDocumentsEvent event,
+      Emitter<LegalDocumentsPageState> emit) async {
     emit(state.copyWith(status: LegalDocumentsPageStatus.loading));
     await LegalDocumentRepoImpl()
         .getAllLegalDocuments(currentUserToken)
@@ -61,14 +61,14 @@ class LegalDocumentsPageBloc
     });
   }
 
-  _mapPostLegalDocumentToState(
-      LegalDocumentPostEvent event, Emitter<LegalDocumentsPageState> emit) async {
+  _mapPostLegalDocumentToState(LegalDocumentPostEvent event,
+      Emitter<LegalDocumentsPageState> emit) async {
     emit(state.copyWith(status: LegalDocumentsPageStatus.posting));
     await LegalDocumentRepoImpl()
         .postLegalDocument(currentUserToken, event.legalDocument)
         .then((documents) {
-      emit(
-          state.copyWith(status: LegalDocumentsPageStatus.posted, documents: documents));
+      emit(state.copyWith(
+          status: LegalDocumentsPageStatus.posted, documents: documents));
     }).onError((error, stackTrace) {
       emit(state.copyWith(status: LegalDocumentsPageStatus.postError));
       if (kDebugMode) {

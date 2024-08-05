@@ -18,15 +18,16 @@ class PublicationsPageBloc
     on<LoadPublicationsEvent>(_mapFetchPublicationsToState);
   }
 
-  _mapRefreshPublicationsToState(
-      RefreshPublicationsEvent event, Emitter<PublicationsPageState> emit) async {
+  _mapRefreshPublicationsToState(RefreshPublicationsEvent event,
+      Emitter<PublicationsPageState> emit) async {
     emit(state.copyWith(status: PublicationsPageStatus.loading));
     await PublicationRepoImpl()
         .getAllPublications(currentUserToken)
         .then((publications) {
       if (publications.isNotEmpty) {
         emit(state.copyWith(
-            status: PublicationsPageStatus.success, publications: publications));
+            status: PublicationsPageStatus.success,
+            publications: publications));
       } else {
         emit(state.copyWith(status: PublicationsPageStatus.empty));
       }
@@ -47,7 +48,8 @@ class PublicationsPageBloc
         .then((publications) {
       if (publications.isNotEmpty) {
         emit(state.copyWith(
-            status: PublicationsPageStatus.success, publications: publications));
+            status: PublicationsPageStatus.success,
+            publications: publications));
       } else {
         emit(state.copyWith(status: PublicationsPageStatus.empty));
       }

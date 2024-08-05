@@ -8,8 +8,8 @@ class AppointmentRepoImpl extends AppointmentRepo {
     // throw UnimplementedError();
     List<Appointment> getAppointments() {
       return [
-        Appointment('DA-001', 'Admin', 'Demo Appointment 2', 'Dirm Attorneys Appointment.pdf',
-            'Pending'),
+        Appointment('DA-001', 'Admin', 'Demo Appointment 2',
+            'Dirm Attorneys Appointment.pdf', 'Pending'),
         Appointment('DA-002', 'Admin', 'Demo Legal Appointment',
             'Dirm Attorneys Appointment.pdf', 'Pending'),
         Appointment('DA-003', 'Admin', 'Demo Legal Appointment',

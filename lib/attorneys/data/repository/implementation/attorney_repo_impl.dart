@@ -8,8 +8,8 @@ class AttorneyRepoImpl extends AttorneyRepo {
     // throw UnimplementedError();
     List<Attorney> getAttorneys() {
       return [
-        Attorney('DA-001', 'Admin', 'Demo Attorney 2', 'Dirm Attorneys Attorney.pdf',
-            'Pending'),
+        Attorney('DA-001', 'Admin', 'Demo Attorney 2',
+            'Dirm Attorneys Attorney.pdf', 'Pending'),
         Attorney('DA-002', 'Admin', 'Demo Legal Attorney',
             'Dirm Attorneys Attorney.pdf', 'Pending'),
         Attorney('DA-003', 'Admin', 'Demo Legal Attorney',

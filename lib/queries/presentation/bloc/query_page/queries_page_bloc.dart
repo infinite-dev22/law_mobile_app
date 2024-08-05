@@ -11,8 +11,7 @@ import '../../../data/repository/implementation/query_repo_impl.dart';
 part 'queries_page_event.dart';
 part 'queries_page_state.dart';
 
-class QueriesPageBloc
-    extends Bloc<QueriesPageEvent, QueriesPageState> {
+class QueriesPageBloc extends Bloc<QueriesPageEvent, QueriesPageState> {
   QueriesPageBloc() : super(const QueriesPageState()) {
     on<RefreshQueriesEvent>(_mapRefreshQueriesToState);
     on<LoadQueriesEvent>(_mapFetchQueriesToState);
@@ -21,9 +20,7 @@ class QueriesPageBloc
   _mapRefreshQueriesToState(
       RefreshQueriesEvent event, Emitter<QueriesPageState> emit) async {
     emit(state.copyWith(status: QueriesPageStatus.loading));
-    await QueryRepoImpl()
-        .getAllQueries(currentUserToken)
-        .then((queries) {
+    await QueryRepoImpl().getAllQueries(currentUserToken).then((queries) {
       if (queries.isNotEmpty) {
         emit(state.copyWith(
             status: QueriesPageStatus.success, queries: queries));
@@ -42,9 +39,7 @@ class QueriesPageBloc
   _mapFetchQueriesToState(
       LoadQueriesEvent event, Emitter<QueriesPageState> emit) async {
     emit(state.copyWith(status: QueriesPageStatus.loading));
-    await QueryRepoImpl()
-        .getAllQueries(currentUserToken)
-        .then((queries) {
+    await QueryRepoImpl().getAllQueries(currentUserToken).then((queries) {
       if (queries.isNotEmpty) {
         emit(state.copyWith(
             status: QueriesPageStatus.success, queries: queries));
@@ -67,8 +62,7 @@ class QueriesPageBloc
   }
 
   @override
-  void onTransition(
-      Transition<QueriesPageEvent, QueriesPageState> transition) {
+  void onTransition(Transition<QueriesPageEvent, QueriesPageState> transition) {
     log(transition.toString());
     super.onTransition(transition);
   }

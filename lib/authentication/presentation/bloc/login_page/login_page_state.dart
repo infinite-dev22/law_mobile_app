@@ -28,8 +28,8 @@ class LoginPageState extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-    status,
-  ];
+        status,
+      ];
 
   LoginPageState copyWith({
     LoginPageStatus? status,
@@ -41,4 +41,3 @@ class LoginPageState extends Equatable {
     );
   }
 }
-

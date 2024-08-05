@@ -47,10 +47,10 @@ class LegalCertificatesPageState extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-    certificates,
-    status,
-    certificate,
-  ];
+        certificates,
+        status,
+        certificate,
+      ];
 
   LegalCertificatesPageState copyWith({
     List<LegalCertificate>? certificates,

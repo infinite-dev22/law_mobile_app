@@ -15,7 +15,7 @@ class LegalCertificateSuccessWidget extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             itemCount: state.certificates!.length,
             itemBuilder: (context, index) => Card(
-              color: Colors.white10.withOpacity(.2),
+                  color: Colors.white10.withOpacity(.2),
                   child: ListTile(
                     title: LegalCertificateItem(
                         data: state.certificates!.elementAt(index)),

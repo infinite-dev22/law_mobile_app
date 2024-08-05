@@ -11,8 +11,7 @@ import '../../../data/repository/implementation/attorney_repo_impl.dart';
 part 'attorneys_page_event.dart';
 part 'attorneys_page_state.dart';
 
-class AttorneysPageBloc
-    extends Bloc<AttorneysPageEvent, AttorneysPageState> {
+class AttorneysPageBloc extends Bloc<AttorneysPageEvent, AttorneysPageState> {
   AttorneysPageBloc() : super(const AttorneysPageState()) {
     on<RefreshAttorneysEvent>(_mapRefreshAttorneysToState);
     on<LoadAttorneysEvent>(_mapFetchAttorneysToState);

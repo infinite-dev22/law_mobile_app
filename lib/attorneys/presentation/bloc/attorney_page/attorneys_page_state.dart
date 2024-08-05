@@ -38,10 +38,10 @@ class AttorneysPageState extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-    attorneys,
-    status,
-    attorney,
-  ];
+        attorneys,
+        status,
+        attorney,
+      ];
 
   AttorneysPageState copyWith({
     List<Attorney>? attorneys,

@@ -8,8 +8,8 @@ class PublicationRepoImpl extends PublicationRepo {
     // throw UnimplementedError();
     List<Publication> getPublications() {
       return [
-        Publication('DA-001', 'Admin', 'Demo Publication 2', 'Dirm Attorneys Publication.pdf',
-            'Pending'),
+        Publication('DA-001', 'Admin', 'Demo Publication 2',
+            'Dirm Attorneys Publication.pdf', 'Pending'),
         Publication('DA-002', 'Admin', 'Demo Legal Publication',
             'Dirm Attorneys Publication.pdf', 'Pending'),
         Publication('DA-003', 'Admin', 'Demo Legal Publication',

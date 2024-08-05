@@ -11,7 +11,6 @@ import '../../../data/repository/implementation/legal_certificate_repo_impl.dart
 part 'legal_certificates_page_event.dart';
 part 'legal_certificates_page_state.dart';
 
-
 class LegalCertificatesPageBloc
     extends Bloc<LegalCertificatesPageEvent, LegalCertificatesPageState> {
   LegalCertificatesPageBloc() : super(const LegalCertificatesPageState()) {
@@ -20,15 +19,16 @@ class LegalCertificatesPageBloc
     on<LegalCertificatePostEvent>(_mapPostLegalCertificateToState);
   }
 
-  _mapRefreshLegalCertificatesToState(
-      RefreshLegalCertificatesEvent event, Emitter<LegalCertificatesPageState> emit) async {
+  _mapRefreshLegalCertificatesToState(RefreshLegalCertificatesEvent event,
+      Emitter<LegalCertificatesPageState> emit) async {
     emit(state.copyWith(status: LegalCertificatesPageStatus.loading));
     await LegalCertificateRepoImpl()
         .getAllLegalCertificates(currentUserToken)
         .then((certificates) {
       if (certificates.isNotEmpty) {
         emit(state.copyWith(
-            status: LegalCertificatesPageStatus.success, certificates: certificates));
+            status: LegalCertificatesPageStatus.success,
+            certificates: certificates));
       } else {
         emit(state.copyWith(status: LegalCertificatesPageStatus.empty));
       }
@@ -41,15 +41,16 @@ class LegalCertificatesPageBloc
     });
   }
 
-  _mapFetchLegalCertificatesToState(
-      LoadLegalCertificatesEvent event, Emitter<LegalCertificatesPageState> emit) async {
+  _mapFetchLegalCertificatesToState(LoadLegalCertificatesEvent event,
+      Emitter<LegalCertificatesPageState> emit) async {
     emit(state.copyWith(status: LegalCertificatesPageStatus.loading));
     await LegalCertificateRepoImpl()
         .getAllLegalCertificates(currentUserToken)
         .then((certificates) {
       if (certificates.isNotEmpty) {
         emit(state.copyWith(
-            status: LegalCertificatesPageStatus.success, certificates: certificates));
+            status: LegalCertificatesPageStatus.success,
+            certificates: certificates));
       } else {
         emit(state.copyWith(status: LegalCertificatesPageStatus.empty));
       }
@@ -62,14 +63,15 @@ class LegalCertificatesPageBloc
     });
   }
 
-  _mapPostLegalCertificateToState(
-      LegalCertificatePostEvent event, Emitter<LegalCertificatesPageState> emit) async {
+  _mapPostLegalCertificateToState(LegalCertificatePostEvent event,
+      Emitter<LegalCertificatesPageState> emit) async {
     emit(state.copyWith(status: LegalCertificatesPageStatus.posting));
     await LegalCertificateRepoImpl()
         .postLegalCertificate(currentUserToken, event.legalCertificate)
         .then((certificates) {
-      emit(
-          state.copyWith(status: LegalCertificatesPageStatus.posted, certificates: certificates));
+      emit(state.copyWith(
+          status: LegalCertificatesPageStatus.posted,
+          certificates: certificates));
     }).onError((error, stackTrace) {
       emit(state.copyWith(status: LegalCertificatesPageStatus.postError));
       if (kDebugMode) {
@@ -87,7 +89,8 @@ class LegalCertificatesPageBloc
 
   @override
   void onTransition(
-      Transition<LegalCertificatesPageEvent, LegalCertificatesPageState> transition) {
+      Transition<LegalCertificatesPageEvent, LegalCertificatesPageState>
+          transition) {
     log(transition.toString());
     super.onTransition(transition);
   }

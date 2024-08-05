@@ -1,3 +1,1 @@
-class ThemeManager {
-
-}
+class ThemeManager {}

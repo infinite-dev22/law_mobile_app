@@ -17,8 +17,8 @@ class AttorneySuccessWidget extends StatelessWidget {
             itemBuilder: (context, index) => Card(
                   color: Colors.white10.withOpacity(.2),
                   child: ListTile(
-                    title: AttorneyItem(
-                        data: state.attorneys!.elementAt(index)),
+                    title:
+                        AttorneyItem(data: state.attorneys!.elementAt(index)),
                   ),
                 ));
       },

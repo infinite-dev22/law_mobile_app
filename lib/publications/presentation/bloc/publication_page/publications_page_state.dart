@@ -38,10 +38,10 @@ class PublicationsPageState extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-    publications,
-    status,
-    publication,
-  ];
+        publications,
+        status,
+        publication,
+      ];
 
   PublicationsPageState copyWith({
     List<Publication>? publications,
