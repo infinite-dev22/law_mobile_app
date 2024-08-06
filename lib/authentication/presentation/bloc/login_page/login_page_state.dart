@@ -20,24 +20,26 @@ extension LoginPageStatusX on LoginPageStatus {
 @immutable
 class LoginPageState extends Equatable {
   final LoginPageStatus status;
+  final String? message;
 
   const LoginPageState({
     this.status = LoginPageStatus.initial,
+    this.message,
   });
 
   @override
-  // TODO: implement props
   List<Object?> get props => [
         status,
+        message,
       ];
 
   LoginPageState copyWith({
     LoginPageStatus? status,
-    bool? isLoginLoading,
     String? message,
   }) {
     return LoginPageState(
       status: status ?? this.status,
+      message: message ?? this.message,
     );
   }
 }

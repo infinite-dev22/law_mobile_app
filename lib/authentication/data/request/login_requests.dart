@@ -1,13 +1,13 @@
-import 'dart:convert' as convert;
 import 'dart:io';
 
 import 'package:dio/dio.dart' as http;
+import 'package:dirm_attorneys_mobile/authentication/data/model/login_response_model.dart';
 import 'package:native_dio_adapter/native_dio_adapter.dart' as nda;
 
 import '../../../Global/Variables/strings.dart';
 
 class LoginRequests {
-  static Future<dynamic> postLogin(Map<String, dynamic> body) async {
+  static Future<LoginResponseModel?> postLogin(Map<String, dynamic> body) async {
     final client = http.Dio();
     client.httpClientAdapter = nda.NativeAdapter();
     client.options.headers = {
@@ -16,14 +16,20 @@ class LoginRequests {
 
     var url = Uri.https(APP_DNS, '/api/v1/authenicate');
 
-    var response = await client.post(url.toString(), data: body);
-    if (response.statusCode == 201) {
-      var jsonResponse =
-          convert.jsonDecode(convert.utf8.decode(response.data)) as Map;
-      return jsonResponse;
-    } else {
-      throw Error();
-      // throw Exception("An error occurred");
-    }
+    LoginResponseModel? responseModel;
+    await client.post(url.toString(), data: body).then(
+      (value) {
+        if (value.statusCode == 200) {
+          responseModel = LoginResponseModel.fromJson(value.data);
+        } else {
+          throw Exception("An error occurred");
+        }
+      },
+    ).onError(
+      (error, stackTrace) {
+        throw Exception(error);
+      },
+    );
+    return responseModel;
   }
 }

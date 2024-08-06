@@ -112,20 +112,16 @@ class LoginPage extends StatelessWidget {
       },
       listener: (BuildContext context, LoginPageState state) {
         if (state.status.isInitial) {
-          Toast.show("Login initial",
-              duration: Toast.lengthShort, gravity: Toast.bottom);
-        }
-        if (state.status.isLoading) {
-          Toast.show("Login loading",
+          Toast.show(state.message!,
               duration: Toast.lengthShort, gravity: Toast.bottom);
         }
         if (state.status.isSuccess) {
-          Toast.show("Login Success",
+          Toast.show(state.message!,
               duration: Toast.lengthShort, gravity: Toast.bottom);
           GoRouter.of(context).goNamed("dashboard");
         }
         if (state.status.isError) {
-          Toast.show("Login error",
+          Toast.show(state.message!,
               duration: Toast.lengthShort, gravity: Toast.bottom);
         }
       },
