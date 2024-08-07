@@ -16,7 +16,7 @@ class LoginRequests {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    var url = Uri.https(APP_DNS, '/api/v1/authenicate');
+    var url = Uri.https(appDNS, '/api/v1/authenicate');
 
     LoginResponseModel? responseModel;
     await client.post(url.toString(), data: body).then(

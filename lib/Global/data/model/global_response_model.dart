@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class GlobalResponseModel extends Equatable {
-  GlobalResponseModel({
+  const GlobalResponseModel({
     required this.status,
     required this.message,
     required this.data,
@@ -23,7 +23,7 @@ class GlobalResponseModel extends Equatable {
     );
   }
 
-  factory GlobalResponseModel.fromJson(Map<String, dynamic> json){
+  factory GlobalResponseModel.fromJson(Map<String, dynamic> json) {
     return GlobalResponseModel(
       status: json["status"],
       message: json["message"],
@@ -32,13 +32,15 @@ class GlobalResponseModel extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "message": message,
-    "data": data,
-  };
+        "status": status,
+        "message": message,
+        "data": data,
+      };
 
   @override
   List<Object?> get props => [
-    status, message, data, ];
-
+        status,
+        message,
+        data,
+      ];
 }

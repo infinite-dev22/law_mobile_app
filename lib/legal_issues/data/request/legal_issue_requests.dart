@@ -16,7 +16,7 @@ class LegalIssueRequests {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    var url = Uri.https(APP_DNS, '/api/v1/get_legal_issues');
+    var url = Uri.https(appDNS, '/api/v1/get_legal_issues');
 
     List<LegalIssue> responseModel = List.empty(growable: true);
     await client.get(url.toString()).then(
@@ -42,7 +42,7 @@ class LegalIssueRequests {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    var url = Uri.https(APP_DNS, '/api/v1/add_legal_issue');
+    var url = Uri.https(appDNS, '/api/v1/add_legal_issue');
 
     GlobalResponseModel? responseModel;
     await client.post(url.toString(), data: body).then(

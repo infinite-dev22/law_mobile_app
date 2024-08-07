@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Client extends Equatable {
-  Client({
+  const Client({
     required this.id,
     required this.name,
     required this.username,
@@ -28,8 +28,8 @@ class Client extends Equatable {
     String? name,
     String? username,
     String? email,
-    dynamic? emailVerifiedAt,
-    dynamic? phone,
+    dynamic emailVerifiedAt,
+    dynamic phone,
     String? avatar,
     DateTime? createdAt,
     DateTime? updatedAt,

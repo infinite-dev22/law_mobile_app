@@ -1,16 +1,9 @@
-import 'package:dirm_attorneys_mobile/legal_cases/presentation/pages/legal_cases_page.dart';
-import 'package:dirm_attorneys_mobile/legal_certificates/presentation/pages/legal_certificates_page.dart';
-import 'package:dirm_attorneys_mobile/legal_documents/presentation/pages/legal_documents_page.dart';
-import 'package:dirm_attorneys_mobile/legal_issues/presentation/pages/legal_issues_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../Global/Variables/app_runtime_values.dart';
 import '../../../Global/Variables/colors.dart';
-import '../../../dashboard/presentation/pages/dashboard_page.dart';
-import '../bloc/nav_bar_bloc.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key, required this.child});
@@ -32,21 +25,19 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NavBarBloc, NavBarState>(builder: (context, state) {
-      return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        resizeToAvoidBottomInset: false,
-        bottomNavigationBar: NavigationBar(
-          backgroundColor: Theme.of(context).colorScheme.secondary,
-          destinations: _destinations(),
-          selectedIndex: _calculateSelectedIndex(context),
-          indicatorColor: AppColors.primaryLight,
-          onDestinationSelected: (value) => _onItemTapped(value, context),
-        ),
-        body: widget.child,
-      );
-    });
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      resizeToAvoidBottomInset: false,
+      bottomNavigationBar: NavigationBar(
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        destinations: _destinations(),
+        selectedIndex: _calculateSelectedIndex(context),
+        indicatorColor: AppColors.primaryLight,
+        onDestinationSelected: (value) => _onItemTapped(value, context),
+      ),
+      body: widget.child,
+    );
   }
 
   List<NavigationDestination> _destinations() {
@@ -71,16 +62,6 @@ class _RootPageState extends State<RootPage> {
         label: "Cases",
         icon: Icon(FeatherIcons.briefcase),
       ),
-    ];
-  }
-
-  List<Widget> _pages() {
-    return [
-      const DashboardPage(),
-      const LegalIssuesPage(),
-      const LegalDocumentsPage(),
-      const LegalCertificatesPage(),
-      const LegalCasesPage(),
     ];
   }
 

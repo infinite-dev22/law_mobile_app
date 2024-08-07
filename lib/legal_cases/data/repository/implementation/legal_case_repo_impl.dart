@@ -13,12 +13,13 @@ class LegalCaseRepoImpl extends LegalCaseRepo {
         .then((value) => legalCases = value)
         .onError(
           (error, stackTrace) => throw Exception(error),
-    );
+        );
     return legalCases;
   }
 
   @override
-  Future<GlobalResponseModel?> postLegalCase(String authToken, LegalCase data) async {
+  Future<GlobalResponseModel?> postLegalCase(
+      String authToken, LegalCase data) async {
     GlobalResponseModel? response;
 
     FormData formData = FormData.fromMap({
@@ -31,7 +32,7 @@ class LegalCaseRepoImpl extends LegalCaseRepo {
     LegalCaseRequests.postLegalCase(authToken, formData).then((value) {
       response = value;
     }).onError(
-          (error, stackTrace) {
+      (error, stackTrace) {
         response = GlobalResponseModel.fromJson(const {
           "status": true,
           "message": "An error occurred whilst adding an issue.",

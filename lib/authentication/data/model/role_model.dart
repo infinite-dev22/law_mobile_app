@@ -42,19 +42,19 @@ class RoleModel extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "guard_name": guardName,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
-  };
+        "id": id,
+        "name": name,
+        "guard_name": guardName,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+      };
 
   @override
   List<Object?> get props => [
-    id,
-    name,
-    guardName,
-    createdAt,
-    updatedAt,
-  ];
+        id,
+        name,
+        guardName,
+        createdAt,
+        updatedAt,
+      ];
 }

@@ -8,7 +8,8 @@ import '../../../Global/Variables/strings.dart';
 import '../../../Global/data/model/global_response_model.dart';
 
 class LegalCertificateRequests {
-  static Future<List<LegalCertificate>> getLegalCertificates(String authToken) async {
+  static Future<List<LegalCertificate>> getLegalCertificates(
+      String authToken) async {
     final client = http.Dio();
     client.httpClientAdapter = nda.NativeAdapter();
     client.options.headers = {
@@ -16,7 +17,7 @@ class LegalCertificateRequests {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    var url = Uri.https(APP_DNS, '/api/v1/get_legal_issues');
+    var url = Uri.https(appDNS, '/api/v1/get_legal_issues');
 
     List<LegalCertificate> responseModel = List.empty(growable: true);
     await client.get(url.toString()).then(
@@ -42,7 +43,7 @@ class LegalCertificateRequests {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    var url = Uri.https(APP_DNS, '/api/v1/add_certify_document');
+    var url = Uri.https(appDNS, '/api/v1/add_certify_document');
 
     GlobalResponseModel? responseModel;
     await client.post(url.toString(), data: body).then(

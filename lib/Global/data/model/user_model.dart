@@ -66,34 +66,35 @@ class UserModel extends Equatable {
       updatedAt: DateTime.tryParse(json["updated_at"] ?? ""),
       roles: json["roles"] == null
           ? []
-          : List<RoleModel>.from(json["roles"]!.map((x) => RoleModel.fromJson(x))),
+          : List<RoleModel>.from(
+              json["roles"]!.map((x) => RoleModel.fromJson(x))),
     );
   }
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "username": username,
-    "email": email,
-    "email_verified_at": emailVerifiedAt,
-    "phone": phone,
-    "avatar": avatar,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
-    "roles": roles.map((x) => x.toJson()).toList(),
-  };
+        "id": id,
+        "name": name,
+        "username": username,
+        "email": email,
+        "email_verified_at": emailVerifiedAt,
+        "phone": phone,
+        "avatar": avatar,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "roles": roles.map((x) => x.toJson()).toList(),
+      };
 
   @override
   List<Object?> get props => [
-    id,
-    name,
-    username,
-    email,
-    emailVerifiedAt,
-    phone,
-    avatar,
-    createdAt,
-    updatedAt,
-    roles,
-  ];
+        id,
+        name,
+        username,
+        email,
+        emailVerifiedAt,
+        phone,
+        avatar,
+        createdAt,
+        updatedAt,
+        roles,
+      ];
 }

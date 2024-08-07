@@ -16,7 +16,7 @@ class LegalDocumentRequests {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    var url = Uri.https(APP_DNS, '/api/v1/get_legal_documents');
+    var url = Uri.https(appDNS, '/api/v1/get_legal_documents');
 
     List<LegalDocument> responseModel = List.empty(growable: true);
     await client.get(url.toString()).then(
@@ -42,7 +42,7 @@ class LegalDocumentRequests {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    var url = Uri.https(APP_DNS, '/api/v1/add_legal_document');
+    var url = Uri.https(appDNS, '/api/v1/add_legal_document');
 
     GlobalResponseModel? responseModel;
     await client.post(url.toString(), data: body).then(

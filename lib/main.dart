@@ -13,7 +13,6 @@ import 'package:dirm_attorneys_mobile/publications/presentation/bloc/publication
 import 'package:dirm_attorneys_mobile/publications/presentation/pages/publications_page.dart';
 import 'package:dirm_attorneys_mobile/queries/presentation/bloc/query_page/queries_page_bloc.dart';
 import 'package:dirm_attorneys_mobile/queries/presentation/pages/queries_page.dart';
-import 'package:dirm_attorneys_mobile/root/presentation/bloc/nav_bar_bloc.dart';
 import 'package:dirm_attorneys_mobile/root/presentation/pages/root_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +30,6 @@ void main() {
     providers: [
       BlocProvider(create: (context) => ThemeManagerBloc()),
       BlocProvider(create: (context) => LoginPageBloc()),
-      BlocProvider(create: (context) => NavBarBloc()),
     ],
     child: BlocProvider<ThemeManagerBloc>(
         create: (context) => ThemeManagerBloc()..add(InitialThemeEvent()),

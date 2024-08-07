@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class LoginErrorResponseModel extends Equatable {
-  LoginErrorResponseModel({
+  const LoginErrorResponseModel({
     required this.status,
     required this.message,
     required this.data,
@@ -23,7 +23,7 @@ class LoginErrorResponseModel extends Equatable {
     );
   }
 
-  factory LoginErrorResponseModel.fromJson(Map<String, dynamic> json){
+  factory LoginErrorResponseModel.fromJson(Map<String, dynamic> json) {
     return LoginErrorResponseModel(
       status: json["status"],
       message: json["message"],
@@ -32,13 +32,15 @@ class LoginErrorResponseModel extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "message": message,
-    "data": data,
-  };
+        "status": status,
+        "message": message,
+        "data": data,
+      };
 
   @override
   List<Object?> get props => [
-    status, message, data, ];
-
+        status,
+        message,
+        data,
+      ];
 }
