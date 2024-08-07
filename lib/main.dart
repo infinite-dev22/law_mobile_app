@@ -32,14 +32,6 @@ void main() {
       BlocProvider(create: (context) => ThemeManagerBloc()),
       BlocProvider(create: (context) => LoginPageBloc()),
       BlocProvider(create: (context) => NavBarBloc()),
-      BlocProvider(create: (context) => LegalIssuesPagesBloc()),
-      BlocProvider(create: (context) => LegalDocumentsPageBloc()),
-      BlocProvider(create: (context) => LegalCertificatesPageBloc()),
-      BlocProvider(create: (context) => LegalCasesPageBloc()),
-      BlocProvider(create: (context) => AppointmentsPageBloc()),
-      BlocProvider(create: (context) => PublicationsPageBloc()),
-      BlocProvider(create: (context) => AttorneysPageBloc()),
-      BlocProvider(create: (context) => QueriesPageBloc()),
     ],
     child: BlocProvider<ThemeManagerBloc>(
         create: (context) => ThemeManagerBloc()..add(InitialThemeEvent()),
@@ -74,42 +66,66 @@ GoRouter _router = GoRouter(
         GoRoute(
           name: 'issues',
           path: "/issues",
-          builder: (context, state) => const LegalIssuesPage(),
+          builder: (context, state) => BlocProvider(
+            create: (context) => LegalIssuesPagesBloc(),
+            child: const LegalIssuesPage(),
+          ),
         ),
         GoRoute(
           name: 'documents',
           path: "/documents",
-          builder: (context, state) => const LegalDocumentsPage(),
+          builder: (context, state) => BlocProvider(
+            create: (context) => LegalDocumentsPageBloc(),
+            child: const LegalDocumentsPage(),
+          ),
         ),
         GoRoute(
           name: 'certificates',
           path: "/certificates",
-          builder: (context, state) => const LegalCertificatesPage(),
+          builder: (context, state) => BlocProvider(
+            create: (context) => LegalCertificatesPageBloc(),
+            child: const LegalCertificatesPage(),
+          ),
         ),
         GoRoute(
           name: 'cases',
           path: "/cases",
-          builder: (context, state) => const LegalCasesPage(),
+          builder: (context, state) => BlocProvider(
+            create: (context) => LegalCasesPageBloc(),
+            child: const LegalCasesPage(),
+          ),
         ),
         GoRoute(
           name: 'appointments',
           path: "/appointments",
-          builder: (context, state) => const AppointmentsPage(),
+          builder: (context, state) => BlocProvider(
+            create: (context) => AppointmentsPageBloc(),
+            child: const AppointmentsPage(),
+          ),
         ),
         GoRoute(
           name: 'publications',
           path: "/publications",
-          builder: (context, state) => const PublicationsPage(),
+          builder: (context, state) => BlocProvider(
+            create: (context) => PublicationsPageBloc(),
+            child: const PublicationsPage(),
+          ),
         ),
         GoRoute(
           name: 'attorneys',
           path: "/attorneys",
-          builder: (context, state) => const AttorneysPage(),
+          builder: (context, state) => BlocProvider(
+            create: (context) => AttorneysPageBloc(),
+            child: const AttorneysPage(),
+          ),
         ),
         GoRoute(
           name: 'queries',
           path: "/queries",
-          builder: (context, state) => const QueriesPage(),
+          builder: (context, state) => BlocProvider(
+            create: (context) => QueriesPageBloc(),
+            child: const QueriesPage(),
+          ),
         ),
       ],
     ),
