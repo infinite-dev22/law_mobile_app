@@ -4,10 +4,12 @@ import 'package:dio/dio.dart' as http;
 import 'package:dirm_attorneys_mobile/authentication/data/model/login_response_model.dart';
 import 'package:native_dio_adapter/native_dio_adapter.dart' as nda;
 
+import '../../../Global/Variables/app_runtime_values.dart';
 import '../../../Global/Variables/strings.dart';
 
 class LoginRequests {
-  static Future<LoginResponseModel?> postLogin(Map<String, dynamic> body) async {
+  static Future<LoginResponseModel?> postLogin(
+      Map<String, dynamic> body) async {
     final client = http.Dio();
     client.httpClientAdapter = nda.NativeAdapter();
     client.options.headers = {
@@ -21,6 +23,7 @@ class LoginRequests {
       (value) {
         if (value.statusCode == 200) {
           responseModel = LoginResponseModel.fromJson(value.data);
+          authData = responseModel!;
         } else {
           throw Exception("An error occurred");
         }
