@@ -18,28 +18,40 @@ class LoginPageBloc extends Bloc<LoginPageEvent, LoginPageState> {
   _mapPostLoginToState(
       LoginPostEvent event, Emitter<LoginPageState> emit) async {
     emit(state.copyWith(status: LoginPageStatus.loading));
-    await LoginRepoImpl().postLogin(event.loginModel).then((value) {
+    try {
+      await LoginRepoImpl().postLogin(event.loginModel).then((value) {
+        emit(
+          state.copyWith(
+              status: LoginPageStatus.success,
+              message: "Successfully logged in"),
+        );
+      }).onError((error, stackTrace) {
+        if (error.toString().contains("401")) {
+          emit(
+            state.copyWith(
+                status: LoginPageStatus.error,
+                message: "Invalid login details"),
+          );
+        } else {
+          emit(
+            state.copyWith(
+                status: LoginPageStatus.error, message: "An error occurred"),
+          );
+        }
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
       emit(
         state.copyWith(
-            status: LoginPageStatus.success, message: "Successfully logged in"),
+            status: LoginPageStatus.error, message: "An error occurred"),
       );
-    }).onError((error, stackTrace) {
-      if (error.toString().contains("401")) {
-        emit(
-          state.copyWith(
-              status: LoginPageStatus.error, message: "Invalid login details"),
-        );
-      } else {
-        emit(
-          state.copyWith(
-              status: LoginPageStatus.error, message: "An error occurred"),
-        );
-      }
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   @override

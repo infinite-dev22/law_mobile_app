@@ -35,10 +35,11 @@ class LegalCertificatesPage extends StatelessWidget {
             enableDrag: true,
             showDragHandle: true,
             isScrollControlled: true,
+            isDismissible: false,
             builder: (context) => Padding(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: const CertificatesForm(),
+              child: const SingleChildScrollView(child: CertificatesForm()),
             ),
           );
         },
@@ -65,7 +66,7 @@ class LegalCertificatesPage extends StatelessWidget {
           if (state.status.isError) {
             return const GlobalErrorWidget();
           }
-          return const GlobalLoadingWidget();
+          return const NoCertificatesWidget();
         },
         listener: (context, state) {
           if (state.status.isInitial) {

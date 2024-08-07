@@ -88,18 +88,18 @@ class _IssuesFormState extends State<IssuesForm> {
           MwigoTextField(
             label: "Title",
             controller: _titleController,
-            disabled: state.status.isPosting || state.status.isPostError,
+            disabled: state.status.isPosting,
           ),
           const SizedBox(height: 8),
           MwigoTextArea(
             label: "Description",
             controller: _descriptionController,
-            disabled: state.status.isPosting || state.status.isPostError,
+            disabled: state.status.isPosting,
           ),
           const SizedBox(height: 8),
           LoadingButton(
             text: file == null ? "Attach Document" : file!.name,
-            disabled: state.status.isPosting || state.status.isPostError,
+            disabled: state.status.isPosting,
             onTap: () => _pickFile(),
           ),
           const SizedBox(height: 80),
@@ -110,15 +110,15 @@ class _IssuesFormState extends State<IssuesForm> {
                 width: constraints.maxWidth * .3,
                 text: "Cancel",
                 outlined: true,
-                disabled: state.status.isPosting || state.status.isPostError,
+                disabled: state.status.isPosting,
                 onTap: () {
-                  setState(() {});
+                  GoRouter.of(context).pop();
                 },
               ),
               LoadingButton(
                 width: constraints.maxWidth * .6,
                 text: "Create issue",
-                busy: state.status.isPosting || state.status.isPostError,
+                busy: state.status.isPosting,
                 onTap: () {
                   setState(() {});
                   if (file != null) {

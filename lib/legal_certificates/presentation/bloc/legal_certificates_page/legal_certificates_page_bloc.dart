@@ -22,63 +22,82 @@ class LegalCertificatesPageBloc
   _mapRefreshLegalCertificatesToState(RefreshLegalCertificatesEvent event,
       Emitter<LegalCertificatesPageState> emit) async {
     emit(state.copyWith(status: LegalCertificatesPageStatus.loading));
-    await LegalCertificateRepoImpl()
-        .getAllLegalCertificates(currentUserToken)
-        .then((certificates) {
-      if (certificates.isNotEmpty) {
-        emit(state.copyWith(
-            status: LegalCertificatesPageStatus.success,
-            certificates: certificates));
-      } else {
-        emit(state.copyWith(status: LegalCertificatesPageStatus.empty));
-      }
-    }).onError((error, stackTrace) {
+    try {
+      await LegalCertificateRepoImpl()
+          .getAllLegalCertificates(authData.data!.token!)
+          .then((certificates) {
+        if (certificates.isNotEmpty) {
+          emit(state.copyWith(
+              status: LegalCertificatesPageStatus.success,
+              certificates: certificates));
+        } else {
+          emit(state.copyWith(status: LegalCertificatesPageStatus.empty));
+        }
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalCertificatesPageStatus.error));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
       emit(state.copyWith(status: LegalCertificatesPageStatus.error));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   _mapFetchLegalCertificatesToState(LoadLegalCertificatesEvent event,
       Emitter<LegalCertificatesPageState> emit) async {
     emit(state.copyWith(status: LegalCertificatesPageStatus.loading));
-    await LegalCertificateRepoImpl()
-        .getAllLegalCertificates(currentUserToken)
-        .then((certificates) {
-      if (certificates.isNotEmpty) {
-        emit(state.copyWith(
-            status: LegalCertificatesPageStatus.success,
-            certificates: certificates));
-      } else {
-        emit(state.copyWith(status: LegalCertificatesPageStatus.empty));
-      }
-    }).onError((error, stackTrace) {
+    try {
+      await LegalCertificateRepoImpl()
+          .getAllLegalCertificates(authData.data!.token!)
+          .then((certificates) {
+        if (certificates.isNotEmpty) {
+          emit(state.copyWith(
+              status: LegalCertificatesPageStatus.success,
+              certificates: certificates));
+        } else {
+          emit(state.copyWith(status: LegalCertificatesPageStatus.empty));
+        }
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalCertificatesPageStatus.error));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
       emit(state.copyWith(status: LegalCertificatesPageStatus.error));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   _mapPostLegalCertificateToState(LegalCertificatePostEvent event,
       Emitter<LegalCertificatesPageState> emit) async {
     emit(state.copyWith(status: LegalCertificatesPageStatus.posting));
-    await LegalCertificateRepoImpl()
-        .postLegalCertificate(currentUserToken, event.legalCertificate)
-        .then((certificates) {
-      emit(state.copyWith(
-          status: LegalCertificatesPageStatus.posted,
-          certificates: certificates));
-    }).onError((error, stackTrace) {
+    try {
+      await LegalCertificateRepoImpl()
+          .postLegalCertificate(authData.data!.token!, event.legalCertificate)
+          .then((response) {
+        emit(state.copyWith(status: LegalCertificatesPageStatus.posted));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalCertificatesPageStatus.postError));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
       emit(state.copyWith(status: LegalCertificatesPageStatus.postError));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   @override

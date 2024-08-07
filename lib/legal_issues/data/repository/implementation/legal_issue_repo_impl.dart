@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dirm_attorneys_mobile/Global/data/model/global_response_model.dart';
 import 'package:dirm_attorneys_mobile/legal_issues/data/model/legal_issue.dart';
 
 import '../../request/legal_issue_requests.dart';
@@ -9,13 +10,17 @@ class LegalIssueRepoImpl extends LegalIssueRepo {
   Future<List<LegalIssue>> getAllLegalIssues(String authToken) async {
     List<LegalIssue> legalIssues = List.empty(growable: true);
     LegalIssueRequests.getLegalIssues(authToken)
-        .then((value) => legalIssues = value);
+        .then((value) => legalIssues = value)
+        .onError(
+          (error, stackTrace) => throw Exception(error),
+        );
     return legalIssues;
   }
 
   @override
-  Future<dynamic> postLegalIssue(String authToken, LegalIssue data) async {
-    var legalIssues = List.empty(growable: true);
+  Future<GlobalResponseModel?> postLegalIssue(
+      String authToken, LegalIssue data) async {
+    late GlobalResponseModel? response;
 
     FormData formData = FormData.fromMap({
       "title": data.title,
@@ -24,8 +29,18 @@ class LegalIssueRepoImpl extends LegalIssueRepo {
           filename: data.file!.path.split('/').last),
     });
 
-    LegalIssueRequests.postLegalIssue(authToken, formData)
-        .then((value) => legalIssues = value);
-    return legalIssues;
+    LegalIssueRequests.postLegalIssue(authToken, formData).then((value) {
+      response = value;
+    }).onError(
+      (error, stackTrace) {
+        response = GlobalResponseModel.fromJson(const {
+          "status": true,
+          "message": "An error occurred whilst adding an issue.",
+          "data": 0
+        });
+        throw Exception(error);
+      },
+    );
+    return response;
   }
 }

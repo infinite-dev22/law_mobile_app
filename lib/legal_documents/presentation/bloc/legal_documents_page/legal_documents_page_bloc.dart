@@ -22,60 +22,80 @@ class LegalDocumentsPageBloc
   _mapRefreshLegalDocumentsToState(RefreshLegalDocumentsEvent event,
       Emitter<LegalDocumentsPageState> emit) async {
     emit(state.copyWith(status: LegalDocumentsPageStatus.loading));
-    await LegalDocumentRepoImpl()
-        .getAllLegalDocuments(currentUserToken)
-        .then((documents) {
-      if (documents.isNotEmpty) {
-        emit(state.copyWith(
-            status: LegalDocumentsPageStatus.success, documents: documents));
-      } else {
-        emit(state.copyWith(status: LegalDocumentsPageStatus.empty));
-      }
-    }).onError((error, stackTrace) {
-      emit(state.copyWith(status: LegalDocumentsPageStatus.error));
+    try {
+      await LegalDocumentRepoImpl()
+          .getAllLegalDocuments(authData.data!.token!)
+          .then((documents) {
+        if (documents.isNotEmpty) {
+          emit(state.copyWith(
+              status: LegalDocumentsPageStatus.success, documents: documents));
+        } else {
+          emit(state.copyWith(status: LegalDocumentsPageStatus.empty));
+        }
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalDocumentsPageStatus.error));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(status: LegalDocumentsPageStatus.postError));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   _mapFetchLegalDocumentsToState(LoadLegalDocumentsEvent event,
       Emitter<LegalDocumentsPageState> emit) async {
     emit(state.copyWith(status: LegalDocumentsPageStatus.loading));
-    await LegalDocumentRepoImpl()
-        .getAllLegalDocuments(currentUserToken)
-        .then((documents) {
-      if (documents.isNotEmpty) {
-        emit(state.copyWith(
-            status: LegalDocumentsPageStatus.success, documents: documents));
-      } else {
-        emit(state.copyWith(status: LegalDocumentsPageStatus.empty));
-      }
-    }).onError((error, stackTrace) {
-      emit(state.copyWith(status: LegalDocumentsPageStatus.error));
+    try {
+      await LegalDocumentRepoImpl()
+          .getAllLegalDocuments(authData.data!.token!)
+          .then((documents) {
+        if (documents.isNotEmpty) {
+          emit(state.copyWith(
+              status: LegalDocumentsPageStatus.success, documents: documents));
+        } else {
+          emit(state.copyWith(status: LegalDocumentsPageStatus.empty));
+        }
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalDocumentsPageStatus.error));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(status: LegalDocumentsPageStatus.postError));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   _mapPostLegalDocumentToState(LegalDocumentPostEvent event,
       Emitter<LegalDocumentsPageState> emit) async {
     emit(state.copyWith(status: LegalDocumentsPageStatus.posting));
-    await LegalDocumentRepoImpl()
-        .postLegalDocument(currentUserToken, event.legalDocument)
-        .then((documents) {
-      emit(state.copyWith(
-          status: LegalDocumentsPageStatus.posted, documents: documents));
-    }).onError((error, stackTrace) {
+    try {
+      await LegalDocumentRepoImpl()
+          .postLegalDocument(authData.data!.token!, event.legalDocument)
+          .then((response) {
+        emit(state.copyWith(status: LegalDocumentsPageStatus.posted));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalDocumentsPageStatus.postError));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
       emit(state.copyWith(status: LegalDocumentsPageStatus.postError));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   @override

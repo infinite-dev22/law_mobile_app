@@ -1,3 +1,6 @@
+import 'package:dio/dio.dart';
+
+import '../../../../Global/data/model/global_response_model.dart';
 import '../../model/legal_case.dart';
 import '../../request/legal_case_requests.dart';
 import '../definition/legal_case_repo.dart';
@@ -7,15 +10,36 @@ class LegalCaseRepoImpl extends LegalCaseRepo {
   Future<List<LegalCase>> getAllLegalCases(String authToken) async {
     List<LegalCase> legalCases = List.empty(growable: true);
     LegalCaseRequests.getLegalCases(authToken)
-        .then((value) => legalCases = value);
+        .then((value) => legalCases = value)
+        .onError(
+          (error, stackTrace) => throw Exception(error),
+    );
     return legalCases;
   }
 
   @override
-  dynamic postLegalCase(String authToken, LegalCase data) async {
-    var legalCases = List.empty(growable: true);
-    LegalCaseRequests.postLegalCase(authToken, data.postJson())
-        .then((value) => legalCases = value);
-    return legalCases;
+  Future<GlobalResponseModel?> postLegalCase(String authToken, LegalCase data) async {
+    GlobalResponseModel? response;
+
+    FormData formData = FormData.fromMap({
+      "title": data.title,
+      "description": data.description,
+      "file": await MultipartFile.fromFile(data.file!.path,
+          filename: data.file!.path.split('/').last),
+    });
+
+    LegalCaseRequests.postLegalCase(authToken, formData).then((value) {
+      response = value;
+    }).onError(
+          (error, stackTrace) {
+        response = GlobalResponseModel.fromJson(const {
+          "status": true,
+          "message": "An error occurred whilst adding an issue.",
+          "data": 0
+        });
+        throw Exception(error);
+      },
+    );
+    return response;
   }
 }

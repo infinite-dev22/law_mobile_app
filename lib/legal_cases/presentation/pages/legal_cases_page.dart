@@ -35,10 +35,11 @@ class LegalCasesPage extends StatelessWidget {
             enableDrag: true,
             showDragHandle: true,
             isScrollControlled: true,
+            isDismissible: false,
             builder: (context) => Padding(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: const CasesForm(),
+              child: const SingleChildScrollView(child: CasesForm()),
             ),
           );
         },
@@ -63,7 +64,7 @@ class LegalCasesPage extends StatelessWidget {
           if (state.status.isError) {
             return const GlobalErrorWidget();
           }
-          return const GlobalLoadingWidget();
+          return const NoCasesWidget();
         },
         listener: (context, state) {
           if (state.status.isInitial) {

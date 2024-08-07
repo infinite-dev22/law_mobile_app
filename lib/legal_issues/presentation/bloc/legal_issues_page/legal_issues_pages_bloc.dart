@@ -22,59 +22,80 @@ class LegalIssuesPagesBloc
   _mapRefreshLegalIssuesToState(
       RefreshLegalIssuesEvent event, Emitter<LegalIssuesPageState> emit) async {
     emit(state.copyWith(status: LegalIssuesPageStatus.loading));
-    await LegalIssueRepoImpl()
-        .getAllLegalIssues(currentUserToken)
-        .then((issues) {
-      if (issues.isNotEmpty) {
-        emit(state.copyWith(
-            status: LegalIssuesPageStatus.success, issues: issues));
-      } else {
-        emit(state.copyWith(status: LegalIssuesPageStatus.empty));
-      }
-    }).onError((error, stackTrace) {
-      emit(state.copyWith(status: LegalIssuesPageStatus.error));
+    try {
+      await LegalIssueRepoImpl()
+          .getAllLegalIssues(authData.data!.token!)
+          .then((issues) {
+        if (issues.isNotEmpty) {
+          emit(state.copyWith(
+              status: LegalIssuesPageStatus.success, issues: issues));
+        } else {
+          emit(state.copyWith(status: LegalIssuesPageStatus.empty));
+        }
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalIssuesPageStatus.error));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(status: LegalIssuesPageStatus.postError));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   _mapFetchLegalIssuesToState(
       LoadLegalIssuesEvent event, Emitter<LegalIssuesPageState> emit) async {
     emit(state.copyWith(status: LegalIssuesPageStatus.loading));
-    await LegalIssueRepoImpl()
-        .getAllLegalIssues(currentUserToken)
-        .then((issues) {
-      if (issues.isNotEmpty) {
-        emit(state.copyWith(
-            status: LegalIssuesPageStatus.success, issues: issues));
-      } else {
-        emit(state.copyWith(status: LegalIssuesPageStatus.empty));
-      }
-    }).onError((error, stackTrace) {
-      emit(state.copyWith(status: LegalIssuesPageStatus.error));
+    try {
+      await LegalIssueRepoImpl()
+          .getAllLegalIssues(authData.data!.token!)
+          .then((issues) {
+        if (issues.isNotEmpty) {
+          emit(state.copyWith(
+              status: LegalIssuesPageStatus.success, issues: issues));
+        } else {
+          emit(state.copyWith(status: LegalIssuesPageStatus.empty));
+        }
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalIssuesPageStatus.error));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(status: LegalIssuesPageStatus.postError));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   _mapPostLegalIssueToState(
       LegalIssuePostEvent event, Emitter<LegalIssuesPageState> emit) async {
     emit(state.copyWith(status: LegalIssuesPageStatus.posting));
-    await LegalIssueRepoImpl()
-        .postLegalIssue(currentUserToken, event.legalIssue)
-        .then((response) {
-      emit(state.copyWith(status: LegalIssuesPageStatus.posted));
-    }).onError((error, stackTrace) {
+    try {
+      await LegalIssueRepoImpl()
+          .postLegalIssue(authData.data!.token!, event.legalIssue)
+          .then((response) {
+        emit(state.copyWith(status: LegalIssuesPageStatus.posted));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalIssuesPageStatus.postError));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
       emit(state.copyWith(status: LegalIssuesPageStatus.postError));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   @override
