@@ -9,7 +9,7 @@ class LegalIssueRepoImpl extends LegalIssueRepo {
   @override
   Future<List<LegalIssue>> getAllLegalIssues(String authToken) async {
     List<LegalIssue> legalIssues = List.empty(growable: true);
-    LegalIssueRequests.getLegalIssues(authToken)
+    await LegalIssueRequests.getLegalIssues(authToken)
         .then((value) => legalIssues = value)
         .onError(
           (error, stackTrace) => throw Exception(error),
@@ -29,7 +29,7 @@ class LegalIssueRepoImpl extends LegalIssueRepo {
           filename: data.file!.path.split('/').last),
     });
 
-    LegalIssueRequests.postLegalIssue(authToken, formData).then((value) {
+    await LegalIssueRequests.postLegalIssue(authToken, formData).then((value) {
       response = value;
     }).onError(
       (error, stackTrace) {

@@ -10,7 +10,8 @@ class LegalCertificateRepoImpl extends LegalCertificateRepo {
   Future<List<LegalCertificate>> getAllLegalCertificates(
       String authToken) async {
     List<LegalCertificate> legalCertificates = List.empty(growable: true);
-    LegalCertificateRequests.getLegalCertificates(authToken)
+
+    await LegalCertificateRequests.getLegalCertificates(authToken)
         .then((value) => legalCertificates = value);
     return legalCertificates;
   }
@@ -26,7 +27,8 @@ class LegalCertificateRepoImpl extends LegalCertificateRepo {
       "file": await MultipartFile.fromFile(data.file!.path,
           filename: data.file!.path.split('/').last),
     });
-    LegalCertificateRequests.postLegalCertificate(authToken, formData)
+
+    await LegalCertificateRequests.postLegalCertificate(authToken, formData)
         .then((value) {
       response = value;
     }).onError(
