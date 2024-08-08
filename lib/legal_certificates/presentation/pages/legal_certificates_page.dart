@@ -72,20 +72,8 @@ class LegalCertificatesPage extends StatelessWidget {
           return const NoCertificatesWidget();
         },
         listener: (context, state) {
-          if (state.status.isInitial) {
-            Toast.show("Initial State",
-                duration: Toast.lengthShort, gravity: Toast.bottom);
-          }
-          if (state.status.isSuccess) {
-            Toast.show("Success State",
-                duration: Toast.lengthShort, gravity: Toast.bottom);
-          }
-          if (state.status.isLoading) {
-            Toast.show("Loading State",
-                duration: Toast.lengthShort, gravity: Toast.bottom);
-          }
           if (state.status.isError) {
-            Toast.show("Error State",
+            Toast.show("An error occurred",
                 duration: Toast.lengthShort, gravity: Toast.bottom);
           }
         },
