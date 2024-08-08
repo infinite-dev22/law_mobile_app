@@ -39,7 +39,10 @@ class LegalCertificatesPage extends StatelessWidget {
             builder: (context) => Padding(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: const SingleChildScrollView(child: CertificatesForm()),
+              child: BlocProvider(
+                create: (context) => LegalCertificatesPageBloc(),
+                child: const SingleChildScrollView(child: CertificatesForm()),
+              ),
             ),
           );
         },
