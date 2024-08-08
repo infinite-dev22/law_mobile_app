@@ -1,3 +1,4 @@
+import 'package:dirm_attorneys_mobile/Global/Variables/app_runtime_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -14,13 +15,13 @@ class AppDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const UserAccountsDrawerHeader(
-            accountName: Text("John Doe"),
-            accountEmail: Text("johndoe@gmail.com"),
-            currentAccountPicture: CircleAvatar(
+          UserAccountsDrawerHeader(
+            accountName: Text("${authData.data!.user!.name}"),
+            accountEmail: Text("${authData.data!.user!.email}"),
+            currentAccountPicture: const CircleAvatar(
               foregroundImage: AssetImage("assets/images/user.jpg"),
             ),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/app_backgroud.jpg"),
                 fit: BoxFit.cover,
