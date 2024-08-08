@@ -45,11 +45,10 @@ class MwigoAuthTextField extends StatelessWidget {
         isDense: true,
         counter: null,
         counterText: "",
-        fillColor: Colors.grey.shade200,
+        // fillColor: Colors.grey.shade200,
         filled: true,
         hintText: hintText,
-        hintStyle: TextStyle(
-          color: Colors.grey[500],
+        hintStyle: const TextStyle(
           fontSize: 16,
         ),
       ),
