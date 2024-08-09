@@ -30,6 +30,10 @@ class MwigoAuthTextField extends StatelessWidget {
           borderSide: const BorderSide(),
           borderRadius: BorderRadius.circular(8),
         ),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey[500]!),
+          borderRadius: BorderRadius.circular(8),
+        ),
         border: OutlineInputBorder(
           borderSide: const BorderSide(),
           borderRadius: BorderRadius.circular(8),
@@ -45,7 +49,9 @@ class MwigoAuthTextField extends StatelessWidget {
         isDense: true,
         counter: null,
         counterText: "",
-        // fillColor: Colors.grey.shade200,
+        fillColor: (Theme.of(context).brightness == Brightness.dark)
+            ? Colors.grey.shade800
+            : Colors.grey.shade200,
         filled: true,
         hintText: hintText,
         hintStyle: const TextStyle(
