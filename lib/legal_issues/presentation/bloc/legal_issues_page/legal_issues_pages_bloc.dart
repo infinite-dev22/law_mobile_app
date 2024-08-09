@@ -17,6 +17,8 @@ class LegalIssuesPagesBloc
     on<RefreshLegalIssuesEvent>(_mapRefreshLegalIssuesToState);
     on<LoadLegalIssuesEvent>(_mapFetchLegalIssuesToState);
     on<LegalIssuePostEvent>(_mapPostLegalIssueToState);
+    on<DeleteLegalIssueEvent>(_mapDeleteLegalIssueToState);
+    on<DownloadLegalIssueEvent>(_mapDownloadLegalIssueToState);
   }
 
   _mapRefreshLegalIssuesToState(
@@ -81,6 +83,52 @@ class LegalIssuesPagesBloc
     try {
       await LegalIssueRepoImpl()
           .postLegalIssue(authData.data!.token!, event.legalIssue)
+          .then((response) {
+        emit(state.copyWith(status: LegalIssuesPageStatus.posted));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalIssuesPageStatus.postError));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(status: LegalIssuesPageStatus.postError));
+      if (kDebugMode) {
+        log("Error: $e");
+      }
+    }
+  }
+
+  _mapDeleteLegalIssueToState(
+      DeleteLegalIssueEvent event, Emitter<LegalIssuesPageState> emit) async {
+    emit(state.copyWith(status: LegalIssuesPageStatus.posting));
+    try {
+      await LegalIssueRepoImpl()
+          .deleteLegalIssue(authData.data!.token!, event.slug)
+          .then((response) {
+        emit(state.copyWith(status: LegalIssuesPageStatus.posted));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalIssuesPageStatus.postError));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(status: LegalIssuesPageStatus.postError));
+      if (kDebugMode) {
+        log("Error: $e");
+      }
+    }
+  }
+
+  _mapDownloadLegalIssueToState(
+      DownloadLegalIssueEvent event, Emitter<LegalIssuesPageState> emit) async {
+    emit(state.copyWith(status: LegalIssuesPageStatus.posting));
+    try {
+      await LegalIssueRepoImpl()
+          .downloadLegalIssue(authData.data!.token!, event.slug)
           .then((response) {
         emit(state.copyWith(status: LegalIssuesPageStatus.posted));
       }).onError((error, stackTrace) {
