@@ -23,66 +23,22 @@ class LegalIssueSuccessWidget extends StatelessWidget {
           itemBuilder: (context, index) => LegalIssueItem(
             data: state.issues!.elementAt(index),
             onTap: () {
-              print("Tapped View Item $index");
+              blocContext.read<LegalIssuesPagesBloc>().add(
+                  GetLegalIssueEvent(state.issues!.elementAt(index).slug!));
             },
             onTapDelete: () {
               showAdaptiveDialog(
                 context: context,
                 barrierDismissible: false,
                 builder: (context) {
-                  return AlertDialog.adaptive(
-                    icon: const Icon(
-                      FeatherIcons.trash2,
-                      color: Colors.redAccent,
-                    ),
-                    title: const Text("Delete issue"),
-                    content: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                      padding: const EdgeInsets.all(8.0),
-                      child: const Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "Are you sure?",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          Text(
-                            "This action can not be un-done.",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                    actions: [
-                      LoadingButton(
-                        text: "No, cancel",
-                        width: 120,
-                        onTap: () {
-                          GoRouter.of(context).pop();
-                        },
-                      ),
-                      LoadingButton(
-                          text: "Yes, proceed",
-                          width: 120,
-                          outlined: true,
-                          busy: state.status.isDeleting,
-                          onTap: () {
-                            blocContext.read<LegalIssuesPagesBloc>().add(
-                                DeleteLegalIssueEvent(
-                                    state.issues!.elementAt(index).slug!));
-                            GoRouter.of(context).pop();
-                          })
-                    ],
-                  );
+                  return _deleteDialog (blocContext, context, state, index);
                 },
               );
             },
             onTapDownload: () {
-              blocContext.read<LegalIssuesPagesBloc>().add(DownloadLegalIssueEvent(
-                  state.issues!.elementAt(index).slug!));
+              blocContext.read<LegalIssuesPagesBloc>().add(
+                  DownloadLegalIssueEvent(
+                      state.issues!.elementAt(index).slug!));
             },
           ),
         );
@@ -137,6 +93,56 @@ class LegalIssueSuccessWidget extends StatelessWidget {
           GoRouter.of(context).pop();
         }
       },
+    );
+  }
+
+  Widget _deleteDialog (BuildContext blocContext, BuildContext context, LegalIssuesPageState state, int index) {
+    return AlertDialog.adaptive(
+      icon: const Icon(
+        FeatherIcons.trash2,
+        color: Colors.redAccent,
+      ),
+      title: const Text("Delete issue"),
+      content: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          color: Theme.of(context).colorScheme.secondary,
+        ),
+        padding: const EdgeInsets.all(8.0),
+        child: const Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Are you sure?",
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              "This action can not be un-done.",
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        LoadingButton(
+          text: "No, cancel",
+          width: 120,
+          onTap: () {
+            GoRouter.of(context).pop();
+          },
+        ),
+        LoadingButton(
+            text: "Yes, proceed",
+            width: 120,
+            outlined: true,
+            busy: state.status.isDeleting,
+            onTap: () {
+              blocContext.read<LegalIssuesPagesBloc>().add(
+                  DeleteLegalIssueEvent(
+                      state.issues!.elementAt(index).slug!));
+              GoRouter.of(context).pop();
+            })
+      ],
     );
   }
 }

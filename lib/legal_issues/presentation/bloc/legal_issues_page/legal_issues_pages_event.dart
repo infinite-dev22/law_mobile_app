@@ -40,6 +40,15 @@ class DeleteLegalIssueEvent extends LegalIssuesPageEvent {
   List<Object?> get props => [slug];
 }
 
+class GetLegalIssueEvent extends LegalIssuesPageEvent {
+  final String slug;
+
+  const GetLegalIssueEvent(this.slug);
+
+  @override
+  List<Object?> get props => [slug];
+}
+
 class DownloadLegalIssueEvent extends LegalIssuesPageEvent {
   final String slug;
 

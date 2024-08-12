@@ -18,6 +18,7 @@ class LegalIssuesPagesBloc
     on<LoadLegalIssuesEvent>(_mapFetchLegalIssuesToState);
     on<LegalIssuePostEvent>(_mapPostLegalIssueToState);
     on<DeleteLegalIssueEvent>(_mapDeleteLegalIssueToState);
+    on<GetLegalIssueEvent>(_mapGetLegalIssueToState);
     on<DownloadLegalIssueEvent>(_mapDownloadLegalIssueToState);
   }
 
@@ -117,6 +118,30 @@ class LegalIssuesPagesBloc
       });
     } catch (e) {
       emit(state.copyWith(status: LegalIssuesPageStatus.deleteError));
+      if (kDebugMode) {
+        log("Error: $e");
+      }
+    }
+  }
+
+  _mapGetLegalIssueToState(
+      GetLegalIssueEvent event, Emitter<LegalIssuesPageState> emit) async {
+    emit(state.copyWith(status: LegalIssuesPageStatus.issueLoading));
+    try {
+      await LegalIssueRepoImpl()
+          .getLegalIssue(authData.data!.token!, event.slug)
+          .then((issue) {
+        emit(state.copyWith(
+            status: LegalIssuesPageStatus.issueSuccess, issue: issue));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalIssuesPageStatus.issueError));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(status: LegalIssuesPageStatus.issueError));
       if (kDebugMode) {
         log("Error: $e");
       }

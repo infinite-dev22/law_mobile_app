@@ -65,6 +65,18 @@ class LegalIssueRepoImpl extends LegalIssueRepo {
   }
 
   @override
+  Future<LegalIssue?> getLegalIssue(String authToken, String slug) async {
+    late LegalIssue? response;
+
+    await LegalIssueRequests.getLegalIssue(authToken, slug).then((value) {
+      response = value;
+    }).onError(
+      (error, stackTrace) => throw Exception(error),
+    );
+    return response;
+  }
+
+  @override
   Future<GlobalResponseModel?> downloadLegalIssue(
       String authToken, String slug) async {
     late GlobalResponseModel? response;
