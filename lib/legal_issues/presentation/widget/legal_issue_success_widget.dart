@@ -1,5 +1,9 @@
+import 'package:dirm_attorneys_mobile/Global/Widgets/loading_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:go_router/go_router.dart';
+import 'package:toast/toast.dart';
 
 import '../bloc/legal_issues_page/legal_issues_pages_bloc.dart';
 import 'legal_issue_item_widget.dart';
@@ -9,8 +13,10 @@ class LegalIssueSuccessWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
+
     return BlocConsumer<LegalIssuesPagesBloc, LegalIssuesPageState>(
-      builder: (context, state) {
+      builder: (blocContext, state) {
         return ListView.builder(
           padding: const EdgeInsets.all(8.0),
           itemCount: state.issues!.length,
@@ -20,114 +26,115 @@ class LegalIssueSuccessWidget extends StatelessWidget {
               print("Tapped View Item $index");
             },
             onTapDelete: () {
-              context.read<LegalIssuesPagesBloc>().add(
-                  DeleteLegalIssueEvent(state.issues!.elementAt(index).slug!));
+              showAdaptiveDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) {
+                  return AlertDialog.adaptive(
+                    icon: const Icon(
+                      FeatherIcons.trash2,
+                      color: Colors.redAccent,
+                    ),
+                    title: const Text("Delete issue"),
+                    content: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                      padding: const EdgeInsets.all(8.0),
+                      child: const Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Are you sure?",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          Text(
+                            "This action can not be un-done.",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                    actions: [
+                      LoadingButton(
+                        text: "No, cancel",
+                        width: 120,
+                        onTap: () {
+                          GoRouter.of(context).pop();
+                        },
+                      ),
+                      LoadingButton(
+                          text: "Yes, proceed",
+                          width: 120,
+                          outlined: true,
+                          busy: state.status.isDeleting,
+                          onTap: () {
+                            blocContext.read<LegalIssuesPagesBloc>().add(
+                                DeleteLegalIssueEvent(
+                                    state.issues!.elementAt(index).slug!));
+                            GoRouter.of(context).pop();
+                          })
+                    ],
+                  );
+                },
+              );
             },
             onTapDownload: () {
-              context.read<LegalIssuesPagesBloc>().add(DownloadLegalIssueEvent(
+              blocContext.read<LegalIssuesPagesBloc>().add(DownloadLegalIssueEvent(
                   state.issues!.elementAt(index).slug!));
             },
           ),
         );
       },
-      listener: (context, state) {
+      listener: (blocContext, state) {
         if (state.status.isDeleting) {
-          showAdaptiveDialog(
-            context: context,
-            builder: (context) {
-              return const Column(
-                children: [
-                  Text("Deleting issue"),
-                  CircularProgressIndicator.adaptive(),
-                ],
-              );
-            },
-          );
+          Toast.show("Deleting issue",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
         }
         if (state.status.isDownloading) {
           showAdaptiveDialog(
             context: context,
             builder: (context) {
-              return const Column(
-                children: [
-                  Text("Downloading issue document"),
-                  CircularProgressIndicator.adaptive(),
-                ],
+              return AlertDialog.adaptive(
+                content: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text("Downloading issue document"),
+                      CircularProgressIndicator.adaptive(),
+                    ],
+                  ),
+                ),
               );
             },
           );
         }
         if (state.status.isDeleted) {
-          showAdaptiveDialog(
-            context: context,
-            builder: (context) {
-              return const Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.check,
-                    size: 80,
-                    color: Colors.green,
-                  ),
-                  Text("Deleted issue"),
-                ],
-              );
-            },
-          );
+          Toast.show("Issue deleted successfully",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+          blocContext.read<LegalIssuesPagesBloc>().add(LoadLegalIssuesEvent());
+          GoRouter.of(context).pop();
         }
         if (state.status.isDownloaded) {
-          showAdaptiveDialog(
-            context: context,
-            builder: (context) {
-              return const Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.check,
-                    size: 80,
-                    color: Colors.green,
-                  ),
-                  Text("Downloaded issue document"),
-                ],
-              );
-            },
-          );
+          Toast.show("Document downloaded successfully",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+          GoRouter.of(context).pop();
         }
         if (state.status.isDeleteError) {
-          showAdaptiveDialog(
-            context: context,
-            builder: (context) {
-              return const Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.error_outline,
-                    size: 80,
-                    color: Colors.redAccent,
-                  ),
-                  Text("An error occurred Deleting issue"),
-                ],
-              );
-            },
-          );
+          Toast.show("An error occurred deleting the issue document",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+          GoRouter.of(context).pop();
         }
         if (state.status.isDownloadError) {
-          showAdaptiveDialog(
-            context: context,
-            builder: (context) {
-              return const Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.error_outline,
-                    size: 80,
-                    color: Colors.redAccent,
-                  ),
-                  Text("An error occurred Downloading issue document"),
-                ],
-              );
-            },
-          );
+          Toast.show("An error occurred downloading the issue document",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+          GoRouter.of(context).pop();
         }
       },
     );

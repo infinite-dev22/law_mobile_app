@@ -51,10 +51,14 @@ class LegalIssuesPage extends StatelessWidget {
       ),
       body: BlocConsumer<LegalIssuesPagesBloc, LegalIssuesPageState>(
         builder: (context, state) {
-          if (state.status.isInitial) {
+          if (state.status.isInitial ||
+              state.status.isDeleted ||
+              state.status.isDownloaded) {
             context.read<LegalIssuesPagesBloc>().add(LoadLegalIssuesEvent());
           }
-          if (state.status.isSuccess) {
+          if (state.status.isSuccess ||
+              state.status.isDeleteError ||
+              state.status.isDownloadError) {
             return const LegalIssueSuccessWidget();
           }
           if (state.status.isLoading) {

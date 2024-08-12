@@ -102,21 +102,21 @@ class LegalIssuesPagesBloc
 
   _mapDeleteLegalIssueToState(
       DeleteLegalIssueEvent event, Emitter<LegalIssuesPageState> emit) async {
-    emit(state.copyWith(status: LegalIssuesPageStatus.posting));
+    emit(state.copyWith(status: LegalIssuesPageStatus.deleting));
     try {
       await LegalIssueRepoImpl()
           .deleteLegalIssue(authData.data!.token!, event.slug)
           .then((response) {
-        emit(state.copyWith(status: LegalIssuesPageStatus.posted));
+        emit(state.copyWith(status: LegalIssuesPageStatus.deleted));
       }).onError((error, stackTrace) {
-        emit(state.copyWith(status: LegalIssuesPageStatus.postError));
+        emit(state.copyWith(status: LegalIssuesPageStatus.deleteError));
         if (kDebugMode) {
           log("Error: $error");
           log("Stacktrace: $stackTrace");
         }
       });
     } catch (e) {
-      emit(state.copyWith(status: LegalIssuesPageStatus.postError));
+      emit(state.copyWith(status: LegalIssuesPageStatus.deleteError));
       if (kDebugMode) {
         log("Error: $e");
       }
@@ -125,21 +125,21 @@ class LegalIssuesPagesBloc
 
   _mapDownloadLegalIssueToState(
       DownloadLegalIssueEvent event, Emitter<LegalIssuesPageState> emit) async {
-    emit(state.copyWith(status: LegalIssuesPageStatus.posting));
+    emit(state.copyWith(status: LegalIssuesPageStatus.downloading));
     try {
       await LegalIssueRepoImpl()
           .downloadLegalIssue(authData.data!.token!, event.slug)
           .then((response) {
-        emit(state.copyWith(status: LegalIssuesPageStatus.posted));
+        emit(state.copyWith(status: LegalIssuesPageStatus.downloaded));
       }).onError((error, stackTrace) {
-        emit(state.copyWith(status: LegalIssuesPageStatus.postError));
+        emit(state.copyWith(status: LegalIssuesPageStatus.downloadError));
         if (kDebugMode) {
           log("Error: $error");
           log("Stacktrace: $stackTrace");
         }
       });
     } catch (e) {
-      emit(state.copyWith(status: LegalIssuesPageStatus.postError));
+      emit(state.copyWith(status: LegalIssuesPageStatus.downloadError));
       if (kDebugMode) {
         log("Error: $e");
       }
