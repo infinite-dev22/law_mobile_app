@@ -1,4 +1,4 @@
-package inc.nomard.dirm_attorneys_mobile
+package tz.co.dirmgroup.attorneys
 
 import io.flutter.embedding.android.FlutterActivity
 

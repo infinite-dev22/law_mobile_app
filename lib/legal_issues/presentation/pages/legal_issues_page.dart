@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
 import '../../../Global/Variables/colors.dart';
@@ -51,13 +52,20 @@ class LegalIssuesPage extends StatelessWidget {
       ),
       body: BlocConsumer<LegalIssuesPagesBloc, LegalIssuesPageState>(
         builder: (context, state) {
-          if (state.status.isInitial) {
+          if (state.status.isInitial ||
+              state.status.isDeleted ||
+              state.status.isDownloaded) {
             context.read<LegalIssuesPagesBloc>().add(LoadLegalIssuesEvent());
           }
-          if (state.status.isSuccess) {
+          if (state.status.isSuccess ||
+              state.status.isDeleteError ||
+              state.status.isDownloadError ||
+              state.status.isIssueError ||
+              state.status.isIssueSuccess ||
+              state.status.isIssueEdit) {
             return const LegalIssueSuccessWidget();
           }
-          if (state.status.isLoading) {
+          if (state.status.isLoading || state.status.isIssueLoading) {
             return const GlobalLoadingWidget();
           }
           if (state.status.isEmpty) {
@@ -71,12 +79,75 @@ class LegalIssuesPage extends StatelessWidget {
           }
           return const NoIssuesWidget();
         },
-        listener: (context, state) {
-          if (state.status.isError) {
+        listener: (blocContext, state) {
+          if (state.status.isError || state.status.isIssueError) {
             Toast.show("An error occurred",
                 duration: Toast.lengthShort, gravity: Toast.bottom);
           }
+          if (state.status.isIssueLoading) {
+            Toast.show("Loading issue",
+                duration: Toast.lengthShort, gravity: Toast.bottom);
+          }
+          if (state.status.isIssueSuccess) {
+            showAdaptiveDialog(
+              context: context,
+              useSafeArea: true,
+              builder: (context) {
+                return _buildDetailDialog(blocContext, context, state);
+              },
+            );
+          }
+          if (state.status.isIssueEdit) {
+            showModalBottomSheet(
+              context: context,
+              enableDrag: true,
+              showDragHandle: true,
+              isScrollControlled: true,
+              isDismissible: false,
+              builder: (context) => Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: BlocProvider(
+                  create: (context) => LegalIssuesPagesBloc(),
+                  child: SingleChildScrollView(
+                    child: IssuesForm(
+                      parentContext: blocContext,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
         },
+      ),
+    );
+  }
+
+  Widget _buildDetailDialog(BuildContext blocContext, BuildContext context,
+      LegalIssuesPageState state) {
+    return AlertDialog.adaptive(
+      scrollable: true,
+      content: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          color: Theme.of(context).colorScheme.secondary,
+        ),
+        width: double.infinity,
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Title: ${state.issue!.title!}"),
+            Text("File: ${state.issue!.uploadedFileName!}"),
+            Text("Assigned To: ${state.issue!.assignedTo ?? ""}"),
+            Text("Status: ${state.issue!.issueStatus!}"),
+            Text(
+                "Created On: ${DateFormat('dd/MM/yyyy hh:mm a').format(state.issue!.createdAt!)}"),
+            Text(
+                "Last Updated: ${DateFormat('dd/MM/yyyy hh:mm a').format(state.issue!.updatedAt!)}"),
+          ],
+        ),
       ),
     );
   }

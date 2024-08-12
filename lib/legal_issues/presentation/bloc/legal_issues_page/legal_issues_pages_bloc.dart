@@ -17,6 +17,9 @@ class LegalIssuesPagesBloc
     on<RefreshLegalIssuesEvent>(_mapRefreshLegalIssuesToState);
     on<LoadLegalIssuesEvent>(_mapFetchLegalIssuesToState);
     on<LegalIssuePostEvent>(_mapPostLegalIssueToState);
+    on<DeleteLegalIssueEvent>(_mapDeleteLegalIssueToState);
+    on<GetLegalIssueEvent>(_mapGetLegalIssueToState);
+    on<DownloadLegalIssueEvent>(_mapDownloadLegalIssueToState);
   }
 
   _mapRefreshLegalIssuesToState(
@@ -92,6 +95,79 @@ class LegalIssuesPagesBloc
       });
     } catch (e) {
       emit(state.copyWith(status: LegalIssuesPageStatus.postError));
+      if (kDebugMode) {
+        log("Error: $e");
+      }
+    }
+  }
+
+  _mapDeleteLegalIssueToState(
+      DeleteLegalIssueEvent event, Emitter<LegalIssuesPageState> emit) async {
+    emit(state.copyWith(status: LegalIssuesPageStatus.deleting));
+    try {
+      await LegalIssueRepoImpl()
+          .deleteLegalIssue(authData.data!.token!, event.slug)
+          .then((response) {
+        emit(state.copyWith(status: LegalIssuesPageStatus.deleted));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalIssuesPageStatus.deleteError));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(status: LegalIssuesPageStatus.deleteError));
+      if (kDebugMode) {
+        log("Error: $e");
+      }
+    }
+  }
+
+  _mapGetLegalIssueToState(
+      GetLegalIssueEvent event, Emitter<LegalIssuesPageState> emit) async {
+    emit(state.copyWith(status: LegalIssuesPageStatus.issueLoading));
+    try {
+      await LegalIssueRepoImpl()
+          .getLegalIssue(authData.data!.token!, event.slug)
+          .then((issue) {
+        emit(event.edit
+            ? state.copyWith(
+                status: LegalIssuesPageStatus.issueEdit, issue: issue)
+            : state.copyWith(
+                status: LegalIssuesPageStatus.issueSuccess, issue: issue));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalIssuesPageStatus.issueError));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(status: LegalIssuesPageStatus.issueError));
+      if (kDebugMode) {
+        log("Error: $e");
+      }
+    }
+  }
+
+  _mapDownloadLegalIssueToState(
+      DownloadLegalIssueEvent event, Emitter<LegalIssuesPageState> emit) async {
+    emit(state.copyWith(status: LegalIssuesPageStatus.downloading));
+    try {
+      await LegalIssueRepoImpl()
+          .downloadLegalIssue(authData.data!.token!, event.slug)
+          .then((response) {
+        emit(state.copyWith(status: LegalIssuesPageStatus.downloaded));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalIssuesPageStatus.downloadError));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(status: LegalIssuesPageStatus.downloadError));
       if (kDebugMode) {
         log("Error: $e");
       }

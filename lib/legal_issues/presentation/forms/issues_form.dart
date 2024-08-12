@@ -13,7 +13,12 @@ import '../../../Global/Widgets/mwigo_text_area.dart';
 import '../../../Global/Widgets/mwigo_text_field.dart';
 
 class IssuesForm extends StatefulWidget {
-  const IssuesForm({super.key});
+  final BuildContext? parentContext;
+
+  const IssuesForm({
+    super.key,
+    this.parentContext,
+  });
 
   @override
   State<IssuesForm> createState() => _IssuesFormState();
@@ -78,6 +83,21 @@ class _IssuesFormState extends State<IssuesForm> {
 
   Widget _buildBody(BoxConstraints constraints, BuildContext blocContext,
       LegalIssuesPageState state) {
+    if (widget.parentContext != null) {
+      _titleController.text = widget.parentContext!
+              .read<LegalIssuesPagesBloc>()
+              .state
+              .issue!
+              .title ??
+          "";
+      _descriptionController.text = widget.parentContext!
+              .read<LegalIssuesPagesBloc>()
+              .state
+              .issue!
+              .description ??
+          "";
+    }
+
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Form(

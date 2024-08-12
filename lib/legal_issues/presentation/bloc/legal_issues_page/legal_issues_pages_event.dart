@@ -30,3 +30,31 @@ class LegalIssuePostEvent extends LegalIssuesPageEvent {
 }
 
 class LegalIssueAddedEvent extends LegalIssuesPageEvent {}
+
+class DeleteLegalIssueEvent extends LegalIssuesPageEvent {
+  final String slug;
+
+  const DeleteLegalIssueEvent(this.slug);
+
+  @override
+  List<Object?> get props => [slug];
+}
+
+class GetLegalIssueEvent extends LegalIssuesPageEvent {
+  final String slug;
+  final bool edit;
+
+  const GetLegalIssueEvent(this.slug, this.edit);
+
+  @override
+  List<Object?> get props => [slug, edit];
+}
+
+class DownloadLegalIssueEvent extends LegalIssuesPageEvent {
+  final String slug;
+
+  const DownloadLegalIssueEvent(this.slug);
+
+  @override
+  List<Object?> get props => [slug];
+}

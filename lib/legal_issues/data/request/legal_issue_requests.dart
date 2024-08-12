@@ -60,4 +60,88 @@ class LegalIssueRequests {
     );
     return responseModel;
   }
+
+  static Future<GlobalResponseModel?> deleteLegalIssue(
+      String authToken, String slug) async {
+    final client = http.Dio();
+    client.httpClientAdapter = nda.NativeAdapter();
+    client.options.headers = {
+      HttpHeaders.authorizationHeader: 'Bearer $authToken',
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    var url = Uri.https(appDNS, '/api/v1/delete_legal_issues/$slug');
+
+    GlobalResponseModel? responseModel;
+    await client.delete(url.toString()).then(
+      (value) {
+        if (value.statusCode == 201) {
+          GlobalResponseModel.fromJson(value.data);
+        } else {
+          throw Exception("An error occurred!");
+        }
+      },
+    ).onError(
+      (error, stackTrace) {
+        throw Exception(error);
+      },
+    );
+    return responseModel;
+  }
+
+  static Future<LegalIssue?> getLegalIssue(
+      String authToken, String slug) async {
+    final client = http.Dio();
+    client.httpClientAdapter = nda.NativeAdapter();
+    client.options.headers = {
+      HttpHeaders.authorizationHeader: 'Bearer $authToken',
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    var url = Uri.https(appDNS, '/api/v1/get_legal_issues/$slug');
+
+    LegalIssue? responseModel;
+    await client.get(url.toString()).then(
+      (value) {
+        if (value.statusCode == 200) {
+          responseModel = LegalIssue.fromJson(value.data["data"]["data"]);
+        } else {
+          throw Exception("An error occurred!");
+        }
+      },
+    ).onError(
+      (error, stackTrace) {
+        throw Exception(error);
+      },
+    );
+    return responseModel;
+  }
+
+  static Future<GlobalResponseModel?> downloadLegalIssue(
+      String authToken, String slug) async {
+    final client = http.Dio();
+    client.httpClientAdapter = nda.NativeAdapter();
+    client.options.headers = {
+      HttpHeaders.authorizationHeader: 'Bearer $authToken',
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    var url = Uri.https(appDNS, '/api/v1/download_pdf/slug');
+
+    GlobalResponseModel? responseModel;
+    await client.download(url.toString(), "~/Documents").then(
+      (value) {
+        if (value.statusCode == 201) {
+          GlobalResponseModel.fromJson(value.data);
+        } else {
+          throw Exception("An error occurred!");
+        }
+      },
+    ).onError(
+      (error, stackTrace) {
+        throw Exception(error);
+      },
+    );
+    return responseModel;
+  }
 }
