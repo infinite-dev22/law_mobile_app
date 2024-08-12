@@ -61,7 +61,8 @@ class LegalIssuesPage extends StatelessWidget {
               state.status.isDeleteError ||
               state.status.isDownloadError ||
               state.status.isIssueError ||
-              state.status.isIssueSuccess) {
+              state.status.isIssueSuccess ||
+              state.status.isIssueEdit) {
             return const LegalIssueSuccessWidget();
           }
           if (state.status.isLoading || state.status.isIssueLoading) {
@@ -94,6 +95,27 @@ class LegalIssuesPage extends StatelessWidget {
               builder: (context) {
                 return _buildDetailDialog(blocContext, context, state);
               },
+            );
+          }
+          if (state.status.isIssueEdit) {
+            showModalBottomSheet(
+              context: context,
+              enableDrag: true,
+              showDragHandle: true,
+              isScrollControlled: true,
+              isDismissible: false,
+              builder: (context) => Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: BlocProvider(
+                  create: (context) => LegalIssuesPagesBloc(),
+                  child: SingleChildScrollView(
+                    child: IssuesForm(
+                      parentContext: blocContext,
+                    ),
+                  ),
+                ),
+              ),
             );
           }
         },

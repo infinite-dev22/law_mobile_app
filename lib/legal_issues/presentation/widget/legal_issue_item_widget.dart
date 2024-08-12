@@ -8,6 +8,7 @@ import '../../data/model/legal_issue.dart';
 class LegalIssueItem extends StatelessWidget {
   final Function() onTap;
   final Function() onTapDelete;
+  final Function() onTapEdit;
   final Function() onTapDownload;
 
   const LegalIssueItem({
@@ -15,6 +16,7 @@ class LegalIssueItem extends StatelessWidget {
     required this.data,
     required this.onTap,
     required this.onTapDelete,
+    required this.onTapEdit,
     required this.onTapDownload,
   });
 
@@ -71,7 +73,7 @@ class LegalIssueItem extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                    DateFormat('dd/MM/yyyy hh:mm a').format(data.createdAt!),
+                  DateFormat('dd/MM/yyyy hh:mm a').format(data.createdAt!),
                   style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -81,19 +83,26 @@ class LegalIssueItem extends StatelessWidget {
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                IconButton(
-                  onPressed: onTapDelete,
-                  icon: const Icon(
-                    FeatherIcons.trash2,
-                    color: Colors.redAccent,
-                  ),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: onTapEdit,
+                      icon: const Icon(FeatherIcons.edit),
+                    ),
+                    IconButton(
+                      onPressed: onTapDelete,
+                      icon: const Icon(
+                        FeatherIcons.trash2,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                  ],
                 ),
                 IconButton(
                   onPressed: onTapDownload,
-                  icon: const Icon(
-                    FeatherIcons.download,
-                  ),
+                  icon: const Icon(FeatherIcons.download),
                 ),
               ],
             ),

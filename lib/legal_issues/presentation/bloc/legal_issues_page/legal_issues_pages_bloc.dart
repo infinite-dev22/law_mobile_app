@@ -131,8 +131,11 @@ class LegalIssuesPagesBloc
       await LegalIssueRepoImpl()
           .getLegalIssue(authData.data!.token!, event.slug)
           .then((issue) {
-        emit(state.copyWith(
-            status: LegalIssuesPageStatus.issueSuccess, issue: issue));
+        emit(event.edit
+            ? state.copyWith(
+                status: LegalIssuesPageStatus.issueEdit, issue: issue)
+            : state.copyWith(
+                status: LegalIssuesPageStatus.issueSuccess, issue: issue));
       }).onError((error, stackTrace) {
         emit(state.copyWith(status: LegalIssuesPageStatus.issueError));
         if (kDebugMode) {

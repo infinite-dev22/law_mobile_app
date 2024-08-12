@@ -42,11 +42,12 @@ class DeleteLegalIssueEvent extends LegalIssuesPageEvent {
 
 class GetLegalIssueEvent extends LegalIssuesPageEvent {
   final String slug;
+  final bool edit;
 
-  const GetLegalIssueEvent(this.slug);
+  const GetLegalIssueEvent(this.slug, this.edit);
 
   @override
-  List<Object?> get props => [slug];
+  List<Object?> get props => [slug, edit];
 }
 
 class DownloadLegalIssueEvent extends LegalIssuesPageEvent {

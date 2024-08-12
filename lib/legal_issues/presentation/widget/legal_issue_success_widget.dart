@@ -23,17 +23,21 @@ class LegalIssueSuccessWidget extends StatelessWidget {
           itemBuilder: (context, index) => LegalIssueItem(
             data: state.issues!.elementAt(index),
             onTap: () {
-              blocContext.read<LegalIssuesPagesBloc>().add(
-                  GetLegalIssueEvent(state.issues!.elementAt(index).slug!));
+              blocContext.read<LegalIssuesPagesBloc>().add(GetLegalIssueEvent(
+                  state.issues!.elementAt(index).slug!, false));
             },
             onTapDelete: () {
               showAdaptiveDialog(
                 context: context,
                 barrierDismissible: false,
                 builder: (context) {
-                  return _deleteDialog (blocContext, context, state, index);
+                  return _deleteDialog(blocContext, context, state, index);
                 },
               );
+            },
+            onTapEdit: () {
+              blocContext.read<LegalIssuesPagesBloc>().add(GetLegalIssueEvent(
+                  state.issues!.elementAt(index).slug!, true));
             },
             onTapDownload: () {
               blocContext.read<LegalIssuesPagesBloc>().add(
@@ -96,7 +100,8 @@ class LegalIssueSuccessWidget extends StatelessWidget {
     );
   }
 
-  Widget _deleteDialog (BuildContext blocContext, BuildContext context, LegalIssuesPageState state, int index) {
+  Widget _deleteDialog(BuildContext blocContext, BuildContext context,
+      LegalIssuesPageState state, int index) {
     return AlertDialog.adaptive(
       icon: const Icon(
         FeatherIcons.trash2,
@@ -138,8 +143,7 @@ class LegalIssueSuccessWidget extends StatelessWidget {
             busy: state.status.isDeleting,
             onTap: () {
               blocContext.read<LegalIssuesPagesBloc>().add(
-                  DeleteLegalIssueEvent(
-                      state.issues!.elementAt(index).slug!));
+                  DeleteLegalIssueEvent(state.issues!.elementAt(index).slug!));
               GoRouter.of(context).pop();
             })
       ],

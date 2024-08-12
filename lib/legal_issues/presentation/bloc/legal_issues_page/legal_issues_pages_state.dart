@@ -15,6 +15,7 @@ enum LegalIssuesPageStatus {
   deleteError,
   issueLoading,
   issueSuccess,
+  issueEdit,
   issueError,
   downloading,
   downloaded,
@@ -51,6 +52,8 @@ extension LegalIssuesPageStatusX on LegalIssuesPageStatus {
   bool get isIssueSuccess => this == LegalIssuesPageStatus.issueSuccess;
 
   bool get isIssueError => this == LegalIssuesPageStatus.issueError;
+
+  bool get isIssueEdit => this == LegalIssuesPageStatus.issueEdit;
 
   bool get isDownloading => this == LegalIssuesPageStatus.downloading;
 
