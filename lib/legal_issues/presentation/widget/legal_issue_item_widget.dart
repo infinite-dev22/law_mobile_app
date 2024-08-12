@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:intl/intl.dart';
 
 import '../../data/model/legal_issue.dart';
 
@@ -70,7 +71,7 @@ class LegalIssueItem extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  data.createdAt.toString(),
+                    DateFormat('dd/MM/yyyy hh:mm a').format(data.createdAt!),
                   style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
