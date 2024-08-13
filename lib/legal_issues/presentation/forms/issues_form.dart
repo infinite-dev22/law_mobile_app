@@ -13,11 +13,11 @@ import '../../../Global/Widgets/mwigo_text_area.dart';
 import '../../../Global/Widgets/mwigo_text_field.dart';
 
 class IssuesForm extends StatefulWidget {
-  final BuildContext? parentContext;
+  final BuildContext parentContext;
 
   const IssuesForm({
     super.key,
-    this.parentContext,
+    required this.parentContext,
   });
 
   @override
@@ -68,6 +68,9 @@ class _IssuesFormState extends State<IssuesForm> {
       },
       listener: (BuildContext context, LegalIssuesPageState state) {
         if (state.status.isPosted) {
+          widget.parentContext
+              .read<LegalIssuesPagesBloc>()
+              .add(LoadLegalIssuesEvent());
           GoRouter.of(context).pop();
         }
         if (state.status.isPostError) {
@@ -83,14 +86,14 @@ class _IssuesFormState extends State<IssuesForm> {
 
   Widget _buildBody(BoxConstraints constraints, BuildContext blocContext,
       LegalIssuesPageState state) {
-    if (widget.parentContext != null) {
-      _titleController.text = widget.parentContext!
+    if (widget.parentContext.read<LegalIssuesPagesBloc>().state.issue != null) {
+      _titleController.text = widget.parentContext
               .read<LegalIssuesPagesBloc>()
               .state
               .issue!
               .title ??
           "";
-      _descriptionController.text = widget.parentContext!
+      _descriptionController.text = widget.parentContext
               .read<LegalIssuesPagesBloc>()
               .state
               .issue!
@@ -105,6 +108,13 @@ class _IssuesFormState extends State<IssuesForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          const Center(
+            child: Text(
+              "Issue Form",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            ),
+          ),
+          const SizedBox(height: 8.0),
           MwigoTextField(
             label: "Title",
             controller: _titleController,

@@ -21,16 +21,102 @@ class LegalIssuesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     ToastContext().init(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Issues"),
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.lighterColor,
-      ),
-      drawer: const AppDrawer(),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(FeatherIcons.plus),
-        onPressed: () {
+    return BlocConsumer<LegalIssuesPagesBloc, LegalIssuesPageState>(
+      builder: (blocContext, state) {
+        if (state.status.isInitial ||
+            state.status.isDeleted ||
+            state.status.isDownloaded) {
+          blocContext.read<LegalIssuesPagesBloc>().add(LoadLegalIssuesEvent());
+        }
+        if (state.status.isSuccess ||
+            state.status.isDeleteError ||
+            state.status.isDownloadError ||
+            state.status.isIssueError ||
+            state.status.isIssueSuccess ||
+            state.status.isIssueEdit) {
+          return Scaffold(
+              appBar: AppBar(
+                title: const Text("Issues"),
+                backgroundColor: AppColors.primary,
+                foregroundColor: AppColors.lighterColor,
+              ),
+              drawer: const AppDrawer(),
+              floatingActionButton: _displayIssueForm(blocContext, context),
+              body: const LegalIssueSuccessWidget());
+        }
+        if (state.status.isLoading || state.status.isIssueLoading) {
+          return Scaffold(
+              appBar: AppBar(
+                title: const Text("Issues"),
+                backgroundColor: AppColors.primary,
+                foregroundColor: AppColors.lighterColor,
+              ),
+              drawer: const AppDrawer(),
+              floatingActionButton: _displayIssueForm(blocContext, context),
+              body: const GlobalLoadingWidget());
+        }
+        if (state.status.isEmpty) {
+          return Scaffold(
+              appBar: AppBar(
+                title: const Text("Issues"),
+                backgroundColor: AppColors.primary,
+                foregroundColor: AppColors.lighterColor,
+              ),
+              drawer: const AppDrawer(),
+              floatingActionButton: _displayIssueForm(blocContext, context),
+              body: const NoIssuesWidget());
+        }
+        if (state.status.isNotFound) {
+          return Scaffold(
+              appBar: AppBar(
+                title: const Text("Issues"),
+                backgroundColor: AppColors.primary,
+                foregroundColor: AppColors.lighterColor,
+              ),
+              drawer: const AppDrawer(),
+              floatingActionButton: _displayIssueForm(blocContext, context),
+              body: const NotFoundWidget());
+        }
+        if (state.status.isError) {
+          return Scaffold(
+              appBar: AppBar(
+                title: const Text("Issues"),
+                backgroundColor: AppColors.primary,
+                foregroundColor: AppColors.lighterColor,
+              ),
+              drawer: const AppDrawer(),
+              floatingActionButton: _displayIssueForm(blocContext, context),
+              body: const GlobalErrorWidget());
+        }
+        return Scaffold(
+            appBar: AppBar(
+              title: const Text("Issues"),
+              backgroundColor: AppColors.primary,
+              foregroundColor: AppColors.lighterColor,
+            ),
+            drawer: const AppDrawer(),
+            floatingActionButton: _displayIssueForm(blocContext, context),
+            body: const NoIssuesWidget());
+      },
+      listener: (blocContext, state) {
+        if (state.status.isError || state.status.isIssueError) {
+          Toast.show("An error occurred",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+        }
+        if (state.status.isIssueLoading) {
+          Toast.show("Loading issue",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+        }
+        if (state.status.isIssueSuccess) {
+          showAdaptiveDialog(
+            context: context,
+            useSafeArea: true,
+            builder: (context) {
+              return _buildDetailDialog(blocContext, context, state);
+            },
+          );
+        }
+        if (state.status.isIssueEdit) {
           showModalBottomSheet(
             context: context,
             enableDrag: true,
@@ -40,86 +126,18 @@ class LegalIssuesPage extends StatelessWidget {
             builder: (context) => Padding(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Builder(
-                builder: (context) => BlocProvider(
-                  create: (context) => LegalIssuesPagesBloc(),
-                  child: const SingleChildScrollView(child: IssuesForm()),
+              child: BlocProvider(
+                create: (context) => LegalIssuesPagesBloc(),
+                child: SingleChildScrollView(
+                  child: IssuesForm(
+                    parentContext: blocContext,
+                  ),
                 ),
               ),
             ),
           );
-        },
-      ),
-      body: BlocConsumer<LegalIssuesPagesBloc, LegalIssuesPageState>(
-        builder: (context, state) {
-          if (state.status.isInitial ||
-              state.status.isDeleted ||
-              state.status.isDownloaded) {
-            context.read<LegalIssuesPagesBloc>().add(LoadLegalIssuesEvent());
-          }
-          if (state.status.isSuccess ||
-              state.status.isDeleteError ||
-              state.status.isDownloadError ||
-              state.status.isIssueError ||
-              state.status.isIssueSuccess ||
-              state.status.isIssueEdit) {
-            return const LegalIssueSuccessWidget();
-          }
-          if (state.status.isLoading || state.status.isIssueLoading) {
-            return const GlobalLoadingWidget();
-          }
-          if (state.status.isEmpty) {
-            return const NoIssuesWidget();
-          }
-          if (state.status.isNotFound) {
-            return const NotFoundWidget();
-          }
-          if (state.status.isError) {
-            return const GlobalErrorWidget();
-          }
-          return const NoIssuesWidget();
-        },
-        listener: (blocContext, state) {
-          if (state.status.isError || state.status.isIssueError) {
-            Toast.show("An error occurred",
-                duration: Toast.lengthShort, gravity: Toast.bottom);
-          }
-          if (state.status.isIssueLoading) {
-            Toast.show("Loading issue",
-                duration: Toast.lengthShort, gravity: Toast.bottom);
-          }
-          if (state.status.isIssueSuccess) {
-            showAdaptiveDialog(
-              context: context,
-              useSafeArea: true,
-              builder: (context) {
-                return _buildDetailDialog(blocContext, context, state);
-              },
-            );
-          }
-          if (state.status.isIssueEdit) {
-            showModalBottomSheet(
-              context: context,
-              enableDrag: true,
-              showDragHandle: true,
-              isScrollControlled: true,
-              isDismissible: false,
-              builder: (context) => Padding(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: BlocProvider(
-                  create: (context) => LegalIssuesPagesBloc(),
-                  child: SingleChildScrollView(
-                    child: IssuesForm(
-                      parentContext: blocContext,
-                    ),
-                  ),
-                ),
-              ),
-            );
-          }
-        },
-      ),
+        }
+      },
     );
   }
 
@@ -149,6 +167,31 @@ class LegalIssuesPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _displayIssueForm(BuildContext blocContext, BuildContext context) {
+    return FloatingActionButton(
+      child: const Icon(FeatherIcons.plus),
+      onPressed: () {
+        showModalBottomSheet(
+          context: context,
+          isDismissible: false,
+          useSafeArea: true,
+          isScrollControlled: true,
+          builder: (context) => Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: BlocProvider(
+              create: (context) => LegalIssuesPagesBloc(),
+              child: SingleChildScrollView(
+                  child: IssuesForm(
+                parentContext: blocContext,
+              )),
+            ),
+          ),
+        );
+      },
     );
   }
 }
