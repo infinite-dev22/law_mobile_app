@@ -35,6 +35,7 @@ class LegalIssuesPage extends StatelessWidget {
             state.status.isIssueSuccess ||
             state.status.isIssueEdit) {
           return Scaffold(
+              resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 title: const Text("Issues"),
                 backgroundColor: AppColors.primary,
@@ -46,6 +47,7 @@ class LegalIssuesPage extends StatelessWidget {
         }
         if (state.status.isLoading || state.status.isIssueLoading) {
           return Scaffold(
+              resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 title: const Text("Issues"),
                 backgroundColor: AppColors.primary,
@@ -57,6 +59,7 @@ class LegalIssuesPage extends StatelessWidget {
         }
         if (state.status.isEmpty) {
           return Scaffold(
+              resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 title: const Text("Issues"),
                 backgroundColor: AppColors.primary,
@@ -68,6 +71,7 @@ class LegalIssuesPage extends StatelessWidget {
         }
         if (state.status.isNotFound) {
           return Scaffold(
+              resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 title: const Text("Issues"),
                 backgroundColor: AppColors.primary,
@@ -79,6 +83,7 @@ class LegalIssuesPage extends StatelessWidget {
         }
         if (state.status.isError) {
           return Scaffold(
+              resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 title: const Text("Issues"),
                 backgroundColor: AppColors.primary,
@@ -89,6 +94,7 @@ class LegalIssuesPage extends StatelessWidget {
               body: const GlobalErrorWidget());
         }
         return Scaffold(
+              resizeToAvoidBottomInset: true,
             appBar: AppBar(
               title: const Text("Issues"),
               backgroundColor: AppColors.primary,
@@ -178,16 +184,15 @@ class LegalIssuesPage extends StatelessWidget {
           context: context,
           isDismissible: false,
           useSafeArea: true,
-          isScrollControlled: true,
-          builder: (context) => Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
+          builder: (context) => AnimatedPadding(
+            padding: const EdgeInsets.all(8.0),
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
             child: BlocProvider(
               create: (context) => LegalIssuesPagesBloc(),
-              child: SingleChildScrollView(
-                  child: IssuesForm(
-                parentContext: blocContext,
-              )),
+              child: IssuesForm(
+              parentContext: blocContext,
+            ),
             ),
           ),
         );

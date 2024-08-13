@@ -106,7 +106,6 @@ class _IssuesFormState extends State<IssuesForm> {
     return Form(
       key: formKey,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
           const Center(
             child: Text(
@@ -132,7 +131,7 @@ class _IssuesFormState extends State<IssuesForm> {
             disabled: state.status.isPosting,
             onTap: () => _pickFile(),
           ),
-          const SizedBox(height: 80),
+          const SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
