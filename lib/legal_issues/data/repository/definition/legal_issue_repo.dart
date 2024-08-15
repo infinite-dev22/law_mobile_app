@@ -7,7 +7,7 @@ abstract class LegalIssueRepo {
 
   dynamic deleteLegalIssue(String authToken, String slug);
 
-  dynamic getLegalIssue(String authToken, String slug);
+  Future<LegalIssue?> getLegalIssue(String authToken, String slug);
 
   dynamic downloadLegalIssue(String authToken, String slug);
 }
