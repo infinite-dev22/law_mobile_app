@@ -17,6 +17,9 @@ class LegalCasesPageBloc
     on<RefreshLegalCasesEvent>(_mapRefreshLegalCasesToState);
     on<LoadLegalCasesEvent>(_mapFetchLegalCasesToState);
     on<LegalCasePostEvent>(_mapPostLegalCaseToState);
+    on<DeleteLegalCaseEvent>(_mapDeleteLegalCaseToState);
+    on<GetLegalCaseEvent>(_mapGetLegalCaseToState);
+    on<DownloadLegalCaseEvent>(_mapDownloadLegalCaseToState);
   }
 
   _mapRefreshLegalCasesToState(
@@ -92,6 +95,80 @@ class LegalCasesPageBloc
       });
     } catch (e) {
       emit(state.copyWith(status: LegalCasesPageStatus.postError));
+      if (kDebugMode) {
+        log("Error: $e");
+      }
+    }
+  }
+
+  _mapDeleteLegalCaseToState(
+      DeleteLegalCaseEvent event, Emitter<LegalCasesPageState> emit) async {
+    emit(state.copyWith(status: LegalCasesPageStatus.deleting));
+    try {
+      await LegalCaseRepoImpl()
+          .deleteLegalCase(authData.data!.token!, event.slug)
+          .then((response) {
+        emit(state.copyWith(status: LegalCasesPageStatus.deleted));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalCasesPageStatus.deleteError));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(status: LegalCasesPageStatus.deleteError));
+      if (kDebugMode) {
+        log("Error: $e");
+      }
+    }
+  }
+
+  _mapGetLegalCaseToState(
+      GetLegalCaseEvent event, Emitter<LegalCasesPageState> emit) async {
+    emit(state.copyWith(status: LegalCasesPageStatus.caseLoading));
+    try {
+      await LegalCaseRepoImpl()
+          .getLegalCase(authData.data!.token!, event.slug)
+          .then((legalCase) {
+        emit(event.edit
+            ? state.copyWith(
+                status: LegalCasesPageStatus.caseEdit, legalCase: legalCase)
+            : state.copyWith(
+                status: LegalCasesPageStatus.caseSuccess,
+                legalCase: legalCase));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalCasesPageStatus.caseError));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(status: LegalCasesPageStatus.caseError));
+      if (kDebugMode) {
+        log("Error: $e");
+      }
+    }
+  }
+
+  _mapDownloadLegalCaseToState(
+      DownloadLegalCaseEvent event, Emitter<LegalCasesPageState> emit) async {
+    emit(state.copyWith(status: LegalCasesPageStatus.downloading));
+    try {
+      await LegalCaseRepoImpl()
+          .downloadLegalCase(authData.data!.token!, event.slug)
+          .then((response) {
+        emit(state.copyWith(status: LegalCasesPageStatus.downloaded));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalCasesPageStatus.downloadError));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(status: LegalCasesPageStatus.downloadError));
       if (kDebugMode) {
         log("Error: $e");
       }

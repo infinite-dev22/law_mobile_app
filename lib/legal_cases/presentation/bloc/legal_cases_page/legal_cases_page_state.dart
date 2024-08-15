@@ -10,6 +10,16 @@ enum LegalCasesPageStatus {
   posting,
   posted,
   postError,
+  deleting,
+  deleted,
+  deleteError,
+  caseLoading,
+  caseSuccess,
+  caseEdit,
+  caseError,
+  downloading,
+  downloaded,
+  downloadError,
 }
 
 extension LegalCasesPageStatusX on LegalCasesPageStatus {
@@ -30,6 +40,26 @@ extension LegalCasesPageStatusX on LegalCasesPageStatus {
   bool get isPosted => this == LegalCasesPageStatus.posted;
 
   bool get isPostError => this == LegalCasesPageStatus.postError;
+
+  bool get isDeleting => this == LegalCasesPageStatus.deleting;
+
+  bool get isDeleted => this == LegalCasesPageStatus.deleted;
+
+  bool get isDeleteError => this == LegalCasesPageStatus.deleteError;
+
+  bool get isCaseLoading => this == LegalCasesPageStatus.caseLoading;
+
+  bool get isCaseSuccess => this == LegalCasesPageStatus.caseSuccess;
+
+  bool get isCaseError => this == LegalCasesPageStatus.caseError;
+
+  bool get isCaseEdit => this == LegalCasesPageStatus.caseEdit;
+
+  bool get isDownloading => this == LegalCasesPageStatus.downloading;
+
+  bool get isDownloaded => this == LegalCasesPageStatus.downloaded;
+
+  bool get isDownloadError => this == LegalCasesPageStatus.downloadError;
 }
 
 @immutable
