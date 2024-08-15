@@ -43,4 +43,56 @@ class LegalCertificateRepoImpl extends LegalCertificateRepo {
     );
     return response;
   }
+
+  @override
+  Future<GlobalResponseModel?> deleteLegalCertificate(
+      String authToken, String slug) async {
+    late GlobalResponseModel? response;
+
+    await LegalCertificateRequests.deleteLegalCertificate(authToken, slug).then((value) {
+      response = value;
+    }).onError(
+          (error, stackTrace) {
+        response = GlobalResponseModel.fromJson(const {
+          "status": true,
+          "message": "An error occurred whilst adding an issue.",
+          "data": 0
+        });
+        throw Exception(error);
+      },
+    );
+    return response;
+  }
+
+  @override
+  Future<LegalCertificate?> getLegalCertificate(String authToken, String slug) async {
+    late LegalCertificate? response;
+
+    await LegalCertificateRequests.getLegalCertificate(authToken, slug).then((value) {
+      response = value;
+    }).onError(
+          (error, stackTrace) => throw Exception(error),
+    );
+    return response;
+  }
+
+  @override
+  Future<GlobalResponseModel?> downloadLegalCertificate(
+      String authToken, String slug) async {
+    late GlobalResponseModel? response;
+
+    await LegalCertificateRequests.downloadLegalCertificate(authToken, slug).then((value) {
+      response = value;
+    }).onError(
+          (error, stackTrace) {
+        response = GlobalResponseModel.fromJson(const {
+          "status": true,
+          "message": "An error occurred whilst adding an issue.",
+          "data": 0
+        });
+        throw Exception(error);
+      },
+    );
+    return response;
+  }
 }

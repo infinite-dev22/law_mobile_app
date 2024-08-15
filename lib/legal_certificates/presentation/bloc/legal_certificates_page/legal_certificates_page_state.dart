@@ -10,6 +10,16 @@ enum LegalCertificatesPageStatus {
   posting,
   posted,
   postError,
+  deleting,
+  deleted,
+  deleteError,
+  certificateLoading,
+  certificateSuccess,
+  certificateEdit,
+  certificateError,
+  downloading,
+  downloaded,
+  downloadError,
 }
 
 extension LegalCertificatesPageStatusX on LegalCertificatesPageStatus {
@@ -30,6 +40,26 @@ extension LegalCertificatesPageStatusX on LegalCertificatesPageStatus {
   bool get isPosted => this == LegalCertificatesPageStatus.posted;
 
   bool get isPostError => this == LegalCertificatesPageStatus.postError;
+
+  bool get isDeleting => this == LegalCertificatesPageStatus.deleting;
+
+  bool get isDeleted => this == LegalCertificatesPageStatus.deleted;
+
+  bool get isDeleteError => this == LegalCertificatesPageStatus.deleteError;
+
+  bool get isCertificateLoading => this == LegalCertificatesPageStatus.certificateLoading;
+
+  bool get isCertificateSuccess => this == LegalCertificatesPageStatus.certificateSuccess;
+
+  bool get isCertificateError => this == LegalCertificatesPageStatus.certificateError;
+
+  bool get isCertificateEdit => this == LegalCertificatesPageStatus.certificateEdit;
+
+  bool get isDownloading => this == LegalCertificatesPageStatus.downloading;
+
+  bool get isDownloaded => this == LegalCertificatesPageStatus.downloaded;
+
+  bool get isDownloadError => this == LegalCertificatesPageStatus.downloadError;
 }
 
 @immutable

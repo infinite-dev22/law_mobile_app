@@ -61,4 +61,88 @@ class LegalCertificateRequests {
     );
     return responseModel;
   }
+
+  static Future<GlobalResponseModel?> deleteLegalCertificate(
+      String authToken, String slug) async {
+    final client = http.Dio();
+    client.httpClientAdapter = nda.NativeAdapter();
+    client.options.headers = {
+      HttpHeaders.authorizationHeader: 'Bearer $authToken',
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    var url = Uri.https(appDNS, '/api/v1/delete_certify_documents/$slug');
+
+    GlobalResponseModel? responseModel;
+    await client.delete(url.toString()).then(
+          (value) {
+        if (value.statusCode == 201) {
+          GlobalResponseModel.fromJson(value.data);
+        } else {
+          throw Exception("An error occurred!");
+        }
+      },
+    ).onError(
+          (error, stackTrace) {
+        throw Exception(error);
+      },
+    );
+    return responseModel;
+  }
+
+  static Future<LegalCertificate?> getLegalCertificate(
+      String authToken, String slug) async {
+    final client = http.Dio();
+    client.httpClientAdapter = nda.NativeAdapter();
+    client.options.headers = {
+      HttpHeaders.authorizationHeader: 'Bearer $authToken',
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    var url = Uri.https(appDNS, '/api/v1/get_certify_documents/$slug');
+
+    LegalCertificate? responseModel;
+    await client.get(url.toString()).then(
+          (value) {
+        if (value.statusCode == 200) {
+          responseModel = LegalCertificate.fromJson(value.data["data"]["data"]);
+        } else {
+          throw Exception("An error occurred!");
+        }
+      },
+    ).onError(
+          (error, stackTrace) {
+        throw Exception(error);
+      },
+    );
+    return responseModel;
+  }
+
+  static Future<GlobalResponseModel?> downloadLegalCertificate(
+      String authToken, String slug) async {
+    final client = http.Dio();
+    client.httpClientAdapter = nda.NativeAdapter();
+    client.options.headers = {
+      HttpHeaders.authorizationHeader: 'Bearer $authToken',
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    var url = Uri.https(appDNS, '/api/v1/download_certify_uploaded_doc/slug');
+
+    GlobalResponseModel? responseModel;
+    await client.download(url.toString(), "~/Documents").then(
+          (value) {
+        if (value.statusCode == 201) {
+          GlobalResponseModel.fromJson(value.data);
+        } else {
+          throw Exception("An error occurred!");
+        }
+      },
+    ).onError(
+          (error, stackTrace) {
+        throw Exception(error);
+      },
+    );
+    return responseModel;
+  }
 }
