@@ -12,10 +12,15 @@ import '../../data/model/legal_document.dart';
 import '../bloc/legal_documents_page/legal_documents_page_bloc.dart';
 
 class DocumentsForm extends StatefulWidget {
-  const DocumentsForm({super.key});
+  final BuildContext parentContext;
 
   @override
   State<DocumentsForm> createState() => _DocumentsFormState();
+
+  const DocumentsForm({
+    super.key,
+    required this.parentContext,
+  });
 }
 
 class _DocumentsFormState extends State<DocumentsForm> {
@@ -61,6 +66,9 @@ class _DocumentsFormState extends State<DocumentsForm> {
       },
       listener: (BuildContext context, LegalDocumentsPageState state) {
         if (state.status.isPosted) {
+          widget.parentContext
+              .read<LegalDocumentsPageBloc>()
+              .add(LoadLegalDocumentsEvent());
           GoRouter.of(context).pop();
         }
         if (state.status.isPostError) {
@@ -76,13 +84,29 @@ class _DocumentsFormState extends State<DocumentsForm> {
 
   Widget _buildBody(BoxConstraints constraints, BuildContext blocContext,
       LegalDocumentsPageState state) {
+    if (widget.parentContext.read<LegalDocumentsPageBloc>().state.document !=
+        null) {
+      _titleController.text = widget.parentContext
+              .read<LegalDocumentsPageBloc>()
+              .state
+              .document!
+              .title ??
+          "";
+    }
+
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Form(
       key: formKey,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
+          const Center(
+            child: Text(
+              "Document Form",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            ),
+          ),
+          const SizedBox(height: 8.0),
           MwigoTextField(
             label: "Title",
             controller: _titleController,
@@ -94,7 +118,7 @@ class _DocumentsFormState extends State<DocumentsForm> {
             disabled: state.status.isPosting,
             onTap: () => _pickFile(),
           ),
-          const SizedBox(height: 80),
+          const SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -109,7 +133,7 @@ class _DocumentsFormState extends State<DocumentsForm> {
               ),
               LoadingButton(
                 width: constraints.maxWidth * .6,
-                text: "Upload document",
+                text: "Create document",
                 busy: state.status.isPosting,
                 onTap: () {
                   setState(() {});
