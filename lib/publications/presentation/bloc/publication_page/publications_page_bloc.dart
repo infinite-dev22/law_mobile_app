@@ -22,8 +22,8 @@ class PublicationsPageBloc
     on<DownloadPublicationEvent>(_mapDownloadPublicationToState);
   }
 
-  _mapRefreshPublicationsToState(
-      RefreshPublicationsEvent event, Emitter<PublicationsPageState> emit) async {
+  _mapRefreshPublicationsToState(RefreshPublicationsEvent event,
+      Emitter<PublicationsPageState> emit) async {
     emit(state.copyWith(status: PublicationsPageStatus.loading));
     try {
       await PublicationRepoImpl()
@@ -31,7 +31,8 @@ class PublicationsPageBloc
           .then((publications) {
         if (publications.isNotEmpty) {
           emit(state.copyWith(
-              status: PublicationsPageStatus.success, publications: publications));
+              status: PublicationsPageStatus.success,
+              publications: publications));
         } else {
           emit(state.copyWith(status: PublicationsPageStatus.empty));
         }
@@ -59,7 +60,8 @@ class PublicationsPageBloc
           .then((publications) {
         if (publications.isNotEmpty) {
           emit(state.copyWith(
-              status: PublicationsPageStatus.success, publications: publications));
+              status: PublicationsPageStatus.success,
+              publications: publications));
         } else {
           emit(state.copyWith(status: PublicationsPageStatus.empty));
         }
@@ -133,9 +135,11 @@ class PublicationsPageBloc
           .then((publication) {
         emit(event.edit
             ? state.copyWith(
-                status: PublicationsPageStatus.publicationEdit, publication: publication)
+                status: PublicationsPageStatus.publicationEdit,
+                publication: publication)
             : state.copyWith(
-                status: PublicationsPageStatus.publicationSuccess, publication: publication));
+                status: PublicationsPageStatus.publicationSuccess,
+                publication: publication));
       }).onError((error, stackTrace) {
         emit(state.copyWith(status: PublicationsPageStatus.publicationError));
         if (kDebugMode) {
@@ -151,8 +155,8 @@ class PublicationsPageBloc
     }
   }
 
-  _mapDownloadPublicationToState(
-      DownloadPublicationEvent event, Emitter<PublicationsPageState> emit) async {
+  _mapDownloadPublicationToState(DownloadPublicationEvent event,
+      Emitter<PublicationsPageState> emit) async {
     emit(state.copyWith(status: PublicationsPageStatus.downloading));
     try {
       await PublicationRepoImpl()

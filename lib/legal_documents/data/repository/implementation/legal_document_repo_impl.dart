@@ -28,7 +28,8 @@ class LegalDocumentRepoImpl extends LegalDocumentRepo {
           filename: data.file!.path.split('/').last),
     });
 
-    await LegalDocumentRequests.postLegalDocument(authToken, formData).then((value) {
+    await LegalDocumentRequests.postLegalDocument(authToken, formData)
+        .then((value) {
       response = value;
     }).onError(
       (error, stackTrace) {
@@ -48,10 +49,11 @@ class LegalDocumentRepoImpl extends LegalDocumentRepo {
       String authToken, String slug) async {
     late GlobalResponseModel? response;
 
-    await LegalDocumentRequests.deleteLegalDocument(authToken, slug).then((value) {
+    await LegalDocumentRequests.deleteLegalDocument(authToken, slug)
+        .then((value) {
       response = value;
     }).onError(
-          (error, stackTrace) {
+      (error, stackTrace) {
         response = GlobalResponseModel.fromJson(const {
           "status": true,
           "message": "An error occurred whilst adding an issue.",
@@ -70,7 +72,7 @@ class LegalDocumentRepoImpl extends LegalDocumentRepo {
     await LegalDocumentRequests.getLegalDocument(authToken, slug).then((value) {
       response = value;
     }).onError(
-          (error, stackTrace) => throw Exception(error),
+      (error, stackTrace) => throw Exception(error),
     );
     return response;
   }
@@ -80,10 +82,11 @@ class LegalDocumentRepoImpl extends LegalDocumentRepo {
       String authToken, String slug) async {
     late GlobalResponseModel? response;
 
-    await LegalDocumentRequests.downloadLegalDocument(authToken, slug).then((value) {
+    await LegalDocumentRequests.downloadLegalDocument(authToken, slug)
+        .then((value) {
       response = value;
     }).onError(
-          (error, stackTrace) {
+      (error, stackTrace) {
         response = GlobalResponseModel.fromJson(const {
           "status": true,
           "message": "An error occurred whilst adding an issue.",

@@ -73,7 +73,7 @@ class LegalCaseRequests {
 
     GlobalResponseModel? responseModel;
     await client.delete(url.toString()).then(
-          (value) {
+      (value) {
         if (value.statusCode == 201) {
           GlobalResponseModel.fromJson(value.data);
         } else {
@@ -81,15 +81,14 @@ class LegalCaseRequests {
         }
       },
     ).onError(
-          (error, stackTrace) {
+      (error, stackTrace) {
         throw Exception(error);
       },
     );
     return responseModel;
   }
 
-  static Future<LegalCase?> getLegalCase(
-      String authToken, String slug) async {
+  static Future<LegalCase?> getLegalCase(String authToken, String slug) async {
     final client = http.Dio();
     client.httpClientAdapter = nda.NativeAdapter();
     client.options.headers = {
@@ -101,7 +100,7 @@ class LegalCaseRequests {
 
     LegalCase? responseModel;
     await client.get(url.toString()).then(
-          (value) {
+      (value) {
         if (value.statusCode == 200) {
           responseModel = LegalCase.fromJson(value.data["data"]["data"]);
         } else {
@@ -109,7 +108,7 @@ class LegalCaseRequests {
         }
       },
     ).onError(
-          (error, stackTrace) {
+      (error, stackTrace) {
         throw Exception(error);
       },
     );
@@ -129,7 +128,7 @@ class LegalCaseRequests {
 
     GlobalResponseModel? responseModel;
     await client.download(url.toString(), "~/Documents").then(
-          (value) {
+      (value) {
         if (value.statusCode == 201) {
           GlobalResponseModel.fromJson(value.data);
         } else {
@@ -137,7 +136,7 @@ class LegalCaseRequests {
         }
       },
     ).onError(
-          (error, stackTrace) {
+      (error, stackTrace) {
         throw Exception(error);
       },
     );

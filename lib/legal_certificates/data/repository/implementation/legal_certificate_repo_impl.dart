@@ -49,10 +49,11 @@ class LegalCertificateRepoImpl extends LegalCertificateRepo {
       String authToken, String slug) async {
     late GlobalResponseModel? response;
 
-    await LegalCertificateRequests.deleteLegalCertificate(authToken, slug).then((value) {
+    await LegalCertificateRequests.deleteLegalCertificate(authToken, slug)
+        .then((value) {
       response = value;
     }).onError(
-          (error, stackTrace) {
+      (error, stackTrace) {
         response = GlobalResponseModel.fromJson(const {
           "status": true,
           "message": "An error occurred whilst adding an issue.",
@@ -65,13 +66,15 @@ class LegalCertificateRepoImpl extends LegalCertificateRepo {
   }
 
   @override
-  Future<LegalCertificate?> getLegalCertificate(String authToken, String slug) async {
+  Future<LegalCertificate?> getLegalCertificate(
+      String authToken, String slug) async {
     late LegalCertificate? response;
 
-    await LegalCertificateRequests.getLegalCertificate(authToken, slug).then((value) {
+    await LegalCertificateRequests.getLegalCertificate(authToken, slug)
+        .then((value) {
       response = value;
     }).onError(
-          (error, stackTrace) => throw Exception(error),
+      (error, stackTrace) => throw Exception(error),
     );
     return response;
   }
@@ -81,10 +84,11 @@ class LegalCertificateRepoImpl extends LegalCertificateRepo {
       String authToken, String slug) async {
     late GlobalResponseModel? response;
 
-    await LegalCertificateRequests.downloadLegalCertificate(authToken, slug).then((value) {
+    await LegalCertificateRequests.downloadLegalCertificate(authToken, slug)
+        .then((value) {
       response = value;
     }).onError(
-          (error, stackTrace) {
+      (error, stackTrace) {
         response = GlobalResponseModel.fromJson(const {
           "status": true,
           "message": "An error occurred whilst adding an issue.",

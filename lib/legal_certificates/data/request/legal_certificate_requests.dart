@@ -75,7 +75,7 @@ class LegalCertificateRequests {
 
     GlobalResponseModel? responseModel;
     await client.delete(url.toString()).then(
-          (value) {
+      (value) {
         if (value.statusCode == 201) {
           GlobalResponseModel.fromJson(value.data);
         } else {
@@ -83,7 +83,7 @@ class LegalCertificateRequests {
         }
       },
     ).onError(
-          (error, stackTrace) {
+      (error, stackTrace) {
         throw Exception(error);
       },
     );
@@ -103,7 +103,7 @@ class LegalCertificateRequests {
 
     LegalCertificate? responseModel;
     await client.get(url.toString()).then(
-          (value) {
+      (value) {
         if (value.statusCode == 200) {
           responseModel = LegalCertificate.fromJson(value.data["data"]["data"]);
         } else {
@@ -111,7 +111,7 @@ class LegalCertificateRequests {
         }
       },
     ).onError(
-          (error, stackTrace) {
+      (error, stackTrace) {
         throw Exception(error);
       },
     );
@@ -131,7 +131,7 @@ class LegalCertificateRequests {
 
     GlobalResponseModel? responseModel;
     await client.download(url.toString(), "~/Documents").then(
-          (value) {
+      (value) {
         if (value.statusCode == 201) {
           GlobalResponseModel.fromJson(value.data);
         } else {
@@ -139,7 +139,7 @@ class LegalCertificateRequests {
         }
       },
     ).onError(
-          (error, stackTrace) {
+      (error, stackTrace) {
         throw Exception(error);
       },
     );

@@ -47,13 +47,17 @@ extension LegalCertificatesPageStatusX on LegalCertificatesPageStatus {
 
   bool get isDeleteError => this == LegalCertificatesPageStatus.deleteError;
 
-  bool get isCertificateLoading => this == LegalCertificatesPageStatus.certificateLoading;
+  bool get isCertificateLoading =>
+      this == LegalCertificatesPageStatus.certificateLoading;
 
-  bool get isCertificateSuccess => this == LegalCertificatesPageStatus.certificateSuccess;
+  bool get isCertificateSuccess =>
+      this == LegalCertificatesPageStatus.certificateSuccess;
 
-  bool get isCertificateError => this == LegalCertificatesPageStatus.certificateError;
+  bool get isCertificateError =>
+      this == LegalCertificatesPageStatus.certificateError;
 
-  bool get isCertificateEdit => this == LegalCertificatesPageStatus.certificateEdit;
+  bool get isCertificateEdit =>
+      this == LegalCertificatesPageStatus.certificateEdit;
 
   bool get isDownloading => this == LegalCertificatesPageStatus.downloading;
 

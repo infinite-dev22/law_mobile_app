@@ -30,27 +30,27 @@ class _CasesFormState extends State<CasesForm> {
   Future<void> _pickFile() async {
     FilePicker.platform
         .pickFiles(
-      type: FileType.custom,
-      allowedExtensions: [
-        "pdf",
-        "doc",
-        "docx",
-        "odt",
-        "ods",
-        "txt",
-        "xls",
-        "xlsx",
-        "ppt",
-        "pptx"
-      ],
-      dialogTitle: "Select Document",
-    )
+          type: FileType.custom,
+          allowedExtensions: [
+            "pdf",
+            "doc",
+            "docx",
+            "odt",
+            "ods",
+            "txt",
+            "xls",
+            "xlsx",
+            "ppt",
+            "pptx"
+          ],
+          dialogTitle: "Select Document",
+        )
         .then(
           (value) => {
-        if (value != null) {file = value.files.first},
-        setState(() {}),
-      },
-    );
+            if (value != null) {file = value.files.first},
+            setState(() {}),
+          },
+        );
   }
 
   final TextEditingController _titleController = TextEditingController();
@@ -86,18 +86,19 @@ class _CasesFormState extends State<CasesForm> {
 
   Widget _buildBody(BoxConstraints constraints, BuildContext blocContext,
       LegalCasesPageState state) {
-    if (widget.parentContext.read<LegalCasesPageBloc>().state.legalCase != null) {
+    if (widget.parentContext.read<LegalCasesPageBloc>().state.legalCase !=
+        null) {
       _titleController.text = widget.parentContext
-          .read<LegalCasesPageBloc>()
-          .state
-          .legalCase!
-          .title ??
+              .read<LegalCasesPageBloc>()
+              .state
+              .legalCase!
+              .title ??
           "";
       _descriptionController.text = widget.parentContext
-          .read<LegalCasesPageBloc>()
-          .state
-          .legalCase!
-          .description ??
+              .read<LegalCasesPageBloc>()
+              .state
+              .legalCase!
+              .description ??
           "";
     }
 

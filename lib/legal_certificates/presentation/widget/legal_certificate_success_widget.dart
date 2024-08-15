@@ -21,30 +21,33 @@ class LegalCertificateSuccessWidget extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             itemCount: state.certificates!.length,
             itemBuilder: (context, index) => LegalCertificateItem(
-              data: state.certificates!.elementAt(index),
-              onTap: () {
-                blocContext.read<LegalCertificatesPageBloc>().add(GetLegalCertificateEvent(
-                    state.certificates!.elementAt(index).slug!, false));
-              },
-              onTapDelete: () {
-                showAdaptiveDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (context) {
-                    return _deleteDialog(blocContext, context, state, index);
+                  data: state.certificates!.elementAt(index),
+                  onTap: () {
+                    blocContext.read<LegalCertificatesPageBloc>().add(
+                        GetLegalCertificateEvent(
+                            state.certificates!.elementAt(index).slug!, false));
                   },
-                );
-              },
-              onTapEdit: () {
-                blocContext.read<LegalCertificatesPageBloc>().add(GetLegalCertificateEvent(
-                    state.certificates!.elementAt(index).slug!, true));
-              },
-              onTapDownload: () {
-                blocContext.read<LegalCertificatesPageBloc>().add(
-                    DownloadLegalCertificateEvent(
-                        state.certificates!.elementAt(index).slug!));
-              },
-            ));
+                  onTapDelete: () {
+                    showAdaptiveDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) {
+                        return _deleteDialog(
+                            blocContext, context, state, index);
+                      },
+                    );
+                  },
+                  onTapEdit: () {
+                    blocContext.read<LegalCertificatesPageBloc>().add(
+                        GetLegalCertificateEvent(
+                            state.certificates!.elementAt(index).slug!, true));
+                  },
+                  onTapDownload: () {
+                    blocContext.read<LegalCertificatesPageBloc>().add(
+                        DownloadLegalCertificateEvent(
+                            state.certificates!.elementAt(index).slug!));
+                  },
+                ));
       },
       listener: (blocContext, state) {
         if (state.status.isDeleting) {
@@ -77,7 +80,9 @@ class LegalCertificateSuccessWidget extends StatelessWidget {
         if (state.status.isDeleted) {
           Toast.show("Certificate deleted successfully",
               duration: Toast.lengthShort, gravity: Toast.bottom);
-          blocContext.read<LegalCertificatesPageBloc>().add(LoadLegalCertificatesEvent());
+          blocContext
+              .read<LegalCertificatesPageBloc>()
+              .add(LoadLegalCertificatesEvent());
           GoRouter.of(context).pop();
         }
         if (state.status.isDownloaded) {
@@ -94,7 +99,8 @@ class LegalCertificateSuccessWidget extends StatelessWidget {
           Toast.show("An error occurred downloading the certificate document",
               duration: Toast.lengthShort, gravity: Toast.bottom);
           GoRouter.of(context).pop();
-        }},
+        }
+      },
     );
   }
 
@@ -141,7 +147,8 @@ class LegalCertificateSuccessWidget extends StatelessWidget {
             busy: state.status.isDeleting,
             onTap: () {
               blocContext.read<LegalCertificatesPageBloc>().add(
-                  DeleteLegalCertificateEvent(state.certificates!.elementAt(index).slug!));
+                  DeleteLegalCertificateEvent(
+                      state.certificates!.elementAt(index).slug!));
               GoRouter.of(context).pop();
             })
       ],

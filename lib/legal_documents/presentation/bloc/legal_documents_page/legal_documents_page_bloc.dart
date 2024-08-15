@@ -101,8 +101,8 @@ class LegalDocumentsPageBloc
     }
   }
 
-  _mapDeleteLegalDocumentToState(
-      DeleteLegalDocumentEvent event, Emitter<LegalDocumentsPageState> emit) async {
+  _mapDeleteLegalDocumentToState(DeleteLegalDocumentEvent event,
+      Emitter<LegalDocumentsPageState> emit) async {
     emit(state.copyWith(status: LegalDocumentsPageStatus.deleting));
     try {
       await LegalDocumentRepoImpl()
@@ -124,8 +124,8 @@ class LegalDocumentsPageBloc
     }
   }
 
-  _mapGetLegalDocumentToState(
-      GetLegalDocumentEvent event, Emitter<LegalDocumentsPageState> emit) async {
+  _mapGetLegalDocumentToState(GetLegalDocumentEvent event,
+      Emitter<LegalDocumentsPageState> emit) async {
     emit(state.copyWith(status: LegalDocumentsPageStatus.documentLoading));
     try {
       await LegalDocumentRepoImpl()
@@ -133,9 +133,11 @@ class LegalDocumentsPageBloc
           .then((document) {
         emit(event.edit
             ? state.copyWith(
-            status: LegalDocumentsPageStatus.documentEdit, document: document)
+                status: LegalDocumentsPageStatus.documentEdit,
+                document: document)
             : state.copyWith(
-            status: LegalDocumentsPageStatus.documentSuccess, document: document));
+                status: LegalDocumentsPageStatus.documentSuccess,
+                document: document));
       }).onError((error, stackTrace) {
         emit(state.copyWith(status: LegalDocumentsPageStatus.documentError));
         if (kDebugMode) {
@@ -151,8 +153,8 @@ class LegalDocumentsPageBloc
     }
   }
 
-  _mapDownloadLegalDocumentToState(
-      DownloadLegalDocumentEvent event, Emitter<LegalDocumentsPageState> emit) async {
+  _mapDownloadLegalDocumentToState(DownloadLegalDocumentEvent event,
+      Emitter<LegalDocumentsPageState> emit) async {
     emit(state.copyWith(status: LegalDocumentsPageStatus.downloading));
     try {
       await LegalDocumentRepoImpl()

@@ -86,7 +86,8 @@ class _PublicationsFormState extends State<PublicationsForm> {
 
   Widget _buildBody(BoxConstraints constraints, BuildContext blocContext,
       PublicationsPageState state) {
-    if (widget.parentContext.read<PublicationsPageBloc>().state.publication != null) {
+    if (widget.parentContext.read<PublicationsPageBloc>().state.publication !=
+        null) {
       _titleController.text = widget.parentContext
               .read<PublicationsPageBloc>()
               .state
@@ -177,6 +178,8 @@ class _PublicationsFormState extends State<PublicationsForm> {
       file: File(file!.path!),
     );
 
-    context.read<PublicationsPageBloc>().add(PublicationPostEvent(legalPublication));
+    context
+        .read<PublicationsPageBloc>()
+        .add(PublicationPostEvent(legalPublication));
   }
 }

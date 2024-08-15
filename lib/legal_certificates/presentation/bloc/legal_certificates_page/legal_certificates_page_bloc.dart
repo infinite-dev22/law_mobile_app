@@ -103,8 +103,8 @@ class LegalCertificatesPageBloc
     }
   }
 
-  _mapDeleteLegalCertificateToState(
-      DeleteLegalCertificateEvent event, Emitter<LegalCertificatesPageState> emit) async {
+  _mapDeleteLegalCertificateToState(DeleteLegalCertificateEvent event,
+      Emitter<LegalCertificatesPageState> emit) async {
     emit(state.copyWith(status: LegalCertificatesPageStatus.deleting));
     try {
       await LegalCertificateRepoImpl()
@@ -126,35 +126,40 @@ class LegalCertificatesPageBloc
     }
   }
 
-  _mapGetLegalCertificateToState(
-      GetLegalCertificateEvent event, Emitter<LegalCertificatesPageState> emit) async {
-    emit(state.copyWith(status: LegalCertificatesPageStatus.certificateLoading));
+  _mapGetLegalCertificateToState(GetLegalCertificateEvent event,
+      Emitter<LegalCertificatesPageState> emit) async {
+    emit(
+        state.copyWith(status: LegalCertificatesPageStatus.certificateLoading));
     try {
       await LegalCertificateRepoImpl()
           .getLegalCertificate(authData.data!.token!, event.slug)
           .then((certificate) {
         emit(event.edit
             ? state.copyWith(
-            status: LegalCertificatesPageStatus.certificateEdit, certificate: certificate)
+                status: LegalCertificatesPageStatus.certificateEdit,
+                certificate: certificate)
             : state.copyWith(
-            status: LegalCertificatesPageStatus.certificateSuccess, certificate: certificate));
+                status: LegalCertificatesPageStatus.certificateSuccess,
+                certificate: certificate));
       }).onError((error, stackTrace) {
-        emit(state.copyWith(status: LegalCertificatesPageStatus.certificateError));
+        emit(state.copyWith(
+            status: LegalCertificatesPageStatus.certificateError));
         if (kDebugMode) {
           log("Error: $error");
           log("Stacktrace: $stackTrace");
         }
       });
     } catch (e) {
-      emit(state.copyWith(status: LegalCertificatesPageStatus.certificateError));
+      emit(
+          state.copyWith(status: LegalCertificatesPageStatus.certificateError));
       if (kDebugMode) {
         log("Error: $e");
       }
     }
   }
 
-  _mapDownloadLegalCertificateToState(
-      DownloadLegalCertificateEvent event, Emitter<LegalCertificatesPageState> emit) async {
+  _mapDownloadLegalCertificateToState(DownloadLegalCertificateEvent event,
+      Emitter<LegalCertificatesPageState> emit) async {
     emit(state.copyWith(status: LegalCertificatesPageStatus.downloading));
     try {
       await LegalCertificateRepoImpl()

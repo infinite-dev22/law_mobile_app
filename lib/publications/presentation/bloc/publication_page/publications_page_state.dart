@@ -47,11 +47,14 @@ extension PublicationsPageStatusX on PublicationsPageStatus {
 
   bool get isDeleteError => this == PublicationsPageStatus.deleteError;
 
-  bool get isPublicationLoading => this == PublicationsPageStatus.publicationLoading;
+  bool get isPublicationLoading =>
+      this == PublicationsPageStatus.publicationLoading;
 
-  bool get isPublicationSuccess => this == PublicationsPageStatus.publicationSuccess;
+  bool get isPublicationSuccess =>
+      this == PublicationsPageStatus.publicationSuccess;
 
-  bool get isPublicationError => this == PublicationsPageStatus.publicationError;
+  bool get isPublicationError =>
+      this == PublicationsPageStatus.publicationError;
 
   bool get isPublicationEdit => this == PublicationsPageStatus.publicationEdit;
 

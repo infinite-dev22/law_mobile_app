@@ -143,7 +143,8 @@ class PublicationSuccessWidget extends StatelessWidget {
             busy: state.status.isDeleting,
             onTap: () {
               blocContext.read<PublicationsPageBloc>().add(
-                  DeletePublicationEvent(state.publications!.elementAt(index).slug!));
+                  DeletePublicationEvent(
+                      state.publications!.elementAt(index).slug!));
               GoRouter.of(context).pop();
             })
       ],

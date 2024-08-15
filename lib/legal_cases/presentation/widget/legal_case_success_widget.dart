@@ -21,30 +21,33 @@ class LegalCaseSuccessWidget extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             itemCount: state.legalCases!.length,
             itemBuilder: (context, index) => LegalCaseItem(
-              data: state.legalCases!.elementAt(index),
-              onTap: () {
-                blocContext.read<LegalCasesPageBloc>().add(GetLegalCaseEvent(
-                    state.legalCases!.elementAt(index).slug!, false));
-              },
-              onTapDelete: () {
-                showAdaptiveDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (context) {
-                    return _deleteDialog(blocContext, context, state, index);
+                  data: state.legalCases!.elementAt(index),
+                  onTap: () {
+                    blocContext.read<LegalCasesPageBloc>().add(
+                        GetLegalCaseEvent(
+                            state.legalCases!.elementAt(index).slug!, false));
                   },
-                );
-              },
-              onTapEdit: () {
-                blocContext.read<LegalCasesPageBloc>().add(GetLegalCaseEvent(
-                    state.legalCases!.elementAt(index).slug!, true));
-              },
-              onTapDownload: () {
-                blocContext.read<LegalCasesPageBloc>().add(
-                    DownloadLegalCaseEvent(
-                        state.legalCases!.elementAt(index).slug!));
-              },
-            ));
+                  onTapDelete: () {
+                    showAdaptiveDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) {
+                        return _deleteDialog(
+                            blocContext, context, state, index);
+                      },
+                    );
+                  },
+                  onTapEdit: () {
+                    blocContext.read<LegalCasesPageBloc>().add(
+                        GetLegalCaseEvent(
+                            state.legalCases!.elementAt(index).slug!, true));
+                  },
+                  onTapDownload: () {
+                    blocContext.read<LegalCasesPageBloc>().add(
+                        DownloadLegalCaseEvent(
+                            state.legalCases!.elementAt(index).slug!));
+                  },
+                ));
       },
       listener: (blocContext, state) {
         if (state.status.isDeleting) {
@@ -141,8 +144,8 @@ class LegalCaseSuccessWidget extends StatelessWidget {
             outlined: true,
             busy: state.status.isDeleting,
             onTap: () {
-              blocContext.read<LegalCasesPageBloc>().add(
-                  DeleteLegalCaseEvent(state.legalCases!.elementAt(index).slug!));
+              blocContext.read<LegalCasesPageBloc>().add(DeleteLegalCaseEvent(
+                  state.legalCases!.elementAt(index).slug!));
               GoRouter.of(context).pop();
             })
       ],

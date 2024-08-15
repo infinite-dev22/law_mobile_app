@@ -6,7 +6,6 @@ import 'package:dirm_attorneys_mobile/publications/data/model/publication.dart';
 import 'package:native_dio_adapter/native_dio_adapter.dart' as nda;
 
 import '../../../Global/Variables/strings.dart';
-import '../model/publication.dart';
 
 class PublicationRequests {
   static Future<List<Publication>> getPublications(String authToken) async {

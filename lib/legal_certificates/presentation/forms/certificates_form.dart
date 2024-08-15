@@ -30,27 +30,27 @@ class _CertificatesFormState extends State<CertificatesForm> {
   Future<void> _pickFile() async {
     FilePicker.platform
         .pickFiles(
-      type: FileType.custom,
-      allowedExtensions: [
-        "pdf",
-        "doc",
-        "docx",
-        "odt",
-        "ods",
-        "txt",
-        "xls",
-        "xlsx",
-        "ppt",
-        "pptx"
-      ],
-      dialogTitle: "Select Document",
-    )
+          type: FileType.custom,
+          allowedExtensions: [
+            "pdf",
+            "doc",
+            "docx",
+            "odt",
+            "ods",
+            "txt",
+            "xls",
+            "xlsx",
+            "ppt",
+            "pptx"
+          ],
+          dialogTitle: "Select Document",
+        )
         .then(
           (value) => {
-        if (value != null) {file = value.files.first},
-        setState(() {}),
-      },
-    );
+            if (value != null) {file = value.files.first},
+            setState(() {}),
+          },
+        );
   }
 
   final TextEditingController _titleController = TextEditingController();
@@ -86,18 +86,22 @@ class _CertificatesFormState extends State<CertificatesForm> {
 
   Widget _buildBody(BoxConstraints constraints, BuildContext blocContext,
       LegalCertificatesPageState state) {
-    if (widget.parentContext.read<LegalCertificatesPageBloc>().state.certificate != null) {
+    if (widget.parentContext
+            .read<LegalCertificatesPageBloc>()
+            .state
+            .certificate !=
+        null) {
       _titleController.text = widget.parentContext
-          .read<LegalCertificatesPageBloc>()
-          .state
-          .certificate!
-          .title ??
+              .read<LegalCertificatesPageBloc>()
+              .state
+              .certificate!
+              .title ??
           "";
       _descriptionController.text = widget.parentContext
-          .read<LegalCertificatesPageBloc>()
-          .state
-          .certificate!
-          .description ??
+              .read<LegalCertificatesPageBloc>()
+              .state
+              .certificate!
+              .description ??
           "";
     }
 
@@ -177,6 +181,8 @@ class _CertificatesFormState extends State<CertificatesForm> {
       file: File(file!.path!),
     );
 
-    context.read<LegalCertificatesPageBloc>().add(LegalCertificatePostEvent(legalCertificate));
+    context
+        .read<LegalCertificatesPageBloc>()
+        .add(LegalCertificatePostEvent(legalCertificate));
   }
 }

@@ -53,7 +53,7 @@ class LegalCaseRepoImpl extends LegalCaseRepo {
     await LegalCaseRequests.deleteLegalCase(authToken, slug).then((value) {
       response = value;
     }).onError(
-          (error, stackTrace) {
+      (error, stackTrace) {
         response = GlobalResponseModel.fromJson(const {
           "status": true,
           "message": "An error occurred whilst adding an issue.",
@@ -72,7 +72,7 @@ class LegalCaseRepoImpl extends LegalCaseRepo {
     await LegalCaseRequests.getLegalCase(authToken, slug).then((value) {
       response = value;
     }).onError(
-          (error, stackTrace) => throw Exception(error),
+      (error, stackTrace) => throw Exception(error),
     );
     return response;
   }
@@ -85,7 +85,7 @@ class LegalCaseRepoImpl extends LegalCaseRepo {
     await LegalCaseRequests.downloadLegalCase(authToken, slug).then((value) {
       response = value;
     }).onError(
-          (error, stackTrace) {
+      (error, stackTrace) {
         response = GlobalResponseModel.fromJson(const {
           "status": true,
           "message": "An error occurred whilst adding an issue.",

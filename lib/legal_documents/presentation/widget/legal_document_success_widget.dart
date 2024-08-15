@@ -14,37 +14,40 @@ class LegalDocumentSuccessWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ToastContext().init(context);
-    
+
     return BlocConsumer<LegalDocumentsPageBloc, LegalDocumentsPageState>(
       builder: (blocContext, state) {
         return ListView.builder(
-            padding: const EdgeInsets.all(8.0),
-            itemCount: state.documents!.length,
-            itemBuilder: (context, index) => LegalDocumentItem(
-              data: state.documents!.elementAt(index),
-              onTap: () {
-                blocContext.read<LegalDocumentsPageBloc>().add(GetLegalDocumentEvent(
-                    state.documents!.elementAt(index).slug!, false));
-              },
-              onTapDelete: () {
-                showAdaptiveDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (context) {
-                    return _deleteDialog(blocContext, context, state, index);
-                  },
-                );
-              },
-              onTapEdit: () {
-                blocContext.read<LegalDocumentsPageBloc>().add(GetLegalDocumentEvent(
-                    state.documents!.elementAt(index).slug!, true));
-              },
-              onTapDownload: () {
-                blocContext.read<LegalDocumentsPageBloc>().add(
-                    DownloadLegalDocumentEvent(
-                        state.documents!.elementAt(index).slug!));
-              },
-            ),);
+          padding: const EdgeInsets.all(8.0),
+          itemCount: state.documents!.length,
+          itemBuilder: (context, index) => LegalDocumentItem(
+            data: state.documents!.elementAt(index),
+            onTap: () {
+              blocContext.read<LegalDocumentsPageBloc>().add(
+                  GetLegalDocumentEvent(
+                      state.documents!.elementAt(index).slug!, false));
+            },
+            onTapDelete: () {
+              showAdaptiveDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) {
+                  return _deleteDialog(blocContext, context, state, index);
+                },
+              );
+            },
+            onTapEdit: () {
+              blocContext.read<LegalDocumentsPageBloc>().add(
+                  GetLegalDocumentEvent(
+                      state.documents!.elementAt(index).slug!, true));
+            },
+            onTapDownload: () {
+              blocContext.read<LegalDocumentsPageBloc>().add(
+                  DownloadLegalDocumentEvent(
+                      state.documents!.elementAt(index).slug!));
+            },
+          ),
+        );
       },
       listener: (blocContext, state) {
         if (state.status.isDeleting) {
@@ -77,7 +80,9 @@ class LegalDocumentSuccessWidget extends StatelessWidget {
         if (state.status.isDeleted) {
           Toast.show("Document deleted successfully",
               duration: Toast.lengthShort, gravity: Toast.bottom);
-          blocContext.read<LegalDocumentsPageBloc>().add(LoadLegalDocumentsEvent());
+          blocContext
+              .read<LegalDocumentsPageBloc>()
+              .add(LoadLegalDocumentsEvent());
           GoRouter.of(context).pop();
         }
         if (state.status.isDownloaded) {
@@ -94,7 +99,8 @@ class LegalDocumentSuccessWidget extends StatelessWidget {
           Toast.show("An error occurred downloading the document file",
               duration: Toast.lengthShort, gravity: Toast.bottom);
           GoRouter.of(context).pop();
-        }},
+        }
+      },
     );
   }
 
@@ -141,7 +147,8 @@ class LegalDocumentSuccessWidget extends StatelessWidget {
             busy: state.status.isDeleting,
             onTap: () {
               blocContext.read<LegalDocumentsPageBloc>().add(
-                  DeleteLegalDocumentEvent(state.documents!.elementAt(index).slug!));
+                  DeleteLegalDocumentEvent(
+                      state.documents!.elementAt(index).slug!));
               GoRouter.of(context).pop();
             })
       ],

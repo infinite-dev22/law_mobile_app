@@ -111,7 +111,7 @@ class Publication extends Equatable {
     );
   }
 
-  factory Publication.fromJson(Map<String, dynamic> json){
+  factory Publication.fromJson(Map<String, dynamic> json) {
     return Publication(
       id: json["id"],
       clientId: json["client_id"],
@@ -130,39 +130,58 @@ class Publication extends Equatable {
       deletedAt: json["deleted_at"],
       issueStatus: json["issue_status"],
       adviceFilePath: json["advice_file_path"],
-      clients: json["clients"] == null ? null : Client.fromJson(json["clients"]),
+      clients:
+          json["clients"] == null ? null : Client.fromJson(json["clients"]),
     );
   }
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "client_id": clientId,
-    "title": title,
-    "description": description,
-    "slug": slug,
-    "uploaded_file_path": uploadedFilePath,
-    "uploaded_file_name": uploadedFileName,
-    "certified_file_path": certifiedFilePath,
-    "certified_file_name": certifiedFileName,
-    "comment": comment,
-    "assigned_to": assignedTo,
-    "status": status,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
-    "deleted_at": deletedAt,
-    "issue_status": issueStatus,
-    "advice_file_path": adviceFilePath,
-    "clients": clients?.toJson(),
-  };
+        "id": id,
+        "client_id": clientId,
+        "title": title,
+        "description": description,
+        "slug": slug,
+        "uploaded_file_path": uploadedFilePath,
+        "uploaded_file_name": uploadedFileName,
+        "certified_file_path": certifiedFilePath,
+        "certified_file_name": certifiedFileName,
+        "comment": comment,
+        "assigned_to": assignedTo,
+        "status": status,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "deleted_at": deletedAt,
+        "issue_status": issueStatus,
+        "advice_file_path": adviceFilePath,
+        "clients": clients?.toJson(),
+      };
 
   Map<String, dynamic> postJson() => {
-    "title": title,
-    "description": description,
-    "file": file,
-  };
+        "title": title,
+        "description": description,
+        "file": file,
+      };
 
   @override
   List<Object?> get props => [
-    id, clientId, title, description, slug, uploadedFilePath, uploadedFileName, certifiedFilePath, certifiedFileName, comment, assignedTo, status, createdAt, updatedAt, deletedAt, issueStatus, adviceFilePath, clients, file ];
-
+        id,
+        clientId,
+        title,
+        description,
+        slug,
+        uploadedFilePath,
+        uploadedFileName,
+        certifiedFilePath,
+        certifiedFileName,
+        comment,
+        assignedTo,
+        status,
+        createdAt,
+        updatedAt,
+        deletedAt,
+        issueStatus,
+        adviceFilePath,
+        clients,
+        file
+      ];
 }

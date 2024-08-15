@@ -47,9 +47,11 @@ extension LegalDocumentsPageStatusX on LegalDocumentsPageStatus {
 
   bool get isDeleteError => this == LegalDocumentsPageStatus.deleteError;
 
-  bool get isDocumentLoading => this == LegalDocumentsPageStatus.documentLoading;
+  bool get isDocumentLoading =>
+      this == LegalDocumentsPageStatus.documentLoading;
 
-  bool get isDocumentSuccess => this == LegalDocumentsPageStatus.documentSuccess;
+  bool get isDocumentSuccess =>
+      this == LegalDocumentsPageStatus.documentSuccess;
 
   bool get isDocumentError => this == LegalDocumentsPageStatus.documentError;
 

@@ -94,7 +94,7 @@ class LegalIssuesPage extends StatelessWidget {
               body: const GlobalErrorWidget());
         }
         return Scaffold(
-              resizeToAvoidBottomInset: true,
+            resizeToAvoidBottomInset: true,
             appBar: AppBar(
               title: const Text("Issues"),
               backgroundColor: AppColors.primary,
@@ -191,8 +191,8 @@ class LegalIssuesPage extends StatelessWidget {
             child: BlocProvider(
               create: (context) => LegalIssuesPagesBloc(),
               child: IssuesForm(
-              parentContext: blocContext,
-            ),
+                parentContext: blocContext,
+              ),
             ),
           ),
         );
