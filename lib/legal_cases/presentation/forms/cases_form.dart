@@ -13,7 +13,12 @@ import '../../data/model/legal_case.dart';
 import '../bloc/legal_cases_page/legal_cases_page_bloc.dart';
 
 class CasesForm extends StatefulWidget {
-  const CasesForm({super.key});
+  final BuildContext parentContext;
+
+  const CasesForm({
+    super.key,
+    required this.parentContext,
+  });
 
   @override
   State<CasesForm> createState() => _CasesFormState();
@@ -63,6 +68,9 @@ class _CasesFormState extends State<CasesForm> {
       },
       listener: (BuildContext context, LegalCasesPageState state) {
         if (state.status.isPosted) {
+          widget.parentContext
+              .read<LegalCasesPageBloc>()
+              .add(LoadLegalCasesEvent());
           GoRouter.of(context).pop();
         }
         if (state.status.isPostError) {
@@ -78,13 +86,35 @@ class _CasesFormState extends State<CasesForm> {
 
   Widget _buildBody(BoxConstraints constraints, BuildContext blocContext,
       LegalCasesPageState state) {
+    if (widget.parentContext.read<LegalCasesPageBloc>().state.legalCase !=
+        null) {
+      _titleController.text = widget.parentContext
+              .read<LegalCasesPageBloc>()
+              .state
+              .legalCase!
+              .title ??
+          "";
+      _descriptionController.text = widget.parentContext
+              .read<LegalCasesPageBloc>()
+              .state
+              .legalCase!
+              .description ??
+          "";
+    }
+
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Form(
       key: formKey,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
+          const Center(
+            child: Text(
+              "Case Form",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            ),
+          ),
+          const SizedBox(height: 8.0),
           MwigoTextField(
             label: "Title",
             controller: _titleController,
@@ -102,7 +132,7 @@ class _CasesFormState extends State<CasesForm> {
             disabled: state.status.isPosting,
             onTap: () => _pickFile(),
           ),
-          const SizedBox(height: 80),
+          const SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

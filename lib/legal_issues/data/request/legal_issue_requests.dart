@@ -126,7 +126,7 @@ class LegalIssueRequests {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    var url = Uri.https(appDNS, '/api/v1/download_pdf/slug');
+    var url = Uri.https(appDNS, '/api/v1/download_issues_uploaded_doc/slug');
 
     GlobalResponseModel? responseModel;
     await client.download(url.toString(), "~/Documents").then(

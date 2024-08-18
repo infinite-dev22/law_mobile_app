@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
 import '../../../Global/Variables/colors.dart';
@@ -20,16 +21,110 @@ class LegalDocumentsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     ToastContext().init(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Documents"),
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.lighterColor,
-      ),
-      drawer: const AppDrawer(),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(FeatherIcons.plus),
-        onPressed: () {
+    return BlocConsumer<LegalDocumentsPageBloc, LegalDocumentsPageState>(
+      builder: (blocContext, state) {
+        if (state.status.isInitial ||
+            state.status.isDeleted ||
+            state.status.isDownloaded) {
+          blocContext
+              .read<LegalDocumentsPageBloc>()
+              .add(LoadLegalDocumentsEvent());
+        }
+        if (state.status.isSuccess ||
+            state.status.isDeleteError ||
+            state.status.isDownloadError ||
+            state.status.isDocumentError ||
+            state.status.isDocumentSuccess ||
+            state.status.isDocumentEdit) {
+          return Scaffold(
+              resizeToAvoidBottomInset: true,
+              appBar: AppBar(
+                title: const Text("Documents"),
+                backgroundColor: AppColors.primary,
+                foregroundColor: AppColors.lighterColor,
+              ),
+              drawer: const AppDrawer(),
+              floatingActionButton: _displayDocumentForm(blocContext, context),
+              body: const LegalDocumentSuccessWidget());
+        }
+        if (state.status.isLoading || state.status.isDocumentLoading) {
+          return Scaffold(
+              resizeToAvoidBottomInset: true,
+              appBar: AppBar(
+                title: const Text("Documents"),
+                backgroundColor: AppColors.primary,
+                foregroundColor: AppColors.lighterColor,
+              ),
+              drawer: const AppDrawer(),
+              floatingActionButton: _displayDocumentForm(blocContext, context),
+              body: const GlobalLoadingWidget());
+        }
+        if (state.status.isEmpty) {
+          return Scaffold(
+              resizeToAvoidBottomInset: true,
+              appBar: AppBar(
+                title: const Text("Documents"),
+                backgroundColor: AppColors.primary,
+                foregroundColor: AppColors.lighterColor,
+              ),
+              drawer: const AppDrawer(),
+              floatingActionButton: _displayDocumentForm(blocContext, context),
+              body: const NoDocumentsWidget());
+        }
+        if (state.status.isNotFound) {
+          return Scaffold(
+              resizeToAvoidBottomInset: true,
+              appBar: AppBar(
+                title: const Text("Documents"),
+                backgroundColor: AppColors.primary,
+                foregroundColor: AppColors.lighterColor,
+              ),
+              drawer: const AppDrawer(),
+              floatingActionButton: _displayDocumentForm(blocContext, context),
+              body: const NotFoundWidget());
+        }
+        if (state.status.isError) {
+          return Scaffold(
+              resizeToAvoidBottomInset: true,
+              appBar: AppBar(
+                title: const Text("Documents"),
+                backgroundColor: AppColors.primary,
+                foregroundColor: AppColors.lighterColor,
+              ),
+              drawer: const AppDrawer(),
+              floatingActionButton: _displayDocumentForm(blocContext, context),
+              body: const GlobalErrorWidget());
+        }
+        return Scaffold(
+            resizeToAvoidBottomInset: true,
+            appBar: AppBar(
+              title: const Text("Documents"),
+              backgroundColor: AppColors.primary,
+              foregroundColor: AppColors.lighterColor,
+            ),
+            drawer: const AppDrawer(),
+            floatingActionButton: _displayDocumentForm(blocContext, context),
+            body: const NoDocumentsWidget());
+      },
+      listener: (blocContext, state) {
+        if (state.status.isError || state.status.isDocumentError) {
+          Toast.show("An error occurred",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+        }
+        if (state.status.isDocumentLoading) {
+          Toast.show("Loading document",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+        }
+        if (state.status.isDocumentSuccess) {
+          showAdaptiveDialog(
+            context: context,
+            useSafeArea: true,
+            builder: (context) {
+              return _buildDetailDialog(blocContext, context, state);
+            },
+          );
+        }
+        if (state.status.isDocumentEdit) {
           showModalBottomSheet(
             context: context,
             enableDrag: true,
@@ -41,43 +136,69 @@ class LegalDocumentsPage extends StatelessWidget {
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: BlocProvider(
                 create: (context) => LegalDocumentsPageBloc(),
-                child: const SingleChildScrollView(child: DocumentsForm()),
+                child: SingleChildScrollView(
+                  child: DocumentsForm(
+                    parentContext: blocContext,
+                  ),
+                ),
               ),
             ),
           );
-        },
+        }
+      },
+    );
+  }
+
+  Widget _buildDetailDialog(BuildContext blocContext, BuildContext context,
+      LegalDocumentsPageState state) {
+    return AlertDialog.adaptive(
+      scrollable: true,
+      content: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          color: Theme.of(context).colorScheme.secondary,
+        ),
+        width: double.infinity,
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Title: ${state.document!.title!}"),
+            Text("File: ${state.document!.uploadedFileName!}"),
+            Text("Assigned To: ${state.document!.assignedTo ?? ""}"),
+            Text("Status: ${state.document!.issueStatus!}"),
+            Text(
+                "Created On: ${DateFormat('dd/MM/yyyy hh:mm a').format(state.document!.createdAt!)}"),
+            Text(
+                "Last Updated: ${DateFormat('dd/MM/yyyy hh:mm a').format(state.document!.updatedAt!)}"),
+          ],
+        ),
       ),
-      body: BlocConsumer<LegalDocumentsPageBloc, LegalDocumentsPageState>(
-        builder: (context, state) {
-          if (state.status.isInitial) {
-            context
-                .read<LegalDocumentsPageBloc>()
-                .add(LoadLegalDocumentsEvent());
-          }
-          if (state.status.isSuccess) {
-            return const LegalDocumentSuccessWidget();
-          }
-          if (state.status.isLoading) {
-            return const GlobalLoadingWidget();
-          }
-          if (state.status.isEmpty) {
-            return const NoDocumentsWidget();
-          }
-          if (state.status.isNotFound) {
-            return const NotFoundWidget();
-          }
-          if (state.status.isError) {
-            return const GlobalErrorWidget();
-          }
-          return const NoDocumentsWidget();
-        },
-        listener: (context, state) {
-          if (state.status.isError) {
-            Toast.show("An error occurred",
-                duration: Toast.lengthShort, gravity: Toast.bottom);
-          }
-        },
-      ),
+    );
+  }
+
+  Widget _displayDocumentForm(BuildContext blocContext, BuildContext context) {
+    return FloatingActionButton(
+      child: const Icon(FeatherIcons.plus),
+      onPressed: () {
+        showModalBottomSheet(
+          context: context,
+          isDismissible: false,
+          useSafeArea: true,
+          builder: (context) => AnimatedPadding(
+            padding: const EdgeInsets.all(8.0),
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+            child: BlocProvider(
+              create: (context) => LegalDocumentsPageBloc(),
+              child: DocumentsForm(
+                parentContext: blocContext,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

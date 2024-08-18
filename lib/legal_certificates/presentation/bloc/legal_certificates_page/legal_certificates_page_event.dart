@@ -30,3 +30,31 @@ class LegalCertificatePostEvent extends LegalCertificatesPageEvent {
 }
 
 class LegalCertificateAddedEvent extends LegalCertificatesPageEvent {}
+
+class DeleteLegalCertificateEvent extends LegalCertificatesPageEvent {
+  final String slug;
+
+  const DeleteLegalCertificateEvent(this.slug);
+
+  @override
+  List<Object?> get props => [slug];
+}
+
+class GetLegalCertificateEvent extends LegalCertificatesPageEvent {
+  final String slug;
+  final bool edit;
+
+  const GetLegalCertificateEvent(this.slug, this.edit);
+
+  @override
+  List<Object?> get props => [slug, edit];
+}
+
+class DownloadLegalCertificateEvent extends LegalCertificatesPageEvent {
+  final String slug;
+
+  const DownloadLegalCertificateEvent(this.slug);
+
+  @override
+  List<Object?> get props => [slug];
+}

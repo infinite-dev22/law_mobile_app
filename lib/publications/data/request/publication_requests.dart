@@ -1,15 +1,14 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart' as http;
-import 'package:dirm_attorneys_mobile/legal_certificates/data/model/legal_certificate.dart';
+import 'package:dirm_attorneys_mobile/Global/data/model/global_response_model.dart';
+import 'package:dirm_attorneys_mobile/publications/data/model/publication.dart';
 import 'package:native_dio_adapter/native_dio_adapter.dart' as nda;
 
 import '../../../Global/Variables/strings.dart';
-import '../../../Global/data/model/global_response_model.dart';
 
-class LegalCertificateRequests {
-  static Future<List<LegalCertificate>> getLegalCertificates(
-      String authToken) async {
+class PublicationRequests {
+  static Future<List<Publication>> getPublications(String authToken) async {
     final client = http.Dio();
     client.httpClientAdapter = nda.NativeAdapter();
     client.options.headers = {
@@ -17,14 +16,14 @@ class LegalCertificateRequests {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    var url = Uri.https(appDNS, '/api/v1/get_legal_issues');
+    var url = Uri.https(appDNS, '/api/v1/get_publications');
 
-    List<LegalCertificate> responseModel = List.empty(growable: true);
+    List<Publication> responseModel = List.empty(growable: true);
     await client.get(url.toString()).then(
       (value) {
         List response = value.data["data"];
         responseModel =
-            response.map((doc) => LegalCertificate.fromJson(doc)).toList();
+            response.map((doc) => Publication.fromJson(doc)).toList();
       },
     ).onError(
       (error, stackTrace) {
@@ -34,7 +33,7 @@ class LegalCertificateRequests {
     return responseModel;
   }
 
-  static Future<GlobalResponseModel?> postLegalCertificate(
+  static Future<GlobalResponseModel?> postPublication(
       String authToken, http.FormData body) async {
     final client = http.Dio();
     client.httpClientAdapter = nda.NativeAdapter();
@@ -43,7 +42,7 @@ class LegalCertificateRequests {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    var url = Uri.https(appDNS, '/api/v1/add_certify_document');
+    var url = Uri.https(appDNS, '/api/v1/add_publication');
 
     GlobalResponseModel? responseModel;
     await client.post(url.toString(), data: body).then(
@@ -62,7 +61,7 @@ class LegalCertificateRequests {
     return responseModel;
   }
 
-  static Future<GlobalResponseModel?> deleteLegalCertificate(
+  static Future<GlobalResponseModel?> deletePublication(
       String authToken, String slug) async {
     final client = http.Dio();
     client.httpClientAdapter = nda.NativeAdapter();
@@ -71,7 +70,7 @@ class LegalCertificateRequests {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    var url = Uri.https(appDNS, '/api/v1/delete_certify_documents/$slug');
+    var url = Uri.https(appDNS, '/api/v1/delete_publications/$slug');
 
     GlobalResponseModel? responseModel;
     await client.delete(url.toString()).then(
@@ -90,7 +89,7 @@ class LegalCertificateRequests {
     return responseModel;
   }
 
-  static Future<LegalCertificate?> getLegalCertificate(
+  static Future<Publication?> getPublication(
       String authToken, String slug) async {
     final client = http.Dio();
     client.httpClientAdapter = nda.NativeAdapter();
@@ -99,13 +98,13 @@ class LegalCertificateRequests {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    var url = Uri.https(appDNS, '/api/v1/get_certify_documents/$slug');
+    var url = Uri.https(appDNS, '/api/v1/get_publication/$slug');
 
-    LegalCertificate? responseModel;
+    Publication? responseModel;
     await client.get(url.toString()).then(
       (value) {
         if (value.statusCode == 200) {
-          responseModel = LegalCertificate.fromJson(value.data["data"]["data"]);
+          responseModel = Publication.fromJson(value.data["data"]["data"]);
         } else {
           throw Exception("An error occurred!");
         }
@@ -118,7 +117,7 @@ class LegalCertificateRequests {
     return responseModel;
   }
 
-  static Future<GlobalResponseModel?> downloadLegalCertificate(
+  static Future<GlobalResponseModel?> downloadPublication(
       String authToken, String slug) async {
     final client = http.Dio();
     client.httpClientAdapter = nda.NativeAdapter();
@@ -127,7 +126,7 @@ class LegalCertificateRequests {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    var url = Uri.https(appDNS, '/api/v1/download_certify_uploaded_doc/slug');
+    var url = Uri.https(appDNS, '/api/v1/download_issues_uploaded_doc/slug');
 
     GlobalResponseModel? responseModel;
     await client.download(url.toString(), "~/Documents").then(

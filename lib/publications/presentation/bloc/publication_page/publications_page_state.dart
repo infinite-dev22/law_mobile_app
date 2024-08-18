@@ -7,6 +7,19 @@ enum PublicationsPageStatus {
   error,
   notFound,
   empty,
+  posting,
+  posted,
+  postError,
+  deleting,
+  deleted,
+  deleteError,
+  publicationLoading,
+  publicationSuccess,
+  publicationEdit,
+  publicationError,
+  downloading,
+  downloaded,
+  downloadError,
 }
 
 extension PublicationsPageStatusX on PublicationsPageStatus {
@@ -21,6 +34,35 @@ extension PublicationsPageStatusX on PublicationsPageStatus {
   bool get isNotFound => this == PublicationsPageStatus.notFound;
 
   bool get isEmpty => this == PublicationsPageStatus.empty;
+
+  bool get isPosting => this == PublicationsPageStatus.posting;
+
+  bool get isPosted => this == PublicationsPageStatus.posted;
+
+  bool get isPostError => this == PublicationsPageStatus.postError;
+
+  bool get isDeleting => this == PublicationsPageStatus.deleting;
+
+  bool get isDeleted => this == PublicationsPageStatus.deleted;
+
+  bool get isDeleteError => this == PublicationsPageStatus.deleteError;
+
+  bool get isPublicationLoading =>
+      this == PublicationsPageStatus.publicationLoading;
+
+  bool get isPublicationSuccess =>
+      this == PublicationsPageStatus.publicationSuccess;
+
+  bool get isPublicationError =>
+      this == PublicationsPageStatus.publicationError;
+
+  bool get isPublicationEdit => this == PublicationsPageStatus.publicationEdit;
+
+  bool get isDownloading => this == PublicationsPageStatus.downloading;
+
+  bool get isDownloaded => this == PublicationsPageStatus.downloaded;
+
+  bool get isDownloadError => this == PublicationsPageStatus.downloadError;
 }
 
 @immutable

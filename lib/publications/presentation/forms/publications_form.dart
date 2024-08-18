@@ -7,23 +7,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toast/toast.dart';
 
+import '../../../Global/Widgets/mwigo_text_area.dart';
 import '../../../Global/Widgets/mwigo_text_field.dart';
-import '../../data/model/legal_document.dart';
-import '../bloc/legal_documents_page/legal_documents_page_bloc.dart';
+import '../../data/model/publication.dart';
+import '../bloc/publication_page/publications_page_bloc.dart';
 
-class DocumentsForm extends StatefulWidget {
+class PublicationsForm extends StatefulWidget {
   final BuildContext parentContext;
 
-  @override
-  State<DocumentsForm> createState() => _DocumentsFormState();
-
-  const DocumentsForm({
+  const PublicationsForm({
     super.key,
     required this.parentContext,
   });
+
+  @override
+  State<PublicationsForm> createState() => _PublicationsFormState();
 }
 
-class _DocumentsFormState extends State<DocumentsForm> {
+class _PublicationsFormState extends State<PublicationsForm> {
   PlatformFile? file;
 
   Future<void> _pickFile() async {
@@ -53,22 +54,23 @@ class _DocumentsFormState extends State<DocumentsForm> {
   }
 
   final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     ToastContext().init(context);
 
-    return BlocConsumer<LegalDocumentsPageBloc, LegalDocumentsPageState>(
+    return BlocConsumer<PublicationsPageBloc, PublicationsPageState>(
       builder: (blocContext, state) {
         return LayoutBuilder(builder: (context, constraints) {
           return _buildBody(constraints, blocContext, state);
         });
       },
-      listener: (BuildContext context, LegalDocumentsPageState state) {
+      listener: (BuildContext context, PublicationsPageState state) {
         if (state.status.isPosted) {
           widget.parentContext
-              .read<LegalDocumentsPageBloc>()
-              .add(LoadLegalDocumentsEvent());
+              .read<PublicationsPageBloc>()
+              .add(LoadPublicationsEvent());
           GoRouter.of(context).pop();
         }
         if (state.status.isPostError) {
@@ -83,14 +85,20 @@ class _DocumentsFormState extends State<DocumentsForm> {
   }
 
   Widget _buildBody(BoxConstraints constraints, BuildContext blocContext,
-      LegalDocumentsPageState state) {
-    if (widget.parentContext.read<LegalDocumentsPageBloc>().state.document !=
+      PublicationsPageState state) {
+    if (widget.parentContext.read<PublicationsPageBloc>().state.publication !=
         null) {
       _titleController.text = widget.parentContext
-              .read<LegalDocumentsPageBloc>()
+              .read<PublicationsPageBloc>()
               .state
-              .document!
+              .publication!
               .title ??
+          "";
+      _descriptionController.text = widget.parentContext
+              .read<PublicationsPageBloc>()
+              .state
+              .publication!
+              .description ??
           "";
     }
 
@@ -102,7 +110,7 @@ class _DocumentsFormState extends State<DocumentsForm> {
         children: [
           const Center(
             child: Text(
-              "Document Form",
+              "Publication Form",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
             ),
           ),
@@ -110,6 +118,12 @@ class _DocumentsFormState extends State<DocumentsForm> {
           MwigoTextField(
             label: "Title",
             controller: _titleController,
+            disabled: state.status.isPosting,
+          ),
+          const SizedBox(height: 8),
+          MwigoTextArea(
+            label: "Description",
+            controller: _descriptionController,
             disabled: state.status.isPosting,
           ),
           const SizedBox(height: 8),
@@ -133,7 +147,7 @@ class _DocumentsFormState extends State<DocumentsForm> {
               ),
               LoadingButton(
                 width: constraints.maxWidth * .6,
-                text: "Create document",
+                text: "Create publication",
                 busy: state.status.isPosting,
                 onTap: () {
                   setState(() {});
@@ -157,14 +171,15 @@ class _DocumentsFormState extends State<DocumentsForm> {
   }
 
   Future<void> _submitForm(
-      BuildContext blocContext, LegalDocumentsPageState state) async {
-    var legalDocument = LegalDocument.post(
+      BuildContext blocContext, PublicationsPageState state) async {
+    var legalPublication = Publication.post(
       title: _titleController.text.trim(),
+      description: _descriptionController.text.trim(),
       file: File(file!.path!),
     );
 
     context
-        .read<LegalDocumentsPageBloc>()
-        .add(LegalDocumentPostEvent(legalDocument));
+        .read<PublicationsPageBloc>()
+        .add(PublicationPostEvent(legalPublication));
   }
 }

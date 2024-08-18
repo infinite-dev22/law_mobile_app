@@ -44,4 +44,56 @@ class LegalCaseRepoImpl extends LegalCaseRepo {
     );
     return response;
   }
+
+  @override
+  Future<GlobalResponseModel?> deleteLegalCase(
+      String authToken, String slug) async {
+    late GlobalResponseModel? response;
+
+    await LegalCaseRequests.deleteLegalCase(authToken, slug).then((value) {
+      response = value;
+    }).onError(
+      (error, stackTrace) {
+        response = GlobalResponseModel.fromJson(const {
+          "status": true,
+          "message": "An error occurred whilst adding an issue.",
+          "data": 0
+        });
+        throw Exception(error);
+      },
+    );
+    return response;
+  }
+
+  @override
+  Future<LegalCase?> getLegalCase(String authToken, String slug) async {
+    late LegalCase? response;
+
+    await LegalCaseRequests.getLegalCase(authToken, slug).then((value) {
+      response = value;
+    }).onError(
+      (error, stackTrace) => throw Exception(error),
+    );
+    return response;
+  }
+
+  @override
+  Future<GlobalResponseModel?> downloadLegalCase(
+      String authToken, String slug) async {
+    late GlobalResponseModel? response;
+
+    await LegalCaseRequests.downloadLegalCase(authToken, slug).then((value) {
+      response = value;
+    }).onError(
+      (error, stackTrace) {
+        response = GlobalResponseModel.fromJson(const {
+          "status": true,
+          "message": "An error occurred whilst adding an issue.",
+          "data": 0
+        });
+        throw Exception(error);
+      },
+    );
+    return response;
+  }
 }

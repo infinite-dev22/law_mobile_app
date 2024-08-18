@@ -13,7 +13,12 @@ import '../../data/model/legal_certificate.dart';
 import '../bloc/legal_certificates_page/legal_certificates_page_bloc.dart';
 
 class CertificatesForm extends StatefulWidget {
-  const CertificatesForm({super.key});
+  final BuildContext parentContext;
+
+  const CertificatesForm({
+    super.key,
+    required this.parentContext,
+  });
 
   @override
   State<CertificatesForm> createState() => _CertificatesFormState();
@@ -63,6 +68,9 @@ class _CertificatesFormState extends State<CertificatesForm> {
       },
       listener: (BuildContext context, LegalCertificatesPageState state) {
         if (state.status.isPosted) {
+          widget.parentContext
+              .read<LegalCertificatesPageBloc>()
+              .add(LoadLegalCertificatesEvent());
           GoRouter.of(context).pop();
         }
         if (state.status.isPostError) {
@@ -78,14 +86,38 @@ class _CertificatesFormState extends State<CertificatesForm> {
 
   Widget _buildBody(BoxConstraints constraints, BuildContext blocContext,
       LegalCertificatesPageState state) {
+    if (widget.parentContext
+            .read<LegalCertificatesPageBloc>()
+            .state
+            .certificate !=
+        null) {
+      _titleController.text = widget.parentContext
+              .read<LegalCertificatesPageBloc>()
+              .state
+              .certificate!
+              .title ??
+          "";
+      _descriptionController.text = widget.parentContext
+              .read<LegalCertificatesPageBloc>()
+              .state
+              .certificate!
+              .description ??
+          "";
+    }
+
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Form(
       key: formKey,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        mainAxisSize: MainAxisSize.min,
         children: [
+          const Center(
+            child: Text(
+              "Certificate Form",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            ),
+          ),
+          const SizedBox(height: 8.0),
           MwigoTextField(
             label: "Title",
             controller: _titleController,
@@ -103,7 +135,7 @@ class _CertificatesFormState extends State<CertificatesForm> {
             disabled: state.status.isPosting,
             onTap: () => _pickFile(),
           ),
-          const SizedBox(height: 80),
+          const SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -118,7 +150,7 @@ class _CertificatesFormState extends State<CertificatesForm> {
               ),
               LoadingButton(
                 width: constraints.maxWidth * .6,
-                text: "Upload certificate",
+                text: "Create certificate",
                 busy: state.status.isPosting,
                 onTap: () {
                   setState(() {});
