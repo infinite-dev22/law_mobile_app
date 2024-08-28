@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 
 import '../../../../Global/data/model/global_response_model.dart';
@@ -66,6 +68,7 @@ class LegalCaseRepoImpl extends LegalCaseRepo {
           "message": "An error occurred whilst adding an issue.",
           "data": 0
         });
+        log(stackTrace.toString());
         throw Exception(error);
       },
     );

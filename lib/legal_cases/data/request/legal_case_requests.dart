@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart' as http;
@@ -74,7 +75,7 @@ class LegalCaseRequests {
     GlobalResponseModel? responseModel;
     await client.post(url.toString(), data: body).then(
       (value) {
-        if (value.statusCode == 201) {
+        if (value.statusCode == 200) {
           GlobalResponseModel.fromJson(value.data);
         } else {
           throw Exception("An error occurred!");
@@ -82,6 +83,7 @@ class LegalCaseRequests {
       },
     ).onError(
       (error, stackTrace) {
+        log("An error occurred", stackTrace: stackTrace);
         throw Exception(error);
       },
     );

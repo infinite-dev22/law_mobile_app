@@ -27,6 +27,7 @@ class CasesForm extends StatefulWidget {
 class _CasesFormState extends State<CasesForm> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool isUpdate = false;
+  String? slug;
 
   PlatformFile? file;
 
@@ -104,6 +105,8 @@ class _CasesFormState extends State<CasesForm> {
               .legalCase!
               .description ??
           "";
+      slug =
+          widget.parentContext.read<LegalCasesPageBloc>().state.legalCase!.slug;
     }
 
     return Form(
@@ -179,6 +182,7 @@ class _CasesFormState extends State<CasesForm> {
       title: _titleController.text.trim(),
       description: _descriptionController.text.trim(),
       file: File(file!.path!),
+      slug: slug,
     );
 
     context.read<LegalCasesPageBloc>().add((isUpdate == true)
