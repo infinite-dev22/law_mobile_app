@@ -24,6 +24,7 @@ class DocumentsForm extends StatefulWidget {
 }
 
 class _DocumentsFormState extends State<DocumentsForm> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   PlatformFile? file;
 
   Future<void> _pickFile() async {
@@ -93,8 +94,6 @@ class _DocumentsFormState extends State<DocumentsForm> {
               .title ??
           "";
     }
-
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Form(
       key: formKey,

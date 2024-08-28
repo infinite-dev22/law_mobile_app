@@ -25,6 +25,7 @@ class CertificatesForm extends StatefulWidget {
 }
 
 class _CertificatesFormState extends State<CertificatesForm> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   PlatformFile? file;
 
   Future<void> _pickFile() async {
@@ -104,8 +105,6 @@ class _CertificatesFormState extends State<CertificatesForm> {
               .description ??
           "";
     }
-
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Form(
       key: formKey,

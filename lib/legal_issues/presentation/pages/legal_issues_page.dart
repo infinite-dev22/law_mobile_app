@@ -183,13 +183,13 @@ class LegalIssuesPage extends StatelessWidget {
         showModalBottomSheet(
           context: context,
           isDismissible: false,
-          useSafeArea: true,
           builder: (context) => AnimatedPadding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0).copyWith(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
-            child: BlocProvider(
-              create: (context) => LegalIssuesPagesBloc(),
+            child: SingleChildScrollView(
               child: IssuesForm(
                 parentContext: blocContext,
               ),

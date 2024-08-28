@@ -25,6 +25,8 @@ class IssuesForm extends StatefulWidget {
 }
 
 class _IssuesFormState extends State<IssuesForm> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   PlatformFile? file;
 
   Future<void> _pickFile() async {
@@ -61,6 +63,7 @@ class _IssuesFormState extends State<IssuesForm> {
     ToastContext().init(context);
 
     return BlocConsumer<LegalIssuesPagesBloc, LegalIssuesPageState>(
+      bloc: LegalIssuesPagesBloc(),
       builder: (blocContext, state) {
         return LayoutBuilder(builder: (context, constraints) {
           return _buildBody(constraints, blocContext, state);
@@ -100,8 +103,6 @@ class _IssuesFormState extends State<IssuesForm> {
               .description ??
           "";
     }
-
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Form(
       key: formKey,

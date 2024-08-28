@@ -25,6 +25,7 @@ class CasesForm extends StatefulWidget {
 }
 
 class _CasesFormState extends State<CasesForm> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   PlatformFile? file;
 
   Future<void> _pickFile() async {
@@ -101,8 +102,6 @@ class _CasesFormState extends State<CasesForm> {
               .description ??
           "";
     }
-
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Form(
       key: formKey,
