@@ -17,6 +17,7 @@ class LegalCertificatesPageBloc
     on<RefreshLegalCertificatesEvent>(_mapRefreshLegalCertificatesToState);
     on<LoadLegalCertificatesEvent>(_mapFetchLegalCertificatesToState);
     on<LegalCertificatePostEvent>(_mapPostLegalCertificateToState);
+    on<LegalCertificatePutEvent>(_mapPutLegalCertificateToState);
     on<DeleteLegalCertificateEvent>(_mapDeleteLegalCertificateToState);
     on<GetLegalCertificateEvent>(_mapGetLegalCertificateToState);
     on<DownloadLegalCertificateEvent>(_mapDownloadLegalCertificateToState);
@@ -86,6 +87,29 @@ class LegalCertificatesPageBloc
     try {
       await LegalCertificateRepoImpl()
           .postLegalCertificate(authData.data!.token!, event.legalCertificate)
+          .then((response) {
+        emit(state.copyWith(status: LegalCertificatesPageStatus.posted));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalCertificatesPageStatus.postError));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(status: LegalCertificatesPageStatus.postError));
+      if (kDebugMode) {
+        log("Error: $e");
+      }
+    }
+  }
+
+  _mapPutLegalCertificateToState(LegalCertificatePutEvent event,
+      Emitter<LegalCertificatesPageState> emit) async {
+    emit(state.copyWith(status: LegalCertificatesPageStatus.posting));
+    try {
+      await LegalCertificateRepoImpl()
+          .putLegalCertificate(authData.data!.token!, event.legalCertificate)
           .then((response) {
         emit(state.copyWith(status: LegalCertificatesPageStatus.posted));
       }).onError((error, stackTrace) {

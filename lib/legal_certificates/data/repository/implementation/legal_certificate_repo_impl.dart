@@ -45,6 +45,34 @@ class LegalCertificateRepoImpl extends LegalCertificateRepo {
   }
 
   @override
+  Future<GlobalResponseModel?> putLegalCertificate(
+      String authToken, LegalCertificate data) async {
+    GlobalResponseModel? response;
+
+    FormData formData = FormData.fromMap({
+      "title": data.title,
+      "description": data.description,
+      "file": await MultipartFile.fromFile(data.file!.path,
+          filename: data.file!.path.split('/').last),
+    });
+
+    await LegalCertificateRequests.putLegalCertificate(authToken, formData, data.slug!)
+        .then((value) {
+      response = value;
+    }).onError(
+      (error, stackTrace) {
+        response = GlobalResponseModel.fromJson(const {
+          "status": true,
+          "message": "An error occurred whilst adding an issue.",
+          "data": 0
+        });
+        throw Exception(error);
+      },
+    );
+    return response;
+  }
+
+  @override
   Future<GlobalResponseModel?> deleteLegalCertificate(
       String authToken, String slug) async {
     late GlobalResponseModel? response;
