@@ -98,6 +98,7 @@ class _DocumentsFormState extends State<DocumentsForm> {
     return Form(
       key: formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           const Center(
             child: Text(

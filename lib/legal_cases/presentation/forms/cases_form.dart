@@ -106,6 +106,7 @@ class _CasesFormState extends State<CasesForm> {
     return Form(
       key: formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           const Center(
             child: Text(

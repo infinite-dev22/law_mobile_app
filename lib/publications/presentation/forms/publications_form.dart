@@ -106,6 +106,7 @@ class _PublicationsFormState extends State<PublicationsForm> {
     return Form(
       key: formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           const Center(
             child: Text(

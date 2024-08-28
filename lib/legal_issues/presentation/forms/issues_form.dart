@@ -107,6 +107,7 @@ class _IssuesFormState extends State<IssuesForm> {
     return Form(
       key: formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           const Center(
             child: Text(

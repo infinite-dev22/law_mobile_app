@@ -128,25 +128,7 @@ class PublicationsPage extends StatelessWidget {
           );
         }
         if (state.status.isPublicationEdit) {
-          showModalBottomSheet(
-            context: context,
-            enableDrag: true,
-            showDragHandle: true,
-            isScrollControlled: true,
-            isDismissible: false,
-            builder: (context) => Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: BlocProvider(
-                create: (context) => PublicationsPageBloc(),
-                child: SingleChildScrollView(
-                  child: PublicationsForm(
-                    parentContext: blocContext,
-                  ),
-                ),
-              ),
-            ),
-          );
+          _displayPublicationForm(blocContext, context);
         }
       },
     );
@@ -189,9 +171,11 @@ class PublicationsPage extends StatelessWidget {
         showModalBottomSheet(
           context: context,
           isDismissible: false,
-          useSafeArea: true,
+          isScrollControlled: true,
           builder: (context) => AnimatedPadding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0).copyWith(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
             child: BlocProvider(

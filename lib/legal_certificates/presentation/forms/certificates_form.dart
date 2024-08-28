@@ -109,6 +109,7 @@ class _CertificatesFormState extends State<CertificatesForm> {
     return Form(
       key: formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           const Center(
             child: Text(

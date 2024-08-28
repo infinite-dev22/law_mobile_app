@@ -123,25 +123,7 @@ class LegalIssuesPage extends StatelessWidget {
           );
         }
         if (state.status.isIssueEdit) {
-          showModalBottomSheet(
-            context: context,
-            enableDrag: true,
-            showDragHandle: true,
-            isScrollControlled: true,
-            isDismissible: false,
-            builder: (context) => Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: BlocProvider(
-                create: (context) => LegalIssuesPagesBloc(),
-                child: SingleChildScrollView(
-                  child: IssuesForm(
-                    parentContext: blocContext,
-                  ),
-                ),
-              ),
-            ),
-          );
+          _displayIssueForm(blocContext, context);
         }
       },
     );
@@ -183,16 +165,15 @@ class LegalIssuesPage extends StatelessWidget {
         showModalBottomSheet(
           context: context,
           isDismissible: false,
+          isScrollControlled: true,
           builder: (context) => AnimatedPadding(
             padding: const EdgeInsets.all(8.0).copyWith(
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
-            child: SingleChildScrollView(
-              child: IssuesForm(
-                parentContext: blocContext,
-              ),
+            child: IssuesForm(
+              parentContext: blocContext,
             ),
           ),
         );
