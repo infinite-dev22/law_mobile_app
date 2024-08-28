@@ -37,14 +37,14 @@ class DashboardPage extends StatelessWidget {
           padding: const EdgeInsets.only(top: 16, left: 15),
           children: [
             DashboardItem(
+              image: "assets/images/cases.png",
+              name: "Cases",
+              onTap: () => GoRouter.of(context).pushNamed('cases'),
+            ),
+            DashboardItem(
               image: "assets/images/issues.png",
               name: "Issues",
               onTap: () => GoRouter.of(context).pushNamed('issues'),
-            ),
-            DashboardItem(
-              image: "assets/images/documents.png",
-              name: "Documents",
-              onTap: () => GoRouter.of(context).pushNamed('documents'),
             ),
             DashboardItem(
               image: "assets/images/certificates.png",
@@ -52,9 +52,14 @@ class DashboardPage extends StatelessWidget {
               onTap: () => GoRouter.of(context).pushNamed('certificates'),
             ),
             DashboardItem(
-              image: "assets/images/cases.png",
-              name: "Cases",
-              onTap: () => GoRouter.of(context).pushNamed('cases'),
+              image: "assets/images/documents.png",
+              name: "Documents",
+              onTap: () => GoRouter.of(context).pushNamed('documents'),
+            ),
+            DashboardItem(
+              image: "assets/images/attorneys.png",
+              name: "Attorneys",
+              onTap: () => GoRouter.of(context).pushNamed('attorneys'),
             ),
             DashboardItem(
               image: "assets/images/appointments.png",
@@ -65,11 +70,6 @@ class DashboardPage extends StatelessWidget {
               image: "assets/images/publications.png",
               name: "Publications",
               onTap: () => GoRouter.of(context).pushNamed('publications'),
-            ),
-            DashboardItem(
-              image: "assets/images/attorneys.png",
-              name: "Attorneys",
-              onTap: () => GoRouter.of(context).pushNamed('attorneys'),
             ),
             // DashboardItem(
             //   image: "assets/images/queries.png",
