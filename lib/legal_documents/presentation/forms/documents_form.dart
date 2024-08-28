@@ -25,6 +25,8 @@ class DocumentsForm extends StatefulWidget {
 
 class _DocumentsFormState extends State<DocumentsForm> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool isUpdate = false;
+  String? slug;
   PlatformFile? file;
 
   Future<void> _pickFile() async {
@@ -87,12 +89,18 @@ class _DocumentsFormState extends State<DocumentsForm> {
       LegalDocumentsPageState state) {
     if (widget.parentContext.read<LegalDocumentsPageBloc>().state.document !=
         null) {
+      isUpdate = true;
       _titleController.text = widget.parentContext
               .read<LegalDocumentsPageBloc>()
               .state
               .document!
               .title ??
           "";
+      slug = widget.parentContext
+              .read<LegalDocumentsPageBloc>()
+              .state
+              .document!
+              .slug;
     }
 
     return Form(
@@ -161,10 +169,12 @@ class _DocumentsFormState extends State<DocumentsForm> {
     var legalDocument = LegalDocument.post(
       title: _titleController.text.trim(),
       file: File(file!.path!),
+      slug: slug,
     );
 
     context
         .read<LegalDocumentsPageBloc>()
-        .add(LegalDocumentPostEvent(legalDocument));
+        .add((isUpdate == true)
+        ? LegalDocumentPutEvent(legalDocument):LegalDocumentPostEvent(legalDocument));
   }
 }

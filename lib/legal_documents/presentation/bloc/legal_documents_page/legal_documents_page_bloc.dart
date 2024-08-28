@@ -17,6 +17,7 @@ class LegalDocumentsPageBloc
     on<RefreshLegalDocumentsEvent>(_mapRefreshLegalDocumentsToState);
     on<LoadLegalDocumentsEvent>(_mapFetchLegalDocumentsToState);
     on<LegalDocumentPostEvent>(_mapPostLegalDocumentToState);
+    on<LegalDocumentPutEvent>(_mapPutLegalDocumentToState);
     on<DeleteLegalDocumentEvent>(_mapDeleteLegalDocumentToState);
     on<GetLegalDocumentEvent>(_mapGetLegalDocumentToState);
     on<DownloadLegalDocumentEvent>(_mapDownloadLegalDocumentToState);
@@ -84,6 +85,29 @@ class LegalDocumentsPageBloc
     try {
       await LegalDocumentRepoImpl()
           .postLegalDocument(authData.data!.token!, event.legalDocument)
+          .then((response) {
+        emit(state.copyWith(status: LegalDocumentsPageStatus.posted));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalDocumentsPageStatus.postError));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(status: LegalDocumentsPageStatus.postError));
+      if (kDebugMode) {
+        log("Error: $e");
+      }
+    }
+  }
+
+  _mapPutLegalDocumentToState(LegalDocumentPutEvent event,
+      Emitter<LegalDocumentsPageState> emit) async {
+    emit(state.copyWith(status: LegalDocumentsPageStatus.posting));
+    try {
+      await LegalDocumentRepoImpl()
+          .putLegalDocument(authData.data!.token!, event.legalDocument)
           .then((response) {
         emit(state.copyWith(status: LegalDocumentsPageStatus.posted));
       }).onError((error, stackTrace) {
