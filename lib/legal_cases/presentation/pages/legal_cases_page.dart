@@ -42,7 +42,7 @@ class LegalCasesPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton: _displayCaseForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const LegalCaseSuccessWidget());
         }
         if (state.status.isLoading || state.status.isCaseLoading) {
@@ -54,7 +54,7 @@ class LegalCasesPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton: _displayCaseForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const GlobalLoadingWidget());
         }
         if (state.status.isEmpty) {
@@ -66,7 +66,7 @@ class LegalCasesPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton: _displayCaseForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const NoCasesWidget());
         }
         if (state.status.isNotFound) {
@@ -78,7 +78,7 @@ class LegalCasesPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton: _displayCaseForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const NotFoundWidget());
         }
         if (state.status.isError) {
@@ -90,7 +90,7 @@ class LegalCasesPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton: _displayCaseForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const GlobalErrorWidget());
         }
         return Scaffold(
@@ -101,7 +101,7 @@ class LegalCasesPage extends StatelessWidget {
               foregroundColor: AppColors.lighterColor,
             ),
             drawer: const AppDrawer(),
-            floatingActionButton: _displayCaseForm(blocContext, context),
+            floatingActionButton: _fab(blocContext, context),
             body: const NoCasesWidget());
       },
       listener: (blocContext, state) {
@@ -158,7 +158,7 @@ class LegalCasesPage extends StatelessWidget {
     );
   }
 
-  Widget _displayCaseForm(BuildContext blocContext, BuildContext context) {
+  Widget _fab(BuildContext blocContext, BuildContext context) {
     return FloatingActionButton(
       child: const Icon(FeatherIcons.plus),
       onPressed: () {
@@ -181,6 +181,27 @@ class LegalCasesPage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  _displayCaseForm(BuildContext blocContext, BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: false,
+      isScrollControlled: true,
+      builder: (context) => AnimatedPadding(
+        padding: const EdgeInsets.all(8.0).copyWith(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+        child: BlocProvider(
+          create: (context) => LegalCasesPageBloc(),
+          child: CasesForm(
+            parentContext: blocContext,
+          ),
+        ),
+      ),
     );
   }
 }

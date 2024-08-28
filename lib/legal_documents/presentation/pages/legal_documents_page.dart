@@ -44,7 +44,7 @@ class LegalDocumentsPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton: _displayDocumentForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const LegalDocumentSuccessWidget());
         }
         if (state.status.isLoading || state.status.isDocumentLoading) {
@@ -56,7 +56,7 @@ class LegalDocumentsPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton: _displayDocumentForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const GlobalLoadingWidget());
         }
         if (state.status.isEmpty) {
@@ -68,7 +68,7 @@ class LegalDocumentsPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton: _displayDocumentForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const NoDocumentsWidget());
         }
         if (state.status.isNotFound) {
@@ -80,7 +80,7 @@ class LegalDocumentsPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton: _displayDocumentForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const NotFoundWidget());
         }
         if (state.status.isError) {
@@ -92,7 +92,7 @@ class LegalDocumentsPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton: _displayDocumentForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const GlobalErrorWidget());
         }
         return Scaffold(
@@ -103,7 +103,7 @@ class LegalDocumentsPage extends StatelessWidget {
               foregroundColor: AppColors.lighterColor,
             ),
             drawer: const AppDrawer(),
-            floatingActionButton: _displayDocumentForm(blocContext, context),
+            floatingActionButton: _fab(blocContext, context),
             body: const NoDocumentsWidget());
       },
       listener: (blocContext, state) {
@@ -160,29 +160,33 @@ class LegalDocumentsPage extends StatelessWidget {
     );
   }
 
-  Widget _displayDocumentForm(BuildContext blocContext, BuildContext context) {
+  Widget _fab(BuildContext blocContext, BuildContext context) {
     return FloatingActionButton(
       child: const Icon(FeatherIcons.plus),
       onPressed: () {
-        showModalBottomSheet(
-          context: context,
-          isDismissible: false,
-          isScrollControlled: true,
-          builder: (context) => AnimatedPadding(
-            padding: const EdgeInsets.all(8.0).copyWith(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeOut,
-            child: BlocProvider(
-              create: (context) => LegalDocumentsPageBloc(),
-              child: DocumentsForm(
-                parentContext: blocContext,
-              ),
-            ),
-          ),
-        );
+        _displayDocumentForm(blocContext, context);
       },
+    );
+  }
+
+  _displayDocumentForm(BuildContext blocContext, BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: false,
+      isScrollControlled: true,
+      builder: (context) => AnimatedPadding(
+        padding: const EdgeInsets.all(8.0).copyWith(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+        child: BlocProvider(
+          create: (context) => LegalDocumentsPageBloc(),
+          child: DocumentsForm(
+            parentContext: blocContext,
+          ),
+        ),
+      ),
     );
   }
 }
