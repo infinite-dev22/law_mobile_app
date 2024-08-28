@@ -27,6 +27,7 @@ class IssuesForm extends StatefulWidget {
 class _IssuesFormState extends State<IssuesForm> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool isUpdate = false;
+  String? slug;
 
   PlatformFile? file;
 
@@ -64,7 +65,6 @@ class _IssuesFormState extends State<IssuesForm> {
     ToastContext().init(context);
 
     return BlocConsumer<LegalIssuesPagesBloc, LegalIssuesPageState>(
-      bloc: LegalIssuesPagesBloc(),
       builder: (blocContext, state) {
         return LayoutBuilder(builder: (context, constraints) {
           return _buildBody(constraints, blocContext, state);
@@ -104,6 +104,8 @@ class _IssuesFormState extends State<IssuesForm> {
               .issue!
               .description ??
           "";
+      slug =
+          widget.parentContext.read<LegalIssuesPagesBloc>().state.issue!.slug;
     }
 
     return Form(
@@ -179,6 +181,7 @@ class _IssuesFormState extends State<IssuesForm> {
       title: _titleController.text.trim(),
       description: _descriptionController.text.trim(),
       file: File(file!.path!),
+      slug: slug,
     );
 
     context.read<LegalIssuesPagesBloc>().add((isUpdate == true)

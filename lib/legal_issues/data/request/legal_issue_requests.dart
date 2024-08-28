@@ -75,7 +75,7 @@ class LegalIssueRequests {
     GlobalResponseModel? responseModel;
     await client.post(url.toString(), data: body).then(
       (value) {
-        if (value.statusCode == 201) {
+        if (value.statusCode == 200) {
           GlobalResponseModel.fromJson(value.data);
         } else {
           throw Exception("An error occurred!");
