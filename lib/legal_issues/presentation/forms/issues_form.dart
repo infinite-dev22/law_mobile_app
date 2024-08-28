@@ -26,6 +26,7 @@ class IssuesForm extends StatefulWidget {
 
 class _IssuesFormState extends State<IssuesForm> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool isUpdate = false;
 
   PlatformFile? file;
 
@@ -90,6 +91,7 @@ class _IssuesFormState extends State<IssuesForm> {
   Widget _buildBody(BoxConstraints constraints, BuildContext blocContext,
       LegalIssuesPageState state) {
     if (widget.parentContext.read<LegalIssuesPagesBloc>().state.issue != null) {
+      isUpdate = true;
       _titleController.text = widget.parentContext
               .read<LegalIssuesPagesBloc>()
               .state
@@ -179,6 +181,8 @@ class _IssuesFormState extends State<IssuesForm> {
       file: File(file!.path!),
     );
 
-    context.read<LegalIssuesPagesBloc>().add(LegalIssuePostEvent(legalIssue));
+    context.read<LegalIssuesPagesBloc>().add((isUpdate == true)
+        ? LegalIssuePutEvent(legalIssue)
+        : LegalIssuePostEvent(legalIssue));
   }
 }
