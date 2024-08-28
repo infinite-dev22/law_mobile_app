@@ -1,15 +1,13 @@
 import 'dart:ui';
 
-import 'package:dirm_attorneys_mobile/dashboard/presentation/widget/dashboard_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:go_router/go_router.dart';
-import 'package:icons_plus/icons_plus.dart';
 
-import '../../../Global/Theming/bloc/theme_manager_bloc.dart';
-import '../../../Global/Variables/colors.dart';
-import '../../../Global/Widgets/app_drawer.dart';
+import 'package:dirm_attorneys_mobile/Global/Theming/bloc/theme_manager_bloc.dart';
+import 'package:dirm_attorneys_mobile/Global/Variables/colors.dart';
+import 'package:dirm_attorneys_mobile/Global/Widgets/app_drawer.dart';
+import 'package:dirm_attorneys_mobile/dashboard/presentation/widget/dashboard_item.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -18,82 +16,66 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     const double sigmaX = 5;
     const double sigmaY = 5;
-    const double opacity = 0.2;
-    var gridDelegate =
-        const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3);
+    var gridDelegate = const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      mainAxisSpacing: 10,
+      crossAxisSpacing: 10,mainAxisExtent: 100
+    );
 
     return BlocBuilder<ThemeManagerBloc, ThemeManagerState>(
         builder: (context, state) {
       return Scaffold(
+        backgroundColor: AppColors.primary.withOpacity(.05),
         appBar: AppBar(
           title: const Text("Home"),
           backgroundColor: AppColors.primary,
           foregroundColor: AppColors.lighterColor,
         ),
         drawer: const AppDrawer(),
-        body: Stack(
-          alignment: Alignment.center,
+        body: GridView(
+          gridDelegate: gridDelegate,
+          padding: const EdgeInsets.only(top: 16, left: 15),
           children: [
-            Image.asset(
-              "assets/images/app_backgroud.jpg",
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              fit: BoxFit.cover,
+            DashboardItem(
+              image: "assets/images/issues.png",
+              name: "Issues",
+              onTap: () => GoRouter.of(context).pushNamed('issues'),
             ),
-            BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: sigmaX, sigmaY: sigmaY),
-              child: Container(
-                padding: const EdgeInsets.only(
-                    left: 20, top: 20, bottom: 50, right: 20),
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(0, 0, 0, 1).withOpacity(opacity),
-                ),
-                child: Center(
-                  child: SizedBox(
-                    height: 500,
-                    width: 500,
-                    child: GridView(
-                      gridDelegate: gridDelegate,
-                      padding: const EdgeInsets.all(20),
-                      children: [
-                        DashboardItem(
-                            onTap: () =>
-                                GoRouter.of(context).pushNamed('issues'),
-                            icon: FeatherIcons.fileText),
-                        DashboardItem(
-                            onTap: () =>
-                                GoRouter.of(context).pushNamed('documents'),
-                            icon: FeatherIcons.file),
-                        DashboardItem(
-                            onTap: () =>
-                                GoRouter.of(context).pushNamed('certificates'),
-                            icon: FeatherIcons.layout),
-                        DashboardItem(
-                            onTap: () =>
-                                GoRouter.of(context).pushNamed('cases'),
-                            icon: FeatherIcons.briefcase),
-                        DashboardItem(
-                            onTap: () =>
-                                GoRouter.of(context).pushNamed('appointments'),
-                            icon: FontAwesome.calendar_check),
-                        DashboardItem(
-                            onTap: () =>
-                                GoRouter.of(context).pushNamed('publications'),
-                            icon: FontAwesome.newspaper),
-                        DashboardItem(
-                            onTap: () =>
-                                GoRouter.of(context).pushNamed('attorneys'),
-                            icon: HeroIcons.briefcase),
-                        DashboardItem(
-                            onTap: () =>
-                                GoRouter.of(context).pushNamed('queries'),
-                            icon: HeroIcons.clipboard_document_list),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+            DashboardItem(
+              image: "assets/images/documents.png",
+              name: "Documents",
+              onTap: () => GoRouter.of(context).pushNamed('documents'),
             ),
+            DashboardItem(
+              image: "assets/images/certificates.png",
+              name: "Certificates",
+              onTap: () => GoRouter.of(context).pushNamed('certificates'),
+            ),
+            DashboardItem(
+              image: "assets/images/cases.png",
+              name: "Cases",
+              onTap: () => GoRouter.of(context).pushNamed('cases'),
+            ),
+            DashboardItem(
+              image: "assets/images/appointments.png",
+              name: "Appointments",
+              onTap: () => GoRouter.of(context).pushNamed('appointments'),
+            ),
+            DashboardItem(
+              image: "assets/images/publications.png",
+              name: "Publications",
+              onTap: () => GoRouter.of(context).pushNamed('publications'),
+            ),
+            DashboardItem(
+              image: "assets/images/attorneys.png",
+              name: "Attorneys",
+              onTap: () => GoRouter.of(context).pushNamed('attorneys'),
+            ),
+            // DashboardItem(
+            //   image: "assets/images/queries.png",
+            //   name: "Queries",
+            //   onTap: () => GoRouter.of(context).pushNamed('queries'),
+            // ),
           ],
         ),
       );
