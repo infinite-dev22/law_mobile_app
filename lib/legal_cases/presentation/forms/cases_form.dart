@@ -26,6 +26,8 @@ class CasesForm extends StatefulWidget {
 
 class _CasesFormState extends State<CasesForm> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool isUpdate = false;
+
   PlatformFile? file;
 
   Future<void> _pickFile() async {
@@ -89,6 +91,7 @@ class _CasesFormState extends State<CasesForm> {
       LegalCasesPageState state) {
     if (widget.parentContext.read<LegalCasesPageBloc>().state.legalCase !=
         null) {
+      isUpdate = true;
       _titleController.text = widget.parentContext
               .read<LegalCasesPageBloc>()
               .state
@@ -178,6 +181,8 @@ class _CasesFormState extends State<CasesForm> {
       file: File(file!.path!),
     );
 
-    context.read<LegalCasesPageBloc>().add(LegalCasePostEvent(legalCase));
+    context.read<LegalCasesPageBloc>().add((isUpdate == true)
+        ? LegalCasePutEvent(legalCase)
+        : LegalCasePostEvent(legalCase));
   }
 }

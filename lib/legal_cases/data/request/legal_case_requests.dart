@@ -60,6 +60,34 @@ class LegalCaseRequests {
     return responseModel;
   }
 
+  static Future<GlobalResponseModel?> putLegalCase(
+      String authToken, http.FormData body, String slug) async {
+    final client = http.Dio();
+    client.httpClientAdapter = nda.NativeAdapter();
+    client.options.headers = {
+      HttpHeaders.authorizationHeader: 'Bearer $authToken',
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    var url = Uri.https(appDNS, '/api/v1/update_legal_cases/$slug');
+
+    GlobalResponseModel? responseModel;
+    await client.post(url.toString(), data: body).then(
+      (value) {
+        if (value.statusCode == 201) {
+          GlobalResponseModel.fromJson(value.data);
+        } else {
+          throw Exception("An error occurred!");
+        }
+      },
+    ).onError(
+      (error, stackTrace) {
+        throw Exception(error);
+      },
+    );
+    return responseModel;
+  }
+
   static Future<GlobalResponseModel?> deleteLegalCase(
       String authToken, String slug) async {
     final client = http.Dio();
