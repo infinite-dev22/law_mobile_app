@@ -26,11 +26,13 @@ extension AppointmentsPageStatusX on AppointmentsPageStatus {
 @immutable
 class AppointmentsPageState extends Equatable {
   final List<Appointment>? appointments;
+  final List<AttorneyAvailability>? attorneyAvailability;
   final AppointmentsPageStatus status;
   final Appointment? appointment;
 
   const AppointmentsPageState({
     this.appointments,
+    this.attorneyAvailability,
     this.status = AppointmentsPageStatus.initial,
     this.appointment,
   });
@@ -39,12 +41,14 @@ class AppointmentsPageState extends Equatable {
   // TODO: implement props
   List<Object?> get props => [
         appointments,
+        attorneyAvailability,
         status,
         appointment,
       ];
 
   AppointmentsPageState copyWith({
     List<Appointment>? appointments,
+    List<AttorneyAvailability>? attorneyAvailability,
     AppointmentsPageStatus? status,
     Appointment? appointment,
     bool? isAppointmentLoading,
@@ -52,6 +56,7 @@ class AppointmentsPageState extends Equatable {
   }) {
     return AppointmentsPageState(
       appointments: appointments ?? this.appointments,
+      attorneyAvailability: attorneyAvailability ?? this.attorneyAvailability,
       status: status ?? this.status,
       appointment: appointment ?? this.appointment,
     );
