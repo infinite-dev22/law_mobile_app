@@ -71,11 +71,11 @@ class DashboardPage extends StatelessWidget {
               name: "Publications",
               onTap: () => GoRouter.of(context).pushNamed('publications'),
             ),
-            // DashboardItem(
-            //   image: "assets/images/queries.png",
-            //   name: "Queries",
-            //   onTap: () => GoRouter.of(context).pushNamed('queries'),
-            // ),
+            DashboardItem(
+              image: "assets/images/queries.png",
+              name: "Queries",
+              onTap: () => GoRouter.of(context).pushNamed('queries'),
+            ),
           ],
         ),
       );

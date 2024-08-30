@@ -11,7 +11,7 @@ import 'package:dirm_attorneys_mobile/legal_issues/presentation/bloc/legal_issue
 import 'package:dirm_attorneys_mobile/legal_issues/presentation/pages/legal_issues_page.dart';
 import 'package:dirm_attorneys_mobile/publications/presentation/bloc/publication_page/publications_page_bloc.dart';
 import 'package:dirm_attorneys_mobile/publications/presentation/pages/publications_page.dart';
-import 'package:dirm_attorneys_mobile/queries/presentation/bloc/query_page/queries_page_bloc.dart';
+import 'package:dirm_attorneys_mobile/queries/presentation/bloc/appointment_page/queries_page_bloc.dart';
 import 'package:dirm_attorneys_mobile/queries/presentation/pages/queries_page.dart';
 import 'package:dirm_attorneys_mobile/root/presentation/pages/root_page.dart';
 import 'package:flutter/material.dart';

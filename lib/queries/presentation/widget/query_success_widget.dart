@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/query_page/queries_page_bloc.dart';
+import 'package:dirm_attorneys_mobile/queries/presentation/bloc/appointment_page/queries_page_bloc.dart';
 import 'query_item_widget.dart';
 
 class QuerySuccessWidget extends StatelessWidget {
@@ -17,7 +17,8 @@ class QuerySuccessWidget extends StatelessWidget {
             itemBuilder: (context, index) => Card(
                   color: Colors.white10.withOpacity(.2),
                   child: ListTile(
-                    title: QueryItem(data: state.queries!.elementAt(index)),
+                    title: QueryItem(
+                        data: state.queries!.elementAt(index)),
                   ),
                 ));
       },

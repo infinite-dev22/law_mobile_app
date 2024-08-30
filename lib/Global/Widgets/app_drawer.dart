@@ -43,11 +43,11 @@ class AppDrawer extends StatelessWidget {
             title: const Text("Attorneys"),
             onTap: () => GoRouter.of(context).pushNamed('attorneys'),
           ),
-          // ListTile(
-          //   leading: const Icon(HeroIcons.clipboard_document_list),
-          //   title: const Text("Queries"),
-          //   onTap: () => GoRouter.of(context).pushNamed('queries'),
-          // ),
+          ListTile(
+            leading: const Icon(HeroIcons.clipboard_document_list),
+            title: const Text("Queries"),
+            onTap: () => GoRouter.of(context).pushNamed('queries'),
+          ),
           const Divider(),
           ListTile(
             leading: (Theme.of(context).brightness == Brightness.dark)

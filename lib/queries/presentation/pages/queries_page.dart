@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:toast/toast.dart';
 
-import '../../../Global/Variables/colors.dart';
-import '../../../Global/Widgets/error_widget.dart';
-import '../../../Global/Widgets/loading_widget.dart';
-import '../bloc/query_page/queries_page_bloc.dart';
-import '../widget/query_success_widget.dart';
+import 'package:dirm_attorneys_mobile/Global/Variables/colors.dart';
+import 'package:dirm_attorneys_mobile/Global/Widgets/error_widget.dart';
+import 'package:dirm_attorneys_mobile/Global/Widgets/loading_widget.dart';
+import 'package:dirm_attorneys_mobile/queries/presentation/bloc/appointment_page/queries_page_bloc.dart';
+import 'package:dirm_attorneys_mobile/queries/presentation/widget/query_success_widget.dart';
 
 class QueriesPage extends StatelessWidget {
   const QueriesPage({super.key});
