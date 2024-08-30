@@ -25,6 +25,10 @@ class IssuesForm extends StatefulWidget {
 }
 
 class _IssuesFormState extends State<IssuesForm> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool isUpdate = false;
+  String? slug;
+
   PlatformFile? file;
 
   Future<void> _pickFile() async {
@@ -87,6 +91,7 @@ class _IssuesFormState extends State<IssuesForm> {
   Widget _buildBody(BoxConstraints constraints, BuildContext blocContext,
       LegalIssuesPageState state) {
     if (widget.parentContext.read<LegalIssuesPagesBloc>().state.issue != null) {
+      isUpdate = true;
       _titleController.text = widget.parentContext
               .read<LegalIssuesPagesBloc>()
               .state
@@ -99,13 +104,14 @@ class _IssuesFormState extends State<IssuesForm> {
               .issue!
               .description ??
           "";
+      slug =
+          widget.parentContext.read<LegalIssuesPagesBloc>().state.issue!.slug;
     }
-
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Form(
       key: formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           const Center(
             child: Text(
@@ -175,8 +181,11 @@ class _IssuesFormState extends State<IssuesForm> {
       title: _titleController.text.trim(),
       description: _descriptionController.text.trim(),
       file: File(file!.path!),
+      slug: slug,
     );
 
-    context.read<LegalIssuesPagesBloc>().add(LegalIssuePostEvent(legalIssue));
+    context.read<LegalIssuesPagesBloc>().add((isUpdate == true)
+        ? LegalIssuePutEvent(legalIssue)
+        : LegalIssuePostEvent(legalIssue));
   }
 }

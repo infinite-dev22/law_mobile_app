@@ -5,6 +5,8 @@ abstract class LegalIssueRepo {
 
   dynamic postLegalIssue(String authToken, LegalIssue data);
 
+  dynamic putLegalIssue(String authToken, LegalIssue data);
+
   dynamic deleteLegalIssue(String authToken, String slug);
 
   Future<LegalIssue?> getLegalIssue(String authToken, String slug);

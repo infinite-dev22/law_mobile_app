@@ -29,6 +29,15 @@ class LegalIssuePostEvent extends LegalIssuesPageEvent {
   List<Object?> get props => [legalIssue];
 }
 
+class LegalIssuePutEvent extends LegalIssuesPageEvent {
+  final LegalIssue legalIssue;
+
+  const LegalIssuePutEvent(this.legalIssue);
+
+  @override
+  List<Object?> get props => [legalIssue];
+}
+
 class LegalIssueAddedEvent extends LegalIssuesPageEvent {}
 
 class DeleteLegalIssueEvent extends LegalIssuesPageEvent {

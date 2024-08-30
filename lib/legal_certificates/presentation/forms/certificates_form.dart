@@ -25,6 +25,9 @@ class CertificatesForm extends StatefulWidget {
 }
 
 class _CertificatesFormState extends State<CertificatesForm> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool isUpdate = false;
+  String? slug;
   PlatformFile? file;
 
   Future<void> _pickFile() async {
@@ -91,6 +94,7 @@ class _CertificatesFormState extends State<CertificatesForm> {
             .state
             .certificate !=
         null) {
+      isUpdate = true;
       _titleController.text = widget.parentContext
               .read<LegalCertificatesPageBloc>()
               .state
@@ -103,13 +107,17 @@ class _CertificatesFormState extends State<CertificatesForm> {
               .certificate!
               .description ??
           "";
+      slug = widget.parentContext
+              .read<LegalCertificatesPageBloc>()
+              .state
+              .certificate!
+              .slug;
     }
-
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Form(
       key: formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           const Center(
             child: Text(
@@ -179,10 +187,11 @@ class _CertificatesFormState extends State<CertificatesForm> {
       title: _titleController.text.trim(),
       description: _descriptionController.text.trim(),
       file: File(file!.path!),
+      slug: slug,
     );
 
-    context
-        .read<LegalCertificatesPageBloc>()
-        .add(LegalCertificatePostEvent(legalCertificate));
+    context.read<LegalCertificatesPageBloc>().add((isUpdate == true)
+        ? LegalCertificatePutEvent(legalCertificate)
+        : LegalCertificatePostEvent(legalCertificate));
   }
 }

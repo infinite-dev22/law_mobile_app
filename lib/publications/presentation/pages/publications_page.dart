@@ -42,8 +42,7 @@ class PublicationsPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton:
-                  _displayPublicationForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const PublicationSuccessWidget());
         }
         if (state.status.isLoading || state.status.isPublicationLoading) {
@@ -55,8 +54,7 @@ class PublicationsPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton:
-                  _displayPublicationForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const GlobalLoadingWidget());
         }
         if (state.status.isEmpty) {
@@ -68,8 +66,7 @@ class PublicationsPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton:
-                  _displayPublicationForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const NoPublicationsWidget());
         }
         if (state.status.isNotFound) {
@@ -81,8 +78,7 @@ class PublicationsPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton:
-                  _displayPublicationForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const NotFoundWidget());
         }
         if (state.status.isError) {
@@ -94,8 +90,7 @@ class PublicationsPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton:
-                  _displayPublicationForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const GlobalErrorWidget());
         }
         return Scaffold(
@@ -106,7 +101,7 @@ class PublicationsPage extends StatelessWidget {
               foregroundColor: AppColors.lighterColor,
             ),
             drawer: const AppDrawer(),
-            floatingActionButton: _displayPublicationForm(blocContext, context),
+            floatingActionButton: _fab(blocContext, context),
             body: const NoPublicationsWidget());
       },
       listener: (blocContext, state) {
@@ -128,25 +123,7 @@ class PublicationsPage extends StatelessWidget {
           );
         }
         if (state.status.isPublicationEdit) {
-          showModalBottomSheet(
-            context: context,
-            enableDrag: true,
-            showDragHandle: true,
-            isScrollControlled: true,
-            isDismissible: false,
-            builder: (context) => Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: BlocProvider(
-                create: (context) => PublicationsPageBloc(),
-                child: SingleChildScrollView(
-                  child: PublicationsForm(
-                    parentContext: blocContext,
-                  ),
-                ),
-              ),
-            ),
-          );
+          _displayPublicationForm(blocContext, context);
         }
       },
     );
@@ -181,17 +158,18 @@ class PublicationsPage extends StatelessWidget {
     );
   }
 
-  Widget _displayPublicationForm(
-      BuildContext blocContext, BuildContext context) {
+  Widget _fab(BuildContext blocContext, BuildContext context) {
     return FloatingActionButton(
       child: const Icon(FeatherIcons.plus),
       onPressed: () {
         showModalBottomSheet(
           context: context,
           isDismissible: false,
-          useSafeArea: true,
+          isScrollControlled: true,
           builder: (context) => AnimatedPadding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0).copyWith(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
             child: BlocProvider(
@@ -203,6 +181,27 @@ class PublicationsPage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  _displayPublicationForm(BuildContext blocContext, BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: false,
+      isScrollControlled: true,
+      builder: (context) => AnimatedPadding(
+        padding: const EdgeInsets.all(8.0).copyWith(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+        child: BlocProvider(
+          create: (context) => PublicationsPageBloc(),
+          child: PublicationsForm(
+            parentContext: blocContext,
+          ),
+        ),
+      ),
     );
   }
 }

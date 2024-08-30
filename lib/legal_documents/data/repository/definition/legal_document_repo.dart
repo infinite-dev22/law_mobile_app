@@ -4,6 +4,7 @@ abstract class LegalDocumentRepo {
   Future<List<LegalDocument>> getAllLegalDocuments(String authToken);
 
   dynamic postLegalDocument(String authToken, LegalDocument data);
+  dynamic putLegalDocument(String authToken, LegalDocument data);
 
   dynamic deleteLegalDocument(String authToken, String slug);
 

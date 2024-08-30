@@ -25,6 +25,7 @@ class PublicationsForm extends StatefulWidget {
 }
 
 class _PublicationsFormState extends State<PublicationsForm> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   PlatformFile? file;
 
   Future<void> _pickFile() async {
@@ -102,11 +103,10 @@ class _PublicationsFormState extends State<PublicationsForm> {
           "";
     }
 
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
     return Form(
       key: formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           const Center(
             child: Text(

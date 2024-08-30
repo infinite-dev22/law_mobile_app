@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 
 import '../../../../Global/data/model/global_response_model.dart';
@@ -29,6 +31,34 @@ class LegalDocumentRepoImpl extends LegalDocumentRepo {
     });
 
     await LegalDocumentRequests.postLegalDocument(authToken, formData)
+        .then((value) {
+      response = value;
+    }).onError(
+      (error, stackTrace) {
+        response = GlobalResponseModel.fromJson(const {
+          "status": true,
+          "message": "An error occurred whilst adding an document.",
+          "data": 0
+        });
+        throw Exception(error);
+      },
+    );
+    return response;
+  }
+
+  @override
+  Future<GlobalResponseModel?> putLegalDocument(
+      String authToken, LegalDocument data) async {
+    GlobalResponseModel? response;
+
+    FormData formData = FormData.fromMap({
+      "title": data.title,
+      "file": await MultipartFile.fromFile(data.file!.path,
+          filename: data.file!.path.split('/').last),
+    });
+
+    await LegalDocumentRequests.putLegalDocument(
+            authToken, formData, data.slug!)
         .then((value) {
       response = value;
     }).onError(

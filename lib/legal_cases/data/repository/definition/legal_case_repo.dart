@@ -4,6 +4,7 @@ abstract class LegalCaseRepo {
   Future<List<LegalCase>> getAllLegalCases(String authToken);
 
   dynamic postLegalCase(String authToken, LegalCase data);
+  dynamic putLegalCase(String authToken, LegalCase data);
 
   dynamic deleteLegalCase(String authToken, String slug);
 

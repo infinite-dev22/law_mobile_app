@@ -42,7 +42,7 @@ class LegalIssuesPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton: _displayIssueForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const LegalIssueSuccessWidget());
         }
         if (state.status.isLoading || state.status.isIssueLoading) {
@@ -54,7 +54,7 @@ class LegalIssuesPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton: _displayIssueForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const GlobalLoadingWidget());
         }
         if (state.status.isEmpty) {
@@ -66,7 +66,7 @@ class LegalIssuesPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton: _displayIssueForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const NoIssuesWidget());
         }
         if (state.status.isNotFound) {
@@ -78,7 +78,7 @@ class LegalIssuesPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton: _displayIssueForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const NotFoundWidget());
         }
         if (state.status.isError) {
@@ -90,7 +90,7 @@ class LegalIssuesPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton: _displayIssueForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const GlobalErrorWidget());
         }
         return Scaffold(
@@ -101,7 +101,7 @@ class LegalIssuesPage extends StatelessWidget {
               foregroundColor: AppColors.lighterColor,
             ),
             drawer: const AppDrawer(),
-            floatingActionButton: _displayIssueForm(blocContext, context),
+            floatingActionButton: _fab(blocContext, context),
             body: const NoIssuesWidget());
       },
       listener: (blocContext, state) {
@@ -123,25 +123,7 @@ class LegalIssuesPage extends StatelessWidget {
           );
         }
         if (state.status.isIssueEdit) {
-          showModalBottomSheet(
-            context: context,
-            enableDrag: true,
-            showDragHandle: true,
-            isScrollControlled: true,
-            isDismissible: false,
-            builder: (context) => Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: BlocProvider(
-                create: (context) => LegalIssuesPagesBloc(),
-                child: SingleChildScrollView(
-                  child: IssuesForm(
-                    parentContext: blocContext,
-                  ),
-                ),
-              ),
-            ),
-          );
+          _displayIssueForm(blocContext, context);
         }
       },
     );
@@ -176,27 +158,47 @@ class LegalIssuesPage extends StatelessWidget {
     );
   }
 
-  Widget _displayIssueForm(BuildContext blocContext, BuildContext context) {
+  Widget _fab(BuildContext blocContext, BuildContext context) {
     return FloatingActionButton(
       child: const Icon(FeatherIcons.plus),
       onPressed: () {
         showModalBottomSheet(
           context: context,
           isDismissible: false,
-          useSafeArea: true,
+          isScrollControlled: true,
           builder: (context) => AnimatedPadding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0).copyWith(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
-            child: BlocProvider(
-              create: (context) => LegalIssuesPagesBloc(),
-              child: IssuesForm(
-                parentContext: blocContext,
-              ),
+            child: IssuesForm(
+              parentContext: blocContext,
             ),
           ),
         );
       },
+    );
+  }
+
+  _displayIssueForm(BuildContext blocContext, BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: false,
+      isScrollControlled: true,
+      builder: (context) => AnimatedPadding(
+        padding: const EdgeInsets.all(8.0).copyWith(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+        child: BlocProvider(
+          create: (context) => LegalIssuesPagesBloc(),
+          child: IssuesForm(
+            parentContext: blocContext,
+          ),
+        ),
+      ),
     );
   }
 }

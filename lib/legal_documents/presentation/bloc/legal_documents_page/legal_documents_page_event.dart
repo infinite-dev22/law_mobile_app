@@ -29,6 +29,15 @@ class LegalDocumentPostEvent extends LegalDocumentsPageEvent {
   List<Object?> get props => [legalDocument];
 }
 
+class LegalDocumentPutEvent extends LegalDocumentsPageEvent {
+  final LegalDocument legalDocument;
+
+  const LegalDocumentPutEvent(this.legalDocument);
+
+  @override
+  List<Object?> get props => [legalDocument];
+}
+
 class LegalDocumentAddedEvent extends LegalDocumentsPageEvent {}
 
 class DeleteLegalDocumentEvent extends LegalDocumentsPageEvent {

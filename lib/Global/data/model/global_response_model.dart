@@ -9,7 +9,7 @@ class GlobalResponseModel extends Equatable {
 
   final bool? status;
   final String? message;
-  final int? data;
+  final dynamic data;
 
   GlobalResponseModel copyWith({
     bool? status,

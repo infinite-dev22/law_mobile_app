@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 
 import '../../../../Global/data/model/global_response_model.dart';
@@ -39,6 +41,34 @@ class LegalCaseRepoImpl extends LegalCaseRepo {
           "message": "An error occurred whilst adding an issue.",
           "data": 0
         });
+        throw Exception(error);
+      },
+    );
+    return response;
+  }
+
+  @override
+  Future<GlobalResponseModel?> putLegalCase(
+      String authToken, LegalCase data) async {
+    GlobalResponseModel? response;
+
+    FormData formData = FormData.fromMap({
+      "title": data.title,
+      "description": data.description,
+      "file": await MultipartFile.fromFile(data.file!.path,
+          filename: data.file!.path.split('/').last),
+    });
+
+    await LegalCaseRequests.putLegalCase(authToken, formData, data.slug!).then((value) {
+      response = value;
+    }).onError(
+      (error, stackTrace) {
+        response = GlobalResponseModel.fromJson(const {
+          "status": true,
+          "message": "An error occurred whilst adding an issue.",
+          "data": 0
+        });
+        log(stackTrace.toString());
         throw Exception(error);
       },
     );

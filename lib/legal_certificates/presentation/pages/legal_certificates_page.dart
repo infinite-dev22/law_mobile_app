@@ -44,8 +44,7 @@ class LegalCertificatesPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton:
-                  _displayCertificateForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const LegalCertificateSuccessWidget());
         }
         if (state.status.isLoading || state.status.isCertificateLoading) {
@@ -57,8 +56,7 @@ class LegalCertificatesPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton:
-                  _displayCertificateForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const GlobalLoadingWidget());
         }
         if (state.status.isEmpty) {
@@ -70,8 +68,7 @@ class LegalCertificatesPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton:
-                  _displayCertificateForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const NoCertificatesWidget());
         }
         if (state.status.isNotFound) {
@@ -83,8 +80,7 @@ class LegalCertificatesPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton:
-                  _displayCertificateForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const NotFoundWidget());
         }
         if (state.status.isError) {
@@ -96,8 +92,7 @@ class LegalCertificatesPage extends StatelessWidget {
                 foregroundColor: AppColors.lighterColor,
               ),
               drawer: const AppDrawer(),
-              floatingActionButton:
-                  _displayCertificateForm(blocContext, context),
+              floatingActionButton: _fab(blocContext, context),
               body: const GlobalErrorWidget());
         }
         return Scaffold(
@@ -108,7 +103,7 @@ class LegalCertificatesPage extends StatelessWidget {
               foregroundColor: AppColors.lighterColor,
             ),
             drawer: const AppDrawer(),
-            floatingActionButton: _displayCertificateForm(blocContext, context),
+            floatingActionButton: _fab(blocContext, context),
             body: const NoCertificatesWidget());
       },
       listener: (blocContext, state) {
@@ -130,25 +125,7 @@ class LegalCertificatesPage extends StatelessWidget {
           );
         }
         if (state.status.isCertificateEdit) {
-          showModalBottomSheet(
-            context: context,
-            enableDrag: true,
-            showDragHandle: true,
-            isScrollControlled: true,
-            isDismissible: false,
-            builder: (context) => Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: BlocProvider(
-                create: (context) => LegalCertificatesPageBloc(),
-                child: SingleChildScrollView(
-                  child: CertificatesForm(
-                    parentContext: blocContext,
-                  ),
-                ),
-              ),
-            ),
-          );
+          _displayCertificateForm(blocContext, context);
         }
       },
     );
@@ -183,17 +160,18 @@ class LegalCertificatesPage extends StatelessWidget {
     );
   }
 
-  Widget _displayCertificateForm(
-      BuildContext blocContext, BuildContext context) {
+  Widget _fab(BuildContext blocContext, BuildContext context) {
     return FloatingActionButton(
       child: const Icon(FeatherIcons.plus),
       onPressed: () {
         showModalBottomSheet(
           context: context,
           isDismissible: false,
-          useSafeArea: true,
+          isScrollControlled: true,
           builder: (context) => AnimatedPadding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0).copyWith(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
             child: BlocProvider(
@@ -205,6 +183,27 @@ class LegalCertificatesPage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  _displayCertificateForm(BuildContext blocContext, BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: false,
+      isScrollControlled: true,
+      builder: (context) => AnimatedPadding(
+        padding: const EdgeInsets.all(8.0).copyWith(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+        child: BlocProvider(
+          create: (context) => LegalCertificatesPageBloc(),
+          child: CertificatesForm(
+            parentContext: blocContext,
+          ),
+        ),
+      ),
     );
   }
 }

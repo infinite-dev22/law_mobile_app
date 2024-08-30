@@ -20,43 +20,57 @@ class AttorneysPageBloc extends Bloc<AttorneysPageEvent, AttorneysPageState> {
   _mapRefreshAttorneysToState(
       RefreshAttorneysEvent event, Emitter<AttorneysPageState> emit) async {
     emit(state.copyWith(status: AttorneysPageStatus.loading));
-    await AttorneyRepoImpl()
-        .getAllAttorneys(currentUserToken)
-        .then((attorneys) {
-      if (attorneys.isNotEmpty) {
-        emit(state.copyWith(
-            status: AttorneysPageStatus.success, attorneys: attorneys));
-      } else {
-        emit(state.copyWith(status: AttorneysPageStatus.empty));
-      }
-    }).onError((error, stackTrace) {
+    try {
+      await AttorneyRepoImpl()
+          .getAllAttorneys(authData.data!.token!)
+          .then((attorneys) {
+        if (attorneys.isNotEmpty) {
+          emit(state.copyWith(
+              status: AttorneysPageStatus.success, attorneys: attorneys));
+        } else {
+          emit(state.copyWith(status: AttorneysPageStatus.empty));
+        }
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: AttorneysPageStatus.error));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
       emit(state.copyWith(status: AttorneysPageStatus.error));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   _mapFetchAttorneysToState(
       LoadAttorneysEvent event, Emitter<AttorneysPageState> emit) async {
     emit(state.copyWith(status: AttorneysPageStatus.loading));
-    await AttorneyRepoImpl()
-        .getAllAttorneys(currentUserToken)
-        .then((attorneys) {
-      if (attorneys.isNotEmpty) {
-        emit(state.copyWith(
-            status: AttorneysPageStatus.success, attorneys: attorneys));
-      } else {
-        emit(state.copyWith(status: AttorneysPageStatus.empty));
-      }
-    }).onError((error, stackTrace) {
+    try {
+      await AttorneyRepoImpl()
+          .getAllAttorneys(authData.data!.token!)
+          .then((attorneys) {
+        if (attorneys.isNotEmpty) {
+          emit(state.copyWith(
+              status: AttorneysPageStatus.success, attorneys: attorneys));
+        } else {
+          emit(state.copyWith(status: AttorneysPageStatus.empty));
+        }
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: AttorneysPageStatus.error));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
       emit(state.copyWith(status: AttorneysPageStatus.error));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   @override

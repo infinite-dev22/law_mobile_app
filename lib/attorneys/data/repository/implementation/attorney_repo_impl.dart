@@ -1,26 +1,31 @@
+import 'package:dio/dio.dart';
+
+import '../../../../Global/data/model/global_response_model.dart';
 import '../../model/attorney.dart';
+import '../../request/attorney_requests.dart';
 import '../definition/attorney_repo.dart';
 
 class AttorneyRepoImpl extends AttorneyRepo {
   @override
   Future<List<Attorney>> getAllAttorneys(String authToken) async {
-    // TODO: implement getAllAttorneys
-    // throw UnimplementedError();
-    List<Attorney> getAttorneys() {
-      return [
-        Attorney('DA-001', 'Admin', 'Demo Attorney 2',
-            'Dirm Attorneys Attorney.pdf', 'Pending'),
-        Attorney('DA-002', 'Admin', 'Demo Legal Attorney',
-            'Dirm Attorneys Attorney.pdf', 'Pending'),
-        Attorney('DA-003', 'Admin', 'Demo Legal Attorney',
-            'Dirm Attorneys Attorney.pdf', 'Pending'),
-        Attorney('DA-004', 'Admin', 'Demo Legal Attorney',
-            'Dirm Attorneys Attorney.pdf', 'Pending'),
-        Attorney('DA-005', 'Admin', 'Demo Legal Attorney',
-            'Dirm Attorneys Attorney.pdf', 'Pending'),
-      ];
-    }
+    List<Attorney> legalIssues = List.empty(growable: true);
+    await AttorneyRequests.getAttorneys(authToken)
+        .then((value) => legalIssues = value)
+        .onError(
+          (error, stackTrace) => throw Exception(error),
+    );
+    return legalIssues;
+  }
 
-    return getAttorneys();
+  @override
+  Future<Attorney?> getAttorney(String authToken, String slug) async {
+    late Attorney? response;
+
+    await AttorneyRequests.getAttorney(authToken, slug).then((value) {
+      response = value;
+    }).onError(
+          (error, stackTrace) => throw Exception(error),
+    );
+    return response;
   }
 }

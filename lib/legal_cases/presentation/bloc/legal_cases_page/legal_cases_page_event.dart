@@ -29,6 +29,15 @@ class LegalCasePostEvent extends LegalCasesPageEvent {
   List<Object?> get props => [legalCase];
 }
 
+class LegalCasePutEvent extends LegalCasesPageEvent {
+  final LegalCase legalCase;
+
+  const LegalCasePutEvent(this.legalCase);
+
+  @override
+  List<Object?> get props => [legalCase];
+}
+
 class LegalCaseAddedEvent extends LegalCasesPageEvent {}
 
 class DeleteLegalCaseEvent extends LegalCasesPageEvent {
