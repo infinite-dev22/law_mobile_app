@@ -1,30 +1,32 @@
 import 'dart:ui';
 
 import 'package:dirm_attorneys_mobile/Global/Widgets/loading_button.dart';
-import 'package:dirm_attorneys_mobile/authentication/data/model/login_model.dart';
-import 'package:dirm_attorneys_mobile/authentication/presentation/bloc/login_page/login_page_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toast/toast.dart';
 
+import '../../data/model/signup_model.dart';
+import '../bloc/signup_page/signup_page_bloc.dart';
 import '../widget/mwigo_auth_text_field.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final usernameController = TextEditingController();
+    final fullNamesController = TextEditingController();
+    final emailController = TextEditingController();
     final passwordController = TextEditingController();
+    final confirmPasswordController = TextEditingController();
     const double sigmaX = 5;
     const double sigmaY = 5;
     const double opacity = 0.2;
     final formKey = GlobalKey<FormState>();
     ToastContext().init(context);
 
-    return BlocConsumer<LoginPageBloc, LoginPageState>(
+    return BlocConsumer<SignUpPageBloc, SignUpPageState>(
       builder: (context, state) {
         return Scaffold(
           backgroundColor: Colors.grey[300],
@@ -56,7 +58,7 @@ class LoginPage extends StatelessWidget {
                         child: Center(
                           child: Column(
                             children: [
-                              const Text("Sign in",
+                              const Text("Sign Up",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 40,
@@ -65,9 +67,18 @@ class LoginPage extends StatelessWidget {
                                   height: MediaQuery.of(context).size.height *
                                       0.04),
                               MwigoAuthTextField(
-                                controller: usernameController,
-                                hintText: "Username",
-                                validationText: "Username can't be empty",
+                                controller: fullNamesController,
+                                hintText: "Name (Full Names)",
+                                validationText: "Name can't be empty",
+                                enabled: !state.status.isLoading,
+                              ),
+                              SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.03),
+                              MwigoAuthTextField(
+                                controller: emailController,
+                                hintText: "Email",
+                                validationText: "Email can't be empty",
                                 enabled: !state.status.isLoading,
                               ),
                               SizedBox(
@@ -83,18 +94,32 @@ class LoginPage extends StatelessWidget {
                               SizedBox(
                                   height: MediaQuery.of(context).size.height *
                                       0.03),
+                              MwigoAuthTextField(
+                                controller: confirmPasswordController,
+                                hintText: "Password (Confirm)",
+                                validationText: "Field can't be empty",
+                                obscureText: true,
+                                enabled: !state.status.isLoading,
+                              ),
+                              SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.03),
                               LoadingButton(
-                                text: "Let me in",
+                                text: "Create My Account",
                                 onTap: () {
                                   if (formKey.currentState!.validate()) {
-                                    var loginModel = LoginModel(
-                                        username:
-                                            usernameController.text.trim(),
+                                    var signUpModel = SignUpModel(
+                                        fullNames:
+                                            fullNamesController.text.trim(),
+                                        email: emailController.text.trim(),
                                         password:
-                                            passwordController.text.trim());
+                                            passwordController.text.trim(),
+                                        confirmPassword:
+                                            confirmPasswordController.text
+                                                .trim());
                                     context
-                                        .read<LoginPageBloc>()
-                                        .add(LoginPostEvent(loginModel));
+                                        .read<SignUpPageBloc>()
+                                        .add(SignUpPostEvent(signUpModel));
                                   }
                                 },
                                 busy: state.status.isLoading,
@@ -106,23 +131,24 @@ class LoginPage extends StatelessWidget {
                                 text: TextSpan(
                                   children: [
                                     const TextSpan(
-                                      text: "Don't have an account? ",
+                                      text: "Already have an account? ",
                                       style: TextStyle(fontSize: 12),
                                     ),
                                     TextSpan(
-                                      text: "Create One",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                      ),
-                                      recognizer: TapGestureRecognizer()..onTap = () => GoRouter.of(context).goNamed('signup')
-                                    ),
+                                        text: "Login",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () => GoRouter.of(context)
+                                              .goNamed('login')),
                                   ],
                                 ),
                               ),
@@ -138,7 +164,7 @@ class LoginPage extends StatelessWidget {
           ),
         );
       },
-      listener: (BuildContext context, LoginPageState state) {
+      listener: (BuildContext context, SignUpPageState state) {
         if (state.status.isInitial) {
           Toast.show(state.message!,
               duration: Toast.lengthShort, gravity: Toast.bottom);
@@ -146,7 +172,7 @@ class LoginPage extends StatelessWidget {
         if (state.status.isSuccess) {
           Toast.show(state.message!,
               duration: Toast.lengthShort, gravity: Toast.bottom);
-          GoRouter.of(context).goNamed("dashboard");
+          GoRouter.of(context).goNamed("login");
         }
         if (state.status.isError) {
           Toast.show(state.message!,

@@ -3,6 +3,7 @@ import 'package:dirm_attorneys_mobile/Global/Theming/theme.dart';
 import 'package:dirm_attorneys_mobile/appointments/presentation/bloc/appointment_page/appointments_page_bloc.dart';
 import 'package:dirm_attorneys_mobile/attorneys/presentation/bloc/attorney_page/attorneys_page_bloc.dart';
 import 'package:dirm_attorneys_mobile/authentication/presentation/pages/login_page.dart';
+import 'package:dirm_attorneys_mobile/authentication/presentation/pages/signup_page.dart';
 import 'package:dirm_attorneys_mobile/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:dirm_attorneys_mobile/legal_cases/presentation/pages/legal_cases_page.dart';
 import 'package:dirm_attorneys_mobile/legal_certificates/presentation/pages/legal_certificates_page.dart';
@@ -21,6 +22,7 @@ import 'package:go_router/go_router.dart';
 import 'appointments/presentation/pages/appointments_page.dart';
 import 'attorneys/presentation/pages/attorneys_page.dart';
 import 'authentication/presentation/bloc/login_page/login_page_bloc.dart';
+import 'authentication/presentation/bloc/signup_page/signup_page_bloc.dart';
 import 'legal_cases/presentation/bloc/legal_cases_page/legal_cases_page_bloc.dart';
 import 'legal_certificates/presentation/bloc/legal_certificates_page/legal_certificates_page_bloc.dart';
 import 'legal_documents/presentation/bloc/legal_documents_page/legal_documents_page_bloc.dart';
@@ -30,6 +32,7 @@ void main() {
     providers: [
       BlocProvider(create: (context) => ThemeManagerBloc()),
       BlocProvider(create: (context) => LoginPageBloc()),
+      BlocProvider(create: (context) => SignUpPageBloc()),
     ],
     child: BlocProvider<ThemeManagerBloc>(
         create: (context) => ThemeManagerBloc()..add(InitialThemeEvent()),
@@ -49,6 +52,11 @@ GoRouter _router = GoRouter(
       name: 'login',
       path: "/login",
       builder: (context, state) => const LoginPage(),
+    ),
+    GoRoute(
+      name: 'signup',
+      path: "/signup",
+      builder: (context, state) => const SignUpPage(),
     ),
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
