@@ -26,126 +26,175 @@ class AppointmentsPageBloc
   _mapFetchAppointmentsToState(
       LoadAppointmentsEvent event, Emitter<AppointmentsPageState> emit) async {
     emit(state.copyWith(status: AppointmentsPageStatus.loading));
-    await AppointmentRepoImpl()
-        .getAllAppointments(authData.data!.token!)
-        .then((appointments) {
-      if (appointments.isNotEmpty) {
-        emit(state.copyWith(
-            status: AppointmentsPageStatus.success,
-            appointments: appointments));
-      } else {
-        emit(state.copyWith(status: AppointmentsPageStatus.empty));
-      }
-    }).onError((error, stackTrace) {
+    try {
+      await AppointmentRepoImpl()
+          .getAllAppointments(authData.data!.token!)
+          .then((appointments) {
+        if (appointments.isNotEmpty) {
+          emit(state.copyWith(
+              status: AppointmentsPageStatus.success,
+              appointments: appointments));
+        } else {
+          emit(state.copyWith(status: AppointmentsPageStatus.empty));
+        }
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: AppointmentsPageStatus.error));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
       emit(state.copyWith(status: AppointmentsPageStatus.error));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   _mapLoadAttorneyAvailabilityToState(LoadAttorneyAvailabilityEvent event,
       Emitter<AppointmentsPageState> emit) async {
     emit(state.copyWith(status: AppointmentsPageStatus.loading));
-    await AppointmentRepoImpl()
-        .getAttorneyAvailability(authData.data!.token!, event.id)
-        .then((attorneyAvailability) {
-      if (attorneyAvailability.isNotEmpty) {
-        emit(state.copyWith(
-            status: AppointmentsPageStatus.success,
-            attorneyAvailability: attorneyAvailability));
-      } else {
-        emit(state.copyWith(status: AppointmentsPageStatus.empty));
-      }
-    }).onError((error, stackTrace) {
+    try {
+      await AppointmentRepoImpl()
+          .getAttorneyAvailability(authData.data!.token!, event.id)
+          .then((attorneyAvailability) {
+        if (attorneyAvailability.isNotEmpty) {
+          emit(state.copyWith(
+              status: AppointmentsPageStatus.success,
+              attorneyAvailability: attorneyAvailability));
+        } else {
+          emit(state.copyWith(status: AppointmentsPageStatus.empty));
+        }
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: AppointmentsPageStatus.error));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
       emit(state.copyWith(status: AppointmentsPageStatus.error));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   _mapAddAppointmentToState(
       AddAppointmentEvent event, Emitter<AppointmentsPageState> emit) async {
     emit(state.copyWith(status: AppointmentsPageStatus.loading));
-    await AppointmentRepoImpl()
-        .postAppointment(authData.data!.token!, event.appointment)
-        .then((attorneyAvailability) {
-      emit(state.copyWith(status: AppointmentsPageStatus.success));
-    }).onError((error, stackTrace) {
+    try {
+      await AppointmentRepoImpl()
+          .postAppointment(authData.data!.token!, event.appointment)
+          .then((attorneyAvailability) {
+        emit(state.copyWith(status: AppointmentsPageStatus.success));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: AppointmentsPageStatus.error));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
       emit(state.copyWith(status: AppointmentsPageStatus.error));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   _mapUpdateAppointmentToState(
       UpdateAppointmentEvent event, Emitter<AppointmentsPageState> emit) async {
     emit(state.copyWith(status: AppointmentsPageStatus.loading));
-    await AppointmentRepoImpl()
-        .putAppointment(authData.data!.token!, event.appointment)
-        .then((attorneyAvailability) {
-      emit(state.copyWith(status: AppointmentsPageStatus.success));
-    }).onError((error, stackTrace) {
+    try {
+      await AppointmentRepoImpl()
+          .putAppointment(authData.data!.token!, event.appointment)
+          .then((attorneyAvailability) {
+        emit(state.copyWith(status: AppointmentsPageStatus.success));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: AppointmentsPageStatus.error));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
       emit(state.copyWith(status: AppointmentsPageStatus.error));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   _mapLoadSingleAppointmentToState(LoadSingleAppointmentEvent event,
       Emitter<AppointmentsPageState> emit) async {
     emit(state.copyWith(status: AppointmentsPageStatus.loading));
-    await AppointmentRepoImpl()
-        .getAppointment(authData.data!.token!, event.slug)
-        .then((appointment) {
-      emit(state.copyWith(
-          status: AppointmentsPageStatus.success, appointment: appointment));
-    }).onError((error, stackTrace) {
+    try {
+      await AppointmentRepoImpl()
+          .getAppointment(authData.data!.token!, event.slug)
+          .then((appointment) {
+        emit(state.copyWith(
+            status: AppointmentsPageStatus.success, appointment: appointment));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: AppointmentsPageStatus.error));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
       emit(state.copyWith(status: AppointmentsPageStatus.error));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   _mapDeleteAppointmentToState(
       DeleteAppointmentEvent event, Emitter<AppointmentsPageState> emit) async {
     emit(state.copyWith(status: AppointmentsPageStatus.loading));
-    await AppointmentRepoImpl()
-        .deleteAppointment(authData.data!.token!, event.slug)
-        .then((appointment) {
-      emit(state.copyWith(status: AppointmentsPageStatus.success));
-    }).onError((error, stackTrace) {
+    try {
+      await AppointmentRepoImpl()
+          .deleteAppointment(authData.data!.token!, event.slug)
+          .then((appointment) {
+        emit(state.copyWith(status: AppointmentsPageStatus.success));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: AppointmentsPageStatus.error));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
       emit(state.copyWith(status: AppointmentsPageStatus.error));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   _mapCancelAppointmentToState(
       CancelAppointmentEvent event, Emitter<AppointmentsPageState> emit) async {
     emit(state.copyWith(status: AppointmentsPageStatus.loading));
-    await AppointmentRepoImpl()
-        .cancelAppointment(authData.data!.token!, event.slug)
-        .then((appointment) {
-      emit(state.copyWith(status: AppointmentsPageStatus.success));
-    }).onError((error, stackTrace) {
+    try {
+      await AppointmentRepoImpl()
+          .cancelAppointment(authData.data!.token!, event.slug)
+          .then((appointment) {
+        emit(state.copyWith(status: AppointmentsPageStatus.success));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: AppointmentsPageStatus.error));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
       emit(state.copyWith(status: AppointmentsPageStatus.error));
       if (kDebugMode) {
-        log("Error: $error");
-        log("Stacktrace: $stackTrace");
+        log("Error: $e");
       }
-    });
+    }
   }
 
   @override
