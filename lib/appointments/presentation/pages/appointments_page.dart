@@ -8,6 +8,7 @@ import '../../../Global/Widgets/error_widget.dart';
 import '../../../Global/Widgets/loading_widget.dart';
 import '../bloc/appointment_page/appointments_page_bloc.dart';
 import '../widget/appointment_success_widget.dart';
+import '../widget/no_appointments_widget.dart';
 
 class AppointmentsPage extends StatelessWidget {
   const AppointmentsPage({super.key});
@@ -48,6 +49,9 @@ class AppointmentsPage extends StatelessWidget {
           }
           if (state.status.isError) {
             return const GlobalErrorWidget();
+          }
+          if (state.status.isEmpty) {
+            return const NoAppointmentsWidget();
           }
           return const GlobalLoadingWidget();
         },
