@@ -1,16 +1,14 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:dirm_attorneys_mobile/Global/Variables/app_runtime_values.dart';
+import 'package:dirm_attorneys_mobile/appointments/data/model/appointment.dart';
+import 'package:dirm_attorneys_mobile/appointments/data/model/attorney_availability.dart';
+import 'package:dirm_attorneys_mobile/appointments/data/repository/implementation/appointment_repo_impl.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../../../Global/Variables/app_runtime_values.dart';
-import '../../../data/model/appointment.dart';
-import '../../../data/model/attorney_availability.dart';
-import '../../../data/repository/implementation/appointment_repo_impl.dart';
-
 part 'appointments_page_event.dart';
-
 part 'appointments_page_state.dart';
 
 class AppointmentsPageBloc
@@ -29,7 +27,7 @@ class AppointmentsPageBloc
       LoadAppointmentsEvent event, Emitter<AppointmentsPageState> emit) async {
     emit(state.copyWith(status: AppointmentsPageStatus.loading));
     await AppointmentRepoImpl()
-        .getAllAppointments(currentUserToken)
+        .getAllAppointments(authData.data!.token!)
         .then((appointments) {
       if (appointments.isNotEmpty) {
         emit(state.copyWith(
@@ -51,7 +49,7 @@ class AppointmentsPageBloc
       Emitter<AppointmentsPageState> emit) async {
     emit(state.copyWith(status: AppointmentsPageStatus.loading));
     await AppointmentRepoImpl()
-        .getAttorneyAvailability(currentUserToken, event.id)
+        .getAttorneyAvailability(authData.data!.token!, event.id)
         .then((attorneyAvailability) {
       if (attorneyAvailability.isNotEmpty) {
         emit(state.copyWith(
@@ -73,7 +71,7 @@ class AppointmentsPageBloc
       AddAppointmentEvent event, Emitter<AppointmentsPageState> emit) async {
     emit(state.copyWith(status: AppointmentsPageStatus.loading));
     await AppointmentRepoImpl()
-        .postAppointment(currentUserToken, event.appointment)
+        .postAppointment(authData.data!.token!, event.appointment)
         .then((attorneyAvailability) {
       emit(state.copyWith(status: AppointmentsPageStatus.success));
     }).onError((error, stackTrace) {
@@ -89,7 +87,7 @@ class AppointmentsPageBloc
       UpdateAppointmentEvent event, Emitter<AppointmentsPageState> emit) async {
     emit(state.copyWith(status: AppointmentsPageStatus.loading));
     await AppointmentRepoImpl()
-        .putAppointment(currentUserToken, event.appointment)
+        .putAppointment(authData.data!.token!, event.appointment)
         .then((attorneyAvailability) {
       emit(state.copyWith(status: AppointmentsPageStatus.success));
     }).onError((error, stackTrace) {
@@ -105,7 +103,7 @@ class AppointmentsPageBloc
       Emitter<AppointmentsPageState> emit) async {
     emit(state.copyWith(status: AppointmentsPageStatus.loading));
     await AppointmentRepoImpl()
-        .getAppointment(currentUserToken, event.slug)
+        .getAppointment(authData.data!.token!, event.slug)
         .then((appointment) {
       emit(state.copyWith(
           status: AppointmentsPageStatus.success, appointment: appointment));
@@ -122,7 +120,7 @@ class AppointmentsPageBloc
       DeleteAppointmentEvent event, Emitter<AppointmentsPageState> emit) async {
     emit(state.copyWith(status: AppointmentsPageStatus.loading));
     await AppointmentRepoImpl()
-        .deleteAppointment(currentUserToken, event.slug)
+        .deleteAppointment(authData.data!.token!, event.slug)
         .then((appointment) {
       emit(state.copyWith(status: AppointmentsPageStatus.success));
     }).onError((error, stackTrace) {
@@ -138,7 +136,7 @@ class AppointmentsPageBloc
       CancelAppointmentEvent event, Emitter<AppointmentsPageState> emit) async {
     emit(state.copyWith(status: AppointmentsPageStatus.loading));
     await AppointmentRepoImpl()
-        .cancelAppointment(currentUserToken, event.slug)
+        .cancelAppointment(authData.data!.token!, event.slug)
         .then((appointment) {
       emit(state.copyWith(status: AppointmentsPageStatus.success));
     }).onError((error, stackTrace) {

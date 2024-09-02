@@ -1,27 +1,12 @@
+import 'package:dirm_attorneys_mobile/Global/Variables/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../Global/Variables/app_runtime_values.dart';
-import '../../../Global/Variables/colors.dart';
-
-class RootPage extends StatefulWidget {
+class RootPage extends StatelessWidget {
   const RootPage({super.key, required this.child});
 
   final Widget child;
-
-  @override
-  State<RootPage> createState() => _RootPageState();
-}
-
-class _RootPageState extends State<RootPage> {
-  PageController controller = PageController();
-
-  @override
-  void initState() {
-    currentUserToken = 'your_token_after_successful_login';
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +21,7 @@ class _RootPageState extends State<RootPage> {
         indicatorColor: AppColors.primaryLight,
         onDestinationSelected: (value) => _onItemTapped(value, context),
       ),
-      body: widget.child,
+      body: child,
     );
   }
 

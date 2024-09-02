@@ -24,7 +24,7 @@ class QueriesPageBloc extends Bloc<QueriesPageEvent, QueriesPageState> {
   _mapFetchQueriesToState(
       LoadQueriesEvent event, Emitter<QueriesPageState> emit) async {
     emit(state.copyWith(status: QueriesPageStatus.loading));
-    await QueryRepoImpl().getAllQueries(currentUserToken).then((queries) {
+    await QueryRepoImpl().getAllQueries(authData.data!.token!).then((queries) {
       if (queries.isNotEmpty) {
         emit(state.copyWith(
             status: QueriesPageStatus.success, queries: queries));
@@ -44,7 +44,7 @@ class QueriesPageBloc extends Bloc<QueriesPageEvent, QueriesPageState> {
       AddQueryEvent event, Emitter<QueriesPageState> emit) async {
     emit(state.copyWith(status: QueriesPageStatus.loading));
     await QueryRepoImpl()
-        .postQuery(currentUserToken, event.query)
+        .postQuery(authData.data!.token!, event.query)
         .then((attorneyAvailability) {
       emit(state.copyWith(status: QueriesPageStatus.success));
     }).onError((error, stackTrace) {
@@ -60,7 +60,7 @@ class QueriesPageBloc extends Bloc<QueriesPageEvent, QueriesPageState> {
       UpdateQueryEvent event, Emitter<QueriesPageState> emit) async {
     emit(state.copyWith(status: QueriesPageStatus.loading));
     await QueryRepoImpl()
-        .putQuery(currentUserToken, event.query)
+        .putQuery(authData.data!.token!, event.query)
         .then((attorneyAvailability) {
       emit(state.copyWith(status: QueriesPageStatus.success));
     }).onError((error, stackTrace) {
@@ -75,7 +75,7 @@ class QueriesPageBloc extends Bloc<QueriesPageEvent, QueriesPageState> {
   _mapLoadSingleQueryToState(
       LoadSingleQueryEvent event, Emitter<QueriesPageState> emit) async {
     emit(state.copyWith(status: QueriesPageStatus.loading));
-    await QueryRepoImpl().getQuery(currentUserToken, event.queryId).then((query) {
+    await QueryRepoImpl().getQuery(authData.data!.token!, event.queryId).then((query) {
       emit(state.copyWith(status: QueriesPageStatus.success, query: query));
     }).onError((error, stackTrace) {
       emit(state.copyWith(status: QueriesPageStatus.error));
@@ -90,7 +90,7 @@ class QueriesPageBloc extends Bloc<QueriesPageEvent, QueriesPageState> {
       DeleteQueryEvent event, Emitter<QueriesPageState> emit) async {
     emit(state.copyWith(status: QueriesPageStatus.loading));
     await QueryRepoImpl()
-        .deleteQuery(currentUserToken, event.queryId)
+        .deleteQuery(authData.data!.token!, event.queryId)
         .then((query) {
       emit(state.copyWith(status: QueriesPageStatus.success));
     }).onError((error, stackTrace) {
