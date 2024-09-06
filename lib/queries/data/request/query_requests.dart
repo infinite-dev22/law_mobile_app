@@ -22,7 +22,6 @@ class QueryRequests {
     List<Query> responseModel = List.empty(growable: true);
     await client.get(url.toString()).then(
       (value) {
-        log(value.data);
         List response = value.data["data"];
         responseModel = response.map((doc) => Query.fromJson(doc)).toList();
       },

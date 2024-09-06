@@ -27,6 +27,20 @@ class Query extends Equatable {
   final dynamic rating;
   final dynamic comment;
 
+  const Query.post({
+    this.id,
+    required this.title,
+    required this.description,
+    this.clientId,
+    this.expertId,
+    this.status,
+    this.priority,
+    required this.attachment,
+    this.solution,
+    this.rating,
+    this.comment,
+  });
+
   Query copyWith({
     int? id,
     String? title,
@@ -55,7 +69,7 @@ class Query extends Equatable {
     );
   }
 
-  factory Query.fromJson(Map<String, dynamic> json){
+  factory Query.fromJson(Map<String, dynamic> json) {
     return Query(
       id: json["id"],
       title: json["title"],
@@ -72,25 +86,42 @@ class Query extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "title": title,
-    "description": description,
-    "client_id": clientId,
-    "expert_id": expertId,
-    "status": status,
-    "priority": priority,
-    "attachment": attachment,
-    "solution": solution,
-    "rating": rating,
-    "comment": comment,
-  };
+        "id": id,
+        "title": title,
+        "description": description,
+        "client_id": clientId,
+        "expert_id": expertId,
+        "status": status,
+        "priority": priority,
+        "attachment": attachment,
+        "solution": solution,
+        "rating": rating,
+        "comment": comment,
+      };
+
+  Map<String, dynamic> postJson() => {
+        "title": title,
+        "description": description,
+        "attachment": attachment,
+      };
 
   @override
-  String toString(){
+  String toString() {
     return "$id, $title, $description, $clientId, $expertId, $status, $priority, $attachment, $solution, $rating, $comment, ";
   }
 
   @override
   List<Object?> get props => [
-    id, title, description, clientId, expertId, status, priority, attachment, solution, rating, comment, ];
+        id,
+        title,
+        description,
+        clientId,
+        expertId,
+        status,
+        priority,
+        attachment,
+        solution,
+        rating,
+        comment,
+      ];
 }

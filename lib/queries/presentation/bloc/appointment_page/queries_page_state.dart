@@ -7,6 +7,9 @@ enum QueriesPageStatus {
   error,
   notFound,
   empty,
+  posting,
+  posted,
+  postError,
 }
 
 extension QueriesPageStatusX on QueriesPageStatus {
@@ -21,6 +24,12 @@ extension QueriesPageStatusX on QueriesPageStatus {
   bool get isNotFound => this == QueriesPageStatus.notFound;
 
   bool get isEmpty => this == QueriesPageStatus.empty;
+
+  bool get isPosting => this == QueriesPageStatus.posting;
+
+  bool get isPosted => this == QueriesPageStatus.posted;
+
+  bool get isPostError => this == QueriesPageStatus.postError;
 }
 
 @immutable
