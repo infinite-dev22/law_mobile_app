@@ -172,8 +172,11 @@ class LegalIssuesPage extends StatelessWidget {
             ),
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
-            child: IssuesForm(
-              parentContext: blocContext,
+            child: BlocProvider(
+              create: (context) => LegalIssuesPagesBloc(),
+              child: IssuesForm(
+                parentContext: blocContext,
+              ),
             ),
           ),
         );
