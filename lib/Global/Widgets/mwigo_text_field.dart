@@ -46,7 +46,11 @@ class MwigoTextField extends StatelessWidget {
               counter: null,
               counterText: "",
               enabled: !disabled,
-              border: const OutlineInputBorder(),
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
+              ),
             ),
           ),
         ],

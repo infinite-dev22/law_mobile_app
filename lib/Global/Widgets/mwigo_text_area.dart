@@ -46,7 +46,7 @@ class MwigoTextArea extends StatelessWidget {
                 horizontal: 10.0,
               ),
               enabled: !disabled,
-              border: const OutlineInputBorder(),
+              border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
             ),
           ),
         ],
