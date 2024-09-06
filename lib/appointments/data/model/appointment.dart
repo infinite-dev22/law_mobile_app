@@ -103,6 +103,23 @@ class Appointment extends Equatable {
         "status_text": statusText,
       };
 
+  const Appointment.post({
+    required this.title,
+    required this.availabilityId,
+    required this.attorneyId,
+    required this.venue,
+    required this.comment,
+    required this.appointmentTime,
+    required this.appointmentEndTime,
+    this.id,
+    this.slug,
+    this.clientId,
+    this.appointmentDate,
+    this.status,
+    this.attorney,
+    this.statusText,
+  });
+
   @override
   String toString() {
     return "$id, $title, $slug, $clientId, $attorneyId, $availabilityId, $venue, $appointmentDate, $appointmentTime, $appointmentEndTime, $comment, $status,  $attorney, $statusText, ";

@@ -3,8 +3,11 @@ part of 'appointments_page_bloc.dart';
 enum AppointmentsPageStatus {
   initial,
   success,
+  postSuccess,
   loading,
+  postLoading,
   error,
+  postError,
   notFound,
   empty,
 }
@@ -14,9 +17,15 @@ extension AppointmentsPageStatusX on AppointmentsPageStatus {
 
   bool get isSuccess => this == AppointmentsPageStatus.success;
 
+  bool get isPostSuccess => this == AppointmentsPageStatus.postSuccess;
+
   bool get isLoading => this == AppointmentsPageStatus.loading;
 
+  bool get isPostLoading => this == AppointmentsPageStatus.postLoading;
+
   bool get isError => this == AppointmentsPageStatus.error;
+
+  bool get isPostError => this == AppointmentsPageStatus.postError;
 
   bool get isNotFound => this == AppointmentsPageStatus.notFound;
 
