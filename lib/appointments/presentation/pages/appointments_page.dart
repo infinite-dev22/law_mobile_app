@@ -5,6 +5,7 @@ import 'package:dirm_attorneys_mobile/appointments/presentation/bloc/appointment
 import 'package:dirm_attorneys_mobile/appointments/presentation/forms/appointment_form.dart';
 import 'package:dirm_attorneys_mobile/appointments/presentation/widget/appointment_success_widget.dart';
 import 'package:dirm_attorneys_mobile/appointments/presentation/widget/no_appointments_widget.dart';
+import 'package:dirm_attorneys_mobile/attorneys/presentation/bloc/attorney_page/attorneys_page_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -106,8 +107,15 @@ class AppointmentsPage extends StatelessWidget {
             ),
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
-            child: BlocProvider(
-              create: (context) => AppointmentsPageBloc(),
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => AppointmentsPageBloc(),
+                ),
+                BlocProvider(
+                  create: (context) => AttorneysPageBloc(),
+                ),
+              ],
               child: SingleChildScrollView(
                 child: AppointmentsForm(
                   parentContext: blocContext,
