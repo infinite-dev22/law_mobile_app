@@ -3,6 +3,7 @@ import 'package:dirm_attorneys_mobile/Global/Theming/theme.dart';
 import 'package:dirm_attorneys_mobile/appointments/presentation/bloc/appointment_page/appointments_page_bloc.dart';
 import 'package:dirm_attorneys_mobile/attorneys/presentation/bloc/attorney_page/attorneys_page_bloc.dart';
 import 'package:dirm_attorneys_mobile/authentication/presentation/pages/login_page.dart';
+import 'package:dirm_attorneys_mobile/authentication/presentation/pages/password_reset_page.dart';
 import 'package:dirm_attorneys_mobile/authentication/presentation/pages/signup_page.dart';
 import 'package:dirm_attorneys_mobile/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:dirm_attorneys_mobile/legal_cases/presentation/pages/legal_cases_page.dart';
@@ -46,17 +47,22 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 GoRouter _router = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: "/login",
+  initialLocation: "/",
   routes: [
     GoRoute(
       name: 'login',
-      path: "/login",
+      path: "/",
       builder: (context, state) => const LoginPage(),
     ),
     GoRoute(
       name: 'signup',
       path: "/signup",
       builder: (context, state) => const SignUpPage(),
+    ),
+    GoRoute(
+      name: 'reset_password',
+      path: "/reset_password",
+      builder: (context, state) => const PasswordResetPage(),
     ),
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
