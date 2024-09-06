@@ -12,3 +12,12 @@ class LoginPostEvent extends LoginPageEvent {
   @override
   List<Object?> get props => [loginModel];
 }
+
+class PasswordResetEvent extends LoginPageEvent {
+  final ResetModel resetModel;
+
+  const PasswordResetEvent(this.resetModel);
+
+  @override
+  List<Object?> get props => [resetModel];
+}

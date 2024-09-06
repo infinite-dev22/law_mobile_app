@@ -3,8 +3,11 @@ part of 'login_page_bloc.dart';
 enum LoginPageStatus {
   initial,
   success,
+  resetSuccess,
   loading,
+  resetLoading,
   error,
+  resetError,
 }
 
 extension LoginPageStatusX on LoginPageStatus {
@@ -12,9 +15,15 @@ extension LoginPageStatusX on LoginPageStatus {
 
   bool get isSuccess => this == LoginPageStatus.success;
 
+  bool get isResetSuccess => this == LoginPageStatus.resetSuccess;
+
   bool get isLoading => this == LoginPageStatus.loading;
 
+  bool get isResetLoading => this == LoginPageStatus.resetLoading;
+
   bool get isError => this == LoginPageStatus.error;
+
+  bool get isResetError => this == LoginPageStatus.resetError;
 }
 
 @immutable

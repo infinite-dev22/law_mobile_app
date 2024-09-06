@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:dirm_attorneys_mobile/Global/Widgets/loading_button.dart';
 import 'package:dirm_attorneys_mobile/authentication/data/model/login_model.dart';
 import 'package:dirm_attorneys_mobile/authentication/presentation/bloc/login_page/login_page_bloc.dart';
+import 'package:dirm_attorneys_mobile/authentication/presentation/widget/forgot_password_link.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,9 +81,12 @@ class LoginPage extends StatelessWidget {
                                 obscureText: true,
                                 enabled: !state.status.isLoading,
                               ),
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.03),
+                              const SizedBox(height: 16),
+                              ForgotPasswordLink(
+                                onTap: () => GoRouter.of(context)
+                                    .goNamed('reset_password'),
+                              ),
+                              const SizedBox(height: 16),
                               LoadingButton(
                                 text: "Let me in",
                                 onTap: () {
@@ -107,22 +111,23 @@ class LoginPage extends StatelessWidget {
                                   children: [
                                     const TextSpan(
                                       text: "Don't have an account? ",
-                                      style: TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: 14),
                                     ),
                                     TextSpan(
-                                      text: "Create One",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                      ),
-                                      recognizer: TapGestureRecognizer()..onTap = () => GoRouter.of(context).goNamed('signup')
-                                    ),
+                                        text: "Create One",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () => GoRouter.of(context)
+                                              .goNamed('signup')),
                                   ],
                                 ),
                               ),
@@ -141,16 +146,16 @@ class LoginPage extends StatelessWidget {
       listener: (BuildContext context, LoginPageState state) {
         if (state.status.isInitial) {
           Toast.show(state.message!,
-              duration: Toast.lengthShort, gravity: Toast.bottom);
+              duration: Toast.lengthLong, gravity: Toast.bottom);
         }
         if (state.status.isSuccess) {
           Toast.show(state.message!,
-              duration: Toast.lengthShort, gravity: Toast.bottom);
+              duration: Toast.lengthLong, gravity: Toast.bottom);
           GoRouter.of(context).goNamed("dashboard");
         }
         if (state.status.isError) {
           Toast.show(state.message!,
-              duration: Toast.lengthShort, gravity: Toast.bottom);
+              duration: Toast.lengthLong, gravity: Toast.bottom);
         }
       },
     );

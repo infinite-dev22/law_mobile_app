@@ -18,6 +18,7 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final fullNamesController = TextEditingController();
     final emailController = TextEditingController();
+    final contactController = TextEditingController();
     final passwordController = TextEditingController();
     final confirmPasswordController = TextEditingController();
     const double sigmaX = 5;
@@ -85,6 +86,15 @@ class SignUpPage extends StatelessWidget {
                                   height: MediaQuery.of(context).size.height *
                                       0.03),
                               MwigoAuthTextField(
+                                controller: contactController,
+                                hintText: "Contact",
+                                validationText: "Contact can't be empty",
+                                enabled: !state.status.isLoading,
+                              ),
+                              SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.03),
+                              MwigoAuthTextField(
                                 controller: passwordController,
                                 hintText: "Password",
                                 validationText: "Password can't be empty",
@@ -112,6 +122,7 @@ class SignUpPage extends StatelessWidget {
                                         fullNames:
                                             fullNamesController.text.trim(),
                                         email: emailController.text.trim(),
+                                        contact: contactController.text.trim(),
                                         password:
                                             passwordController.text.trim(),
                                         confirmPassword:
@@ -132,12 +143,12 @@ class SignUpPage extends StatelessWidget {
                                   children: [
                                     const TextSpan(
                                       text: "Already have an account? ",
-                                      style: TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: 14),
                                     ),
                                     TextSpan(
                                         text: "Login",
                                         style: TextStyle(
-                                          fontSize: 12,
+                                          fontSize: 14,
                                           color: Theme.of(context)
                                               .colorScheme
                                               .primary,
@@ -167,16 +178,16 @@ class SignUpPage extends StatelessWidget {
       listener: (BuildContext context, SignUpPageState state) {
         if (state.status.isInitial) {
           Toast.show(state.message!,
-              duration: Toast.lengthShort, gravity: Toast.bottom);
+              duration: Toast.lengthLong, gravity: Toast.bottom);
         }
         if (state.status.isSuccess) {
           Toast.show(state.message!,
-              duration: Toast.lengthShort, gravity: Toast.bottom);
+              duration: Toast.lengthLong, gravity: Toast.bottom);
           GoRouter.of(context).goNamed("login");
         }
         if (state.status.isError) {
           Toast.show(state.message!,
-              duration: Toast.lengthShort, gravity: Toast.bottom);
+              duration: Toast.lengthLong, gravity: Toast.bottom);
         }
       },
     );

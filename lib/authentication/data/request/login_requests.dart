@@ -63,4 +63,31 @@ class LoginRequests {
     );
     return responseModel;
   }
+
+  static Future<GlobalResponseModel?> resetPassword(
+      Map<String, dynamic> body) async {
+    final client = http.Dio();
+    client.httpClientAdapter = nda.NativeAdapter();
+    client.options.headers = {
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    var url = Uri.https(appDNS, '/api/v1/password/forgot');
+
+    GlobalResponseModel? responseModel;
+    await client.post(url.toString(), data: body).then(
+      (value) {
+        if (value.statusCode == 200) {
+          responseModel = GlobalResponseModel.fromJson(value.data);
+        } else {
+          throw Exception("An error occurred");
+        }
+      },
+    ).onError(
+      (error, stackTrace) {
+        throw Exception(error);
+      },
+    );
+    return responseModel;
+  }
 }
