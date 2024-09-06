@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class MwigoTextField extends StatelessWidget {
   final String label;
   final bool disabled;
+  final bool readOnly;
   final TextEditingController? controller;
 
   const MwigoTextField({
     super.key,
     this.label = "",
     this.disabled = false,
+    this.readOnly = false,
     this.controller,
   });
 
@@ -26,6 +28,7 @@ class MwigoTextField extends StatelessWidget {
           ),
           TextFormField(
             enabled: !disabled,
+            readOnly: readOnly,
             maxLength: 45,
             controller: controller,
             validator: (text) {
