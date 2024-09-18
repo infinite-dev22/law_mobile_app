@@ -1,9 +1,9 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart' as http;
 import 'package:dirm_attorneys_mobile/legal_documents/data/model/legal_document.dart';
 import 'package:native_dio_adapter/native_dio_adapter.dart' as nda;
+import 'package:path_provider/path_provider.dart';
 
 import '../../../Global/Variables/strings.dart';
 import '../../../Global/data/model/global_response_model.dart';
@@ -155,13 +155,25 @@ class LegalDocumentRequests {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    var url = Uri.https(appDNS, '/api/v1/download_uploaded_doc/slug');
+    var url = Uri.https(appDNS, '/api/v1/download_reply_doc/$slug');
+
+    String path = await _getFilePath("$slug.pdf");
 
     GlobalResponseModel? responseModel;
-    await client.download(url.toString(), "~/Documents").then(
+    await client
+        .download(
+      url.toString(),
+      path,
+      deleteOnError: true,
+    )
+        .then(
       (value) {
-        if (value.statusCode == 201) {
-          GlobalResponseModel.fromJson(value.data);
+        if (value.statusCode == 200) {
+          responseModel = GlobalResponseModel.fromJson(const {
+            "status": true,
+            "message": "An error occurred whilst adding an issue.",
+            "data": 0
+          });
         } else {
           throw Exception("An error occurred!");
         }
@@ -172,5 +184,21 @@ class LegalDocumentRequests {
       },
     );
     return responseModel;
+  }
+
+  static Future<String> _getFilePath(String filename) async {
+    Directory? dir;
+
+    try {
+      if (Platform.isIOS) {
+        dir = await getApplicationDocumentsDirectory(); // for iOS
+      } else {
+        dir = Directory('/storage/emulated/0/Download/'); // for android
+        if (!await dir.exists()) dir = (await getExternalStorageDirectory())!;
+      }
+    } catch (err) {
+      print("Cannot get download folder path $err");
+    }
+    return "${dir?.path}$filename";
   }
 }

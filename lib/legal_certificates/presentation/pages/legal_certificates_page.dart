@@ -2,6 +2,7 @@ import 'package:dirm_attorneys_mobile/legal_certificates/presentation/widget/no_
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
@@ -126,6 +127,9 @@ class LegalCertificatesPage extends StatelessWidget {
         }
         if (state.status.isCertificateEdit) {
           _displayCertificateForm(blocContext, context);
+        }
+        if (state.status.isDownloaded) {
+          GoRouter.of(context).pop();
         }
       },
     );

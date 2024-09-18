@@ -4,6 +4,7 @@ import 'package:dio/dio.dart' as http;
 import 'package:dirm_attorneys_mobile/Global/data/model/global_response_model.dart';
 import 'package:dirm_attorneys_mobile/legal_issues/data/model/legal_issue.dart';
 import 'package:native_dio_adapter/native_dio_adapter.dart' as nda;
+import 'package:path_provider/path_provider.dart';
 
 import '../../../Global/Variables/strings.dart';
 
@@ -157,7 +158,7 @@ class LegalIssueRequests {
     var url = Uri.https(appDNS, '/api/v1/download_issues_reply_doc/$slug');
 
     GlobalResponseModel? responseModel;
-    await client.download(url.toString(), "~/Documents").then(
+    await client.download(url.toString(), "/storage/emulated/0/Download/").then(
       (value) {
         if (value.statusCode == 200) {
           GlobalResponseModel.fromJson(value.data);
@@ -184,11 +185,23 @@ class LegalIssueRequests {
 
     var url = Uri.https(appDNS, '/api/v1/download_issues_uploaded_doc/$slug');
 
+    String path = await _getFilePath("$slug.pdf");
+
     GlobalResponseModel? responseModel;
-    await client.download(url.toString(), "~/Documents").then(
+    await client
+        .download(
+      url.toString(),
+      path,
+      deleteOnError: true,
+    )
+        .then(
       (value) {
         if (value.statusCode == 200) {
-          GlobalResponseModel.fromJson(value.data);
+          responseModel = GlobalResponseModel.fromJson(const {
+            "status": true,
+            "message": "An error occurred whilst adding an issue.",
+            "data": 0
+          });
         } else {
           throw Exception("An error occurred!");
         }
@@ -199,5 +212,21 @@ class LegalIssueRequests {
       },
     );
     return responseModel;
+  }
+
+  static Future<String> _getFilePath(String filename) async {
+    Directory? dir;
+
+    try {
+      if (Platform.isIOS) {
+        dir = await getApplicationDocumentsDirectory(); // for iOS
+      } else {
+        dir = Directory('/storage/emulated/0/Download/'); // for android
+        if (!await dir.exists()) dir = (await getExternalStorageDirectory())!;
+      }
+    } catch (err) {
+      print("Cannot get download folder path $err");
+    }
+    return "${dir?.path}$filename";
   }
 }
