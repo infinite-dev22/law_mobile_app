@@ -1,11 +1,10 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-
 import 'package:dirm_attorneys_mobile/Global/data/model/global_response_model.dart';
 import 'package:dirm_attorneys_mobile/queries/data/model/query.dart';
+import 'package:dirm_attorneys_mobile/queries/data/repository/definition/query_repo.dart';
 import 'package:dirm_attorneys_mobile/queries/data/request/query_requests.dart';
-import 'package:dirm_attorneys_mobile/queries/data/repository/definition/appointment_repo.dart';
 
 class QueryRepoImpl extends QueryRepo {
   @override
@@ -30,14 +29,7 @@ class QueryRepoImpl extends QueryRepo {
     FormData formData = FormData.fromMap({
       "title": data.title,
       "description": data.description,
-      "client_id": data.clientId,
-      "expert_id": data.expertId,
-      "status": data.status,
-      "priority": data.priority,
       "attachment": data.attachment,
-      "solution": data.solution,
-      "rating": data.rating,
-      "comment": data.comment,
     });
 
     await QueryRequests.postQuery(authToken, formData).then((value) {
@@ -62,14 +54,8 @@ class QueryRepoImpl extends QueryRepo {
     FormData formData = FormData.fromMap({
       "title": data.title,
       "description": data.description,
-      "client_id": data.clientId,
-      "expert_id": data.expertId,
-      "status": data.status,
-      "priority": data.priority,
-      "attachment": data.attachment,
-      "solution": data.solution,
-      "rating": data.rating,
-      "comment": data.comment,
+      "attachment": await MultipartFile.fromFile(data.attachment!.path,
+          filename: data.attachment!.path.split('/').last),
     });
 
     await QueryRequests.putQuery(authToken, formData, data.id!).then((value) {

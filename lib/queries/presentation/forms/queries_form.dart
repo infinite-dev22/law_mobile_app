@@ -68,19 +68,7 @@ class _QueriesFormState extends State<QueriesForm> {
           return _buildBody(constraints, blocContext, state);
         });
       },
-      listener: (BuildContext context, QueriesPageState state) {
-        if (state.status.isPosted) {
-          widget.parentContext.read<QueriesPageBloc>().add(LoadQueriesEvent());
-          GoRouter.of(context).pop();
-        }
-        if (state.status.isPostError) {
-          Toast.show(
-            "An error occurred.",
-            duration: Toast.lengthShort,
-            gravity: Toast.bottom,
-          );
-        }
-      },
+      listener: (BuildContext context, QueriesPageState state) {},
     );
   }
 

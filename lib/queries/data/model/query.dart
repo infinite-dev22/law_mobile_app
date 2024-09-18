@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 
 class Query extends Equatable {
@@ -22,7 +24,7 @@ class Query extends Equatable {
   final dynamic expertId;
   final String? status;
   final String? priority;
-  final dynamic attachment;
+  final File? attachment;
   final dynamic solution;
   final dynamic rating;
   final dynamic comment;
@@ -49,7 +51,7 @@ class Query extends Equatable {
     dynamic expertId,
     String? status,
     String? priority,
-    dynamic attachment,
+    File? attachment,
     dynamic solution,
     dynamic rating,
     dynamic comment,

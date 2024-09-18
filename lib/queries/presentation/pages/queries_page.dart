@@ -8,6 +8,7 @@ import 'package:dirm_attorneys_mobile/queries/presentation/widget/query_success_
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:go_router/go_router.dart';
 import 'package:toast/toast.dart';
 
 class QueriesPage extends StatelessWidget {
@@ -88,6 +89,16 @@ class QueriesPage extends StatelessWidget {
           Toast.show("Error State",
               duration: Toast.lengthShort, gravity: Toast.bottom);
         }
+        if (state.status.isPosted) {
+          Toast.show("Query added successfully",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+          context.read<QueriesPageBloc>().add(LoadQueriesEvent());
+          GoRouter.of(context).pop();
+        }
+        if (state.status.isPostError) {
+          Toast.show("An error occurred",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+        }
       },
     );
   }
@@ -121,27 +132,6 @@ class QueriesPage extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  _displayCaseForm(BuildContext blocContext, BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isDismissible: false,
-      isScrollControlled: true,
-      builder: (context) => AnimatedPadding(
-        padding: const EdgeInsets.all(8.0).copyWith(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-        child: BlocProvider(
-          create: (context) => QueriesPageBloc(),
-          child: QueriesForm(
-            parentContext: blocContext,
-          ),
-        ),
-      ),
     );
   }
 }
