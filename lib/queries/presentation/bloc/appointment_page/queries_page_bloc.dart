@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:dirm_attorneys_mobile/Global/Variables/app_runtime_values.dart';
 import 'package:dirm_attorneys_mobile/queries/data/model/query.dart';
-import 'package:dirm_attorneys_mobile/queries/data/repository/implementation/appointment_repo_impl.dart';
+import 'package:dirm_attorneys_mobile/queries/data/repository/implementation/query_repo_impl.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
