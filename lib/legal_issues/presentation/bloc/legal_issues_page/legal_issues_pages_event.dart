@@ -59,10 +59,19 @@ class GetLegalIssueEvent extends LegalIssuesPageEvent {
   List<Object?> get props => [slug, edit];
 }
 
-class DownloadLegalIssueEvent extends LegalIssuesPageEvent {
+class DownloadLegalIssueProcessedDocumentEvent extends LegalIssuesPageEvent {
   final String slug;
 
-  const DownloadLegalIssueEvent(this.slug);
+  const DownloadLegalIssueProcessedDocumentEvent(this.slug);
+
+  @override
+  List<Object?> get props => [slug];
+}
+
+class DownloadLegalIssueUploadedDocumentEvent extends LegalIssuesPageEvent {
+  final String slug;
+
+  const DownloadLegalIssueUploadedDocumentEvent(this.slug);
 
   @override
   List<Object?> get props => [slug];

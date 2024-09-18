@@ -145,7 +145,7 @@ class LegalIssueRequests {
     return responseModel;
   }
 
-  static Future<GlobalResponseModel?> downloadLegalIssue(
+  static Future<GlobalResponseModel?> downloadLegalIssueProcessedDocument(
       String authToken, String slug) async {
     final client = http.Dio();
     client.httpClientAdapter = nda.NativeAdapter();
@@ -154,12 +154,40 @@ class LegalIssueRequests {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    var url = Uri.https(appDNS, '/api/v1/download_issues_uploaded_doc/slug');
+    var url = Uri.https(appDNS, '/api/v1/download_issues_reply_doc/$slug');
 
     GlobalResponseModel? responseModel;
     await client.download(url.toString(), "~/Documents").then(
       (value) {
-        if (value.statusCode == 201) {
+        if (value.statusCode == 200) {
+          GlobalResponseModel.fromJson(value.data);
+        } else {
+          throw Exception("An error occurred!");
+        }
+      },
+    ).onError(
+      (error, stackTrace) {
+        throw Exception(error);
+      },
+    );
+    return responseModel;
+  }
+
+  static Future<GlobalResponseModel?> downloadLegalIssueUploadedDocument(
+      String authToken, String slug) async {
+    final client = http.Dio();
+    client.httpClientAdapter = nda.NativeAdapter();
+    client.options.headers = {
+      HttpHeaders.authorizationHeader: 'Bearer $authToken',
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    var url = Uri.https(appDNS, '/api/v1/download_issues_uploaded_doc/$slug');
+
+    GlobalResponseModel? responseModel;
+    await client.download(url.toString(), "~/Documents").then(
+      (value) {
+        if (value.statusCode == 200) {
           GlobalResponseModel.fromJson(value.data);
         } else {
           throw Exception("An error occurred!");

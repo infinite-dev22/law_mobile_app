@@ -41,7 +41,7 @@ class LegalIssueSuccessWidget extends StatelessWidget {
             },
             onTapDownload: () {
               blocContext.read<LegalIssuesPagesBloc>().add(
-                  DownloadLegalIssueEvent(
+                  DownloadLegalIssueUploadedDocumentEvent(
                       state.issues!.elementAt(index).slug!));
             },
           ),

@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -25,11 +26,11 @@ class LegalDocumentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Bounceable(
       onTap: onTap,
-      child: _buildBody(),
+      child: _buildBody(context),
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     return Card(
       color: Colors.white10.withOpacity(.2),
       child: ListTile(
@@ -84,24 +85,98 @@ class LegalDocumentItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: onTapEdit,
-                      icon: const Icon(FeatherIcons.edit),
-                    ),
-                    IconButton(
-                      onPressed: onTapDelete,
-                      icon: const Icon(
-                        FeatherIcons.trash2,
-                        color: Colors.redAccent,
+                DropdownButtonHideUnderline(
+                  child: DropdownButton2(
+                    items: [
+                      DropdownMenuItem<String>(
+                        value: "Edit",
+                        onTap: onTapEdit,
+                        child: SizedBox(
+                          width: 150,
+                          child: Row(
+                            children: [
+                              Icon(FeatherIcons.edit,
+                                  color: Theme.of(context).colorScheme.primary,
+                                  size: 22),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  "Edit",
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
+                      if (data.issueStatus != "Pending")
+                        DropdownMenuItem<String>(
+                          value: "Download",
+                          onTap: onTapDownload,
+                          child: SizedBox(
+                            width: 150,
+                            child: Row(
+                              children: [
+                                Icon(FeatherIcons.download,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    size: 22),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "Download",
+                                    style: TextStyle(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      DropdownMenuItem<String>(
+                        value: "Delete",
+                        onTap: onTapDelete,
+                        child: const SizedBox(
+                          width: 150,
+                          child: Row(
+                            children: [
+                              Icon(FeatherIcons.trash2,
+                                  color: Colors.red, size: 22),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  "Delete",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                    dropdownStyleData: DropdownStyleData(
+                      width: 160,
+                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      offset: const Offset(0, 8),
                     ),
-                  ],
-                ),
-                IconButton(
-                  onPressed: onTapDownload,
-                  icon: const Icon(FeatherIcons.download),
+                    onChanged: (value) {},
+                  ),
                 ),
               ],
             ),
