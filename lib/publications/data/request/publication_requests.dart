@@ -129,7 +129,7 @@ class PublicationRequests {
     var url = Uri.https(appDNS, '/api/v1/download_issues_uploaded_doc/slug');
 
     GlobalResponseModel? responseModel;
-    await client.download(url.toString(), "~/Documents").then(
+    await client.download(url.toString(), "/storage/emulated/0/Download/").then(
       (value) {
         if (value.statusCode == 201) {
           GlobalResponseModel.fromJson(value.data);

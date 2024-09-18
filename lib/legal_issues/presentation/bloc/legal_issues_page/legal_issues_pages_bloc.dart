@@ -20,7 +20,10 @@ class LegalIssuesPagesBloc
     on<LegalIssuePutEvent>(_mapPutLegalIssueToState);
     on<DeleteLegalIssueEvent>(_mapDeleteLegalIssueToState);
     on<GetLegalIssueEvent>(_mapGetLegalIssueToState);
-    on<DownloadLegalIssueEvent>(_mapDownloadLegalIssueToState);
+    on<DownloadLegalIssueProcessedDocumentEvent>(
+        _mapDownloadLegalIssueProcessedDocumentToState);
+    on<DownloadLegalIssueUploadedDocumentEvent>(
+        _mapDownloadLegalIssueUploadedDocumentToState);
   }
 
   _mapRefreshLegalIssuesToState(
@@ -175,12 +178,38 @@ class LegalIssuesPagesBloc
     }
   }
 
-  _mapDownloadLegalIssueToState(
-      DownloadLegalIssueEvent event, Emitter<LegalIssuesPageState> emit) async {
+  _mapDownloadLegalIssueProcessedDocumentToState(
+      DownloadLegalIssueProcessedDocumentEvent event,
+      Emitter<LegalIssuesPageState> emit) async {
     emit(state.copyWith(status: LegalIssuesPageStatus.downloading));
     try {
       await LegalIssueRepoImpl()
-          .downloadLegalIssue(authData.data!.token!, event.slug)
+          .downloadLegalIssueProcessedDocument(
+              authData.data!.token!, event.slug)
+          .then((response) {
+        emit(state.copyWith(status: LegalIssuesPageStatus.downloaded));
+      }).onError((error, stackTrace) {
+        emit(state.copyWith(status: LegalIssuesPageStatus.downloadError));
+        if (kDebugMode) {
+          log("Error: $error");
+          log("Stacktrace: $stackTrace");
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(status: LegalIssuesPageStatus.downloadError));
+      if (kDebugMode) {
+        log("Error: $e");
+      }
+    }
+  }
+
+  _mapDownloadLegalIssueUploadedDocumentToState(
+      DownloadLegalIssueUploadedDocumentEvent event,
+      Emitter<LegalIssuesPageState> emit) async {
+    emit(state.copyWith(status: LegalIssuesPageStatus.downloading));
+    try {
+      await LegalIssueRepoImpl()
+          .downloadLegalIssueUploadedDocument(authData.data!.token!, event.slug)
           .then((response) {
         emit(state.copyWith(status: LegalIssuesPageStatus.downloaded));
       }).onError((error, stackTrace) {

@@ -41,7 +41,6 @@ class PublicationsPage extends StatelessWidget {
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.lighterColor,
               ),
-              drawer: const AppDrawer(),
               floatingActionButton: _fab(blocContext, context),
               body: const PublicationSuccessWidget());
         }
@@ -53,7 +52,6 @@ class PublicationsPage extends StatelessWidget {
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.lighterColor,
               ),
-              drawer: const AppDrawer(),
               floatingActionButton: _fab(blocContext, context),
               body: const GlobalLoadingWidget());
         }
@@ -65,7 +63,6 @@ class PublicationsPage extends StatelessWidget {
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.lighterColor,
               ),
-              drawer: const AppDrawer(),
               floatingActionButton: _fab(blocContext, context),
               body: const NoPublicationsWidget());
         }
@@ -77,7 +74,6 @@ class PublicationsPage extends StatelessWidget {
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.lighterColor,
               ),
-              drawer: const AppDrawer(),
               floatingActionButton: _fab(blocContext, context),
               body: const NotFoundWidget());
         }
@@ -89,7 +85,6 @@ class PublicationsPage extends StatelessWidget {
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.lighterColor,
               ),
-              drawer: const AppDrawer(),
               floatingActionButton: _fab(blocContext, context),
               body: const GlobalErrorWidget());
         }

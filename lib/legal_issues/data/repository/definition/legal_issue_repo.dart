@@ -11,5 +11,7 @@ abstract class LegalIssueRepo {
 
   Future<LegalIssue?> getLegalIssue(String authToken, String slug);
 
-  dynamic downloadLegalIssue(String authToken, String slug);
+  dynamic downloadLegalIssueProcessedDocument(String authToken, String slug);
+
+  dynamic downloadLegalIssueUploadedDocument(String authToken, String slug);
 }

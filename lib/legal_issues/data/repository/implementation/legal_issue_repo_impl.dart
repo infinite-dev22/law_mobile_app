@@ -56,7 +56,8 @@ class LegalIssueRepoImpl extends LegalIssueRepo {
           filename: data.file!.path.split('/').last),
     });
 
-    await LegalIssueRequests.putLegalIssue(authToken, formData, data.slug!).then((value) {
+    await LegalIssueRequests.putLegalIssue(authToken, formData, data.slug!)
+        .then((value) {
       response = value;
     }).onError(
       (error, stackTrace) {
@@ -104,11 +105,34 @@ class LegalIssueRepoImpl extends LegalIssueRepo {
   }
 
   @override
-  Future<GlobalResponseModel?> downloadLegalIssue(
+  Future<GlobalResponseModel?> downloadLegalIssueProcessedDocument(
       String authToken, String slug) async {
     late GlobalResponseModel? response;
 
-    await LegalIssueRequests.downloadLegalIssue(authToken, slug).then((value) {
+    await LegalIssueRequests.downloadLegalIssueProcessedDocument(
+            authToken, slug)
+        .then((value) {
+      response = value;
+    }).onError(
+      (error, stackTrace) {
+        response = GlobalResponseModel.fromJson(const {
+          "status": true,
+          "message": "An error occurred whilst adding an issue.",
+          "data": 0
+        });
+        throw Exception(error);
+      },
+    );
+    return response;
+  }
+
+  @override
+  Future<GlobalResponseModel?> downloadLegalIssueUploadedDocument(
+      String authToken, String slug) async {
+    late GlobalResponseModel? response;
+
+    await LegalIssueRequests.downloadLegalIssueUploadedDocument(authToken, slug)
+        .then((value) {
       response = value;
     }).onError(
       (error, stackTrace) {
