@@ -20,7 +20,7 @@ class Query extends Equatable {
   final int? id;
   final String? title;
   final String? description;
-  final int? clientId;
+  final String? clientId;
   final dynamic expertId;
   final String? status;
   final String? priority;
@@ -47,7 +47,7 @@ class Query extends Equatable {
     int? id,
     String? title,
     String? description,
-    int? clientId,
+    String? clientId,
     dynamic expertId,
     String? status,
     String? priority,
@@ -80,7 +80,7 @@ class Query extends Equatable {
       expertId: json["expert_id"],
       status: json["status"],
       priority: json["priority"],
-      attachment: json["attachment"],
+      attachment: json["attachments"],
       solution: json["solution"],
       rating: json["rating"],
       comment: json["comment"],

@@ -32,14 +32,12 @@ class QueryItem extends StatelessWidget {
         const SizedBox(
           height: 5,
         ),
-        Expanded(
-          child: Text(
-            data.comment,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 12,
-            ),
+        Text(
+          data.priority ?? "N/A",
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            fontSize: 12,
           ),
         ),
         const SizedBox(

@@ -29,7 +29,7 @@ class QueryRepoImpl extends QueryRepo {
     FormData formData = FormData.fromMap({
       "title": data.title,
       "description": data.description,
-      "attachment": data.attachment,
+      // "attachment": data.attachment,
     });
 
     await QueryRequests.postQuery(authToken, formData).then((value) {
@@ -41,6 +41,7 @@ class QueryRepoImpl extends QueryRepo {
           "message": "An error occurred whilst adding an issue.",
           "data": 0
         });
+        log(stackTrace.toString());
         throw Exception(error);
       },
     );

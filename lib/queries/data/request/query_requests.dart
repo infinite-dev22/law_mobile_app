@@ -2,11 +2,10 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart' as http;
-import 'package:native_dio_adapter/native_dio_adapter.dart' as nda;
-
 import 'package:dirm_attorneys_mobile/Global/Variables/strings.dart';
 import 'package:dirm_attorneys_mobile/Global/data/model/global_response_model.dart';
 import 'package:dirm_attorneys_mobile/queries/data/model/query.dart';
+import 'package:native_dio_adapter/native_dio_adapter.dart' as nda;
 
 class QueryRequests {
   static Future<List<Query>> getQuerys(String authToken) async {
@@ -48,14 +47,12 @@ class QueryRequests {
     GlobalResponseModel? responseModel;
     await client.post(url.toString(), data: body).then(
       (value) {
-        if (value.statusCode == 201) {
-          GlobalResponseModel.fromJson(value.data);
-        } else {
-          throw Exception("An error occurred!");
-        }
+        log(value.data.toString());
+        responseModel = GlobalResponseModel.fromJson(value.data);
       },
     ).onError(
       (error, stackTrace) {
+        log(stackTrace.toString());
         throw Exception(error);
       },
     );

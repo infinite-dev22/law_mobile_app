@@ -68,7 +68,18 @@ class _QueriesFormState extends State<QueriesForm> {
           return _buildBody(constraints, blocContext, state);
         });
       },
-      listener: (BuildContext context, QueriesPageState state) {},
+      listener: (BuildContext context, QueriesPageState state) {
+        if (state.status.isPosted) {
+          Toast.show("Query added successfully",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+          context.read<QueriesPageBloc>().add(LoadQueriesEvent());
+          GoRouter.of(context).pop();
+        }
+        if (state.status.isPostError) {
+          Toast.show("An error occurred",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+        }
+      },
     );
   }
 

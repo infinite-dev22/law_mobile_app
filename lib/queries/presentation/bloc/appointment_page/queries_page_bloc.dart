@@ -49,21 +49,21 @@ class QueriesPageBloc extends Bloc<QueriesPageEvent, QueriesPageState> {
 
   _mapAddQueryToState(
       AddQueryEvent event, Emitter<QueriesPageState> emit) async {
-    emit(state.copyWith(status: QueriesPageStatus.loading));
+    emit(state.copyWith(status: QueriesPageStatus.posting));
     try {
       await QueryRepoImpl()
           .postQuery(authData.data!.token!, event.query)
           .then((attorneyAvailability) {
-        emit(state.copyWith(status: QueriesPageStatus.success));
+        emit(state.copyWith(status: QueriesPageStatus.posted));
       }).onError((error, stackTrace) {
-        emit(state.copyWith(status: QueriesPageStatus.error));
+        emit(state.copyWith(status: QueriesPageStatus.postError));
         if (kDebugMode) {
           log("Error: $error");
           log("Stacktrace: $stackTrace");
         }
       });
     } catch (e) {
-      emit(state.copyWith(status: QueriesPageStatus.error));
+      emit(state.copyWith(status: QueriesPageStatus.postError));
       if (kDebugMode) {
         log("Error: $e");
       }
