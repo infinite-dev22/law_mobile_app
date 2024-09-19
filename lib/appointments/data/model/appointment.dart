@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 class Appointment extends Equatable {
   const Appointment({
@@ -21,8 +22,8 @@ class Appointment extends Equatable {
   final int? id;
   final String? title;
   final String? slug;
-  final int? clientId;
-  final int? attorneyId;
+  final dynamic clientId;
+  final dynamic attorneyId;
   final int? availabilityId;
   final String? venue;
   final String? appointmentDate;
@@ -87,20 +88,13 @@ class Appointment extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-        "id": id,
         "title": title,
-        "slug": slug,
-        "client_id": clientId,
-        "attorney_id": attorneyId,
         "availability_id": availabilityId,
+        "attorney_id": attorneyId,
         "venue": venue,
-        "appointment_date": appointmentDate,
-        "appointment_time": appointmentTime,
-        "appointment_end_time": appointmentEndTime,
         "comment": comment,
-        "status": status,
-        "attorney": attorney,
-        "status_text": statusText,
+        "start_time": DateFormat("hh:mm a").format(DateFormat("hh:mm a").parse(appointmentTime!)),
+        "end_time": DateFormat("hh:mm a").format(DateFormat("hh:mm a").parse(appointmentEndTime!)),
       };
 
   const Appointment.post({

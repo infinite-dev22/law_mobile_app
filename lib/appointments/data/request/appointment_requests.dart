@@ -2,12 +2,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart' as http;
-import 'package:dirm_attorneys_mobile/appointments/data/model/attorney_availability.dart';
-import 'package:native_dio_adapter/native_dio_adapter.dart' as nda;
-
 import 'package:dirm_attorneys_mobile/Global/Variables/strings.dart';
 import 'package:dirm_attorneys_mobile/Global/data/model/global_response_model.dart';
 import 'package:dirm_attorneys_mobile/appointments/data/model/appointment.dart';
+import 'package:dirm_attorneys_mobile/appointments/data/model/attorney_availability.dart';
+import 'package:native_dio_adapter/native_dio_adapter.dart' as nda;
 
 class AppointmentRequests {
   static Future<List<Appointment>> getAppointments(String authToken) async {
@@ -37,7 +36,7 @@ class AppointmentRequests {
   }
 
   static Future<GlobalResponseModel?> postAppointment(
-      String authToken, http.FormData body) async {
+      String authToken, String body) async {
     final client = http.Dio();
     client.httpClientAdapter = nda.NativeAdapter();
     client.options.headers = {
@@ -47,17 +46,16 @@ class AppointmentRequests {
 
     var url = Uri.https(appDNS, '/api/v1/book_appointment');
 
+    print(body);
+
     GlobalResponseModel? responseModel;
     await client.post(url.toString(), data: body).then(
       (value) {
-        if (value.statusCode == 201) {
-          GlobalResponseModel.fromJson(value.data);
-        } else {
-          throw Exception("An error occurred!");
-        }
+        responseModel = GlobalResponseModel.fromJson(value.data);
       },
     ).onError(
       (error, stackTrace) {
+        log(stackTrace.toString());
         throw Exception(error);
       },
     );
@@ -191,13 +189,13 @@ class AppointmentRequests {
 
     List<AttorneyAvailability> responseModel = List.empty(growable: true);
     await client.get(url.toString()).then(
-          (value) {
+      (value) {
         List response = value.data["data"];
         responseModel =
             response.map((doc) => AttorneyAvailability.fromJson(doc)).toList();
       },
     ).onError(
-          (error, stackTrace) {
+      (error, stackTrace) {
         throw Exception(error);
       },
     );

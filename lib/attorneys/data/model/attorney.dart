@@ -51,7 +51,7 @@ class Attorney extends Equatable {
     );
   }
 
-  factory Attorney.fromJson(Map<String, dynamic> json){
+  factory Attorney.fromJson(Map<String, dynamic> json) {
     return Attorney(
       id: json["id"],
       name: json["name"],
@@ -67,24 +67,34 @@ class Attorney extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "username": username,
-    "email": email,
-    "email_verified_at": emailVerifiedAt,
-    "phone": phone,
-    "avatar": avatar,
-    "user_type": userType,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
-  };
+        "id": id,
+        "name": name,
+        "username": username,
+        "email": email,
+        "email_verified_at": emailVerifiedAt,
+        "phone": phone,
+        "avatar": avatar,
+        "user_type": userType,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+      };
 
   @override
-  String toString(){
-    return "$id, $name, $username, $email, $emailVerifiedAt, $phone, $avatar, $userType, $createdAt, $updatedAt, ";
+  String toString() {
+    return name.toString();
   }
 
   @override
   List<Object?> get props => [
-    id, name, username, email, emailVerifiedAt, phone, avatar, userType, createdAt, updatedAt, ];
+        id,
+        name,
+        username,
+        email,
+        emailVerifiedAt,
+        phone,
+        avatar,
+        userType,
+        createdAt,
+        updatedAt,
+      ];
 }

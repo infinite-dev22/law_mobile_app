@@ -31,12 +31,12 @@ class _AppointmentsFormState extends State<AppointmentsForm> {
   String? slug;
 
   final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _availabilityController = TextEditingController();
-  final TextEditingController _attorneyController = TextEditingController();
   final TextEditingController _venueController = TextEditingController();
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
   final TextEditingController _commentController = TextEditingController();
+  late int attorneyId;
+  late int availabilityId;
 
   @override
   Widget build(BuildContext context) {
@@ -77,20 +77,18 @@ class _AppointmentsFormState extends State<AppointmentsForm> {
               .appointment!
               .title ??
           "";
-      _availabilityController.text = widget.parentContext
+      availabilityId = (widget.parentContext
               .read<AppointmentsPageBloc>()
               .state
               .appointment!
-              .attorneyId
-              .toString() ??
-          "";
-      _attorneyController.text = widget.parentContext
+              .attorneyId ??
+          0);
+      attorneyId = widget.parentContext
               .read<AppointmentsPageBloc>()
               .state
               .appointment!
-              .attorneyId
-              .toString() ??
-          "";
+              .attorneyId ??
+          0;
       _venueController.text = widget.parentContext
               .read<AppointmentsPageBloc>()
               .state
@@ -141,33 +139,34 @@ class _AppointmentsFormState extends State<AppointmentsForm> {
           ),
           const SizedBox(height: 8),
           BlocConsumer<AttorneysPageBloc, AttorneysPageState>(
-            listener: (context, attorneyState) {
-              // TODO: implement listener
+            listener: (blocContext, attorneyState) {
+              if (attorneyState.status.isInitial) {
+                blocContext.read<AttorneysPageBloc>().add(LoadAttorneysEvent());
+              }
             },
-            builder: (context, attorneyState) {
+            builder: (blocContext, attorneyState) {
+              if (attorneyState.status.isInitial) {
+                blocContext.read<AttorneysPageBloc>().add(LoadAttorneysEvent());
+              }
               return MwigoDropdown<Attorney>(
                 label: "Attorney",
                 disabled: masterState.status.isPostLoading,
                 menuItems: attorneyState.attorneys ?? [],
                 onChanged: (value) {
-                  context
+                  blocContext
                       .read<AppointmentsPageBloc>()
                       .add(LoadAttorneyAvailabilityEvent(value!.id!));
+                  attorneyId = value.id!;
                 },
               );
             },
           ),
-          BlocConsumer<AppointmentsPageBloc, AppointmentsPageState>(
-            listener: (context, masterState) {
-              // TODO: implement listener
-            },
-            builder: (context, masterState) {
-              return MwigoDropdown<AttorneyAvailability>(
-                label: "\Availability",
-                disabled: masterState.status.isPostLoading,
-                menuItems: masterState.attorneyAvailability ?? [],
-                onChanged: (value) {},
-              );
+          MwigoDropdown<AttorneyAvailability>(
+            label: "\Availability",
+            disabled: masterState.status.isPostLoading,
+            menuItems: masterState.attorneyAvailability ?? [],
+            onChanged: (value) {
+              availabilityId = value!.id!;
             },
           ),
           MwigoTextField(
@@ -224,8 +223,8 @@ class _AppointmentsFormState extends State<AppointmentsForm> {
       BuildContext blocContext, AppointmentsPageState masterState) async {
     var appointment = Appointment.post(
       title: _titleController.text,
-      availabilityId: int.tryParse(_availabilityController.text),
-      attorneyId: int.tryParse(_attorneyController.text),
+      availabilityId: availabilityId,
+      attorneyId: attorneyId,
       venue: _venueController.text,
       appointmentTime: _startTimeController.text,
       appointmentEndTime: _endTimeController.text,

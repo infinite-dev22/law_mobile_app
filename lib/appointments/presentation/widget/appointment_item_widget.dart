@@ -31,14 +31,13 @@ class AppointmentItem extends StatelessWidget {
         ),
         const SizedBox(
           height: 5,
-        ),Expanded(
-          child: Text(
-            data.appointmentDate!,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 12,
-            ),
+        ),
+        Text(
+          data.appointmentDate!,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            fontSize: 12,
           ),
         ),
         const SizedBox(

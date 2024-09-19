@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 class AttorneyAvailability extends Equatable {
   AttorneyAvailability({
@@ -12,20 +13,20 @@ class AttorneyAvailability extends Equatable {
   });
 
   final int? id;
-  final int? attorneyId;
+  final dynamic attorneyId;
   final DateTime? date;
   final String? startTime;
   final String? endTime;
-  final int? available;
+  final dynamic available;
   final dynamic notes;
 
   AttorneyAvailability copyWith({
     int? id,
-    int? attorneyId,
+    dynamic attorneyId,
     DateTime? date,
     String? startTime,
     String? endTime,
-    int? available,
+    dynamic available,
     dynamic notes,
   }) {
     return AttorneyAvailability(
@@ -43,7 +44,7 @@ class AttorneyAvailability extends Equatable {
     return AttorneyAvailability(
       id: json["id"],
       attorneyId: json["attorney_id"],
-      date: DateTime.tryParse(json["date"] ?? ""),
+      date: DateTime.tryParse(json["date"]),
       startTime: json["start_time"],
       endTime: json["end_time"],
       available: json["available"],
@@ -64,7 +65,7 @@ class AttorneyAvailability extends Equatable {
 
   @override
   String toString() {
-    return "$id, $attorneyId, $date, $startTime, $endTime, $available, $notes";
+    return DateFormat("dd/MM/yyyy").format(date!);
   }
 
   @override

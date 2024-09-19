@@ -83,21 +83,21 @@ class AppointmentsPageBloc
 
   _mapAddAppointmentToState(
       AddAppointmentEvent event, Emitter<AppointmentsPageState> emit) async {
-    emit(state.copyWith(status: AppointmentsPageStatus.loading));
+    emit(state.copyWith(status: AppointmentsPageStatus.postLoading));
     try {
       await AppointmentRepoImpl()
           .postAppointment(authData.data!.token!, event.appointment)
           .then((attorneyAvailability) {
-        emit(state.copyWith(status: AppointmentsPageStatus.success));
+        emit(state.copyWith(status: AppointmentsPageStatus.postSuccess));
       }).onError((error, stackTrace) {
-        emit(state.copyWith(status: AppointmentsPageStatus.error));
+        emit(state.copyWith(status: AppointmentsPageStatus.postError));
         if (kDebugMode) {
           log("Error: $error");
           log("Stacktrace: $stackTrace");
         }
       });
     } catch (e) {
-      emit(state.copyWith(status: AppointmentsPageStatus.error));
+      emit(state.copyWith(status: AppointmentsPageStatus.postError));
       if (kDebugMode) {
         log("Error: $e");
       }

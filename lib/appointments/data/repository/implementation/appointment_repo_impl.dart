@@ -1,12 +1,12 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:dirm_attorneys_mobile/appointments/data/model/attorney_availability.dart';
-
 import 'package:dirm_attorneys_mobile/Global/data/model/global_response_model.dart';
 import 'package:dirm_attorneys_mobile/appointments/data/model/appointment.dart';
-import 'package:dirm_attorneys_mobile/appointments/data/request/appointment_requests.dart';
+import 'package:dirm_attorneys_mobile/appointments/data/model/attorney_availability.dart';
 import 'package:dirm_attorneys_mobile/appointments/data/repository/definition/appointment_repo.dart';
+import 'package:dirm_attorneys_mobile/appointments/data/request/appointment_requests.dart';
 
 class AppointmentRepoImpl extends AppointmentRepo {
   @override
@@ -29,17 +29,7 @@ class AppointmentRepoImpl extends AppointmentRepo {
       String authToken, Appointment data) async {
     GlobalResponseModel? response;
 
-    FormData formData = FormData.fromMap({
-      "title": data.title,
-      "availability_id": data.availabilityId,
-      "attorney_id": data.attorneyId,
-      "venue": data.venue,
-      "comment": data.comment,
-      "start_date": data.appointmentDate,
-      "end_time": data.appointmentEndTime,
-    });
-
-    await AppointmentRequests.postAppointment(authToken, formData)
+    await AppointmentRequests.postAppointment(authToken, json.encode(data.toJson()))
         .then((value) {
       response = value;
     }).onError(
@@ -49,6 +39,7 @@ class AppointmentRepoImpl extends AppointmentRepo {
           "message": "An error occurred whilst adding an issue.",
           "data": 0
         });
+        log(stackTrace.toString());
         throw Exception(error);
       },
     );
@@ -147,8 +138,11 @@ class AppointmentRepoImpl extends AppointmentRepo {
     await AppointmentRequests.getAttorneyAvailability(authToken, attorneyId)
         .then((value) => attorneyAvailability = value)
         .onError(
-          (error, stackTrace) => throw Exception(error),
-        );
+      (error, stackTrace) {
+        log(stackTrace.toString());
+        throw Exception(error);
+      },
+    );
     return attorneyAvailability;
   }
 }
